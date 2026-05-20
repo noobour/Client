@@ -39,6 +39,8 @@ public partial class SkinProfile : RefCounted
 
     public ImageTexture SortButtonImage { get; set; } = new();
 
+    public ImageTexture SortAscendButtonImage { get; set; } = new();
+
     public ImageTexture AuthorButtonImage { get; set; } = new();
 
     public ImageTexture SearchButtonImage { get; set; } = new();
