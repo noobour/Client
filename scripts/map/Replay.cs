@@ -22,7 +22,7 @@ public struct Replay
     public double Speed;
     public double StartFrom;
     public ulong FirstNote;
-    public Dictionary<string, bool> Modifiers;
+    public List<Mod> Modifiers;
     public double ApproachRate;
     public double ApproachDistance;
     public double ApproachTime;
@@ -117,15 +117,32 @@ public struct Replay
 
             List<string> rawMods = [.. FileBuffer.GetString((int)FileBuffer.GetUInt32()).Split("_")];
 
-            Modifiers = new()
+            Modifiers = [];
+
+            foreach (string modName in rawMods)
             {
-                ["NoFail"] = rawMods.Contains("NoFail"),
-                ["Ghost"] = rawMods.Contains("Ghost"),
-                ["Spin"] = rawMods.Contains("Spin"),
-                ["Flashlight"] = rawMods.Contains("Flashlight"),
-                ["Chaos"] = rawMods.Contains("Chaos"),
-                ["HardRock"] = rawMods.Contains("HardRock")
-            };
+                switch (modName)
+                {
+                    case "NoFail":
+                        Modifiers.Add(new NoFailMod());
+                        break;
+                    case "Ghost":
+                        Modifiers.Add(new GhostMod());
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // Modifiers = new()
+            // {
+            //     ["NoFail"] = rawMods.Contains("NoFail"),
+            //     ["Ghost"] = rawMods.Contains("Ghost"),
+            //     ["Spin"] = rawMods.Contains("Spin"),
+            //     ["Flashlight"] = rawMods.Contains("Flashlight"),
+            //     ["Chaos"] = rawMods.Contains("Chaos"),
+            //     ["HardRock"] = rawMods.Contains("HardRock")
+            // };
 
             MapID = FileBuffer.GetString((int)FileBuffer.GetUInt32());
 

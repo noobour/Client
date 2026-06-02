@@ -17,14 +17,7 @@ public partial class Rhythia : Node
     public static bool Quitting { get; private set; } = false;
 
     // For Temporary Maps
-    public Dictionary<string, bool> TempMods = new Dictionary<string, bool>{
-        {"NoFail", true},
-        {"Ghost", false},
-        {"Spin", false},
-        {"Flashlight", false},
-        {"Chaos", false},
-        {"HardRock", false}
-    };
+    public List<Mod> TempMods = [new NoFailMod()];
 
     public static bool TempMode = false;
     public static string TextFilePath = null;

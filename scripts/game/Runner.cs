@@ -26,28 +26,26 @@ public partial class Runner : Node3D
     private double lastFrame = Time.GetTicksUsec();
     private bool firstFrame = true;
 
-    public bool SpinCamera = false;
-
     [ExportCategory("Settings")]
     [Export] public bool NotesOnly = false;
 
     [ExportCategory("Nodes")]
     [Export] public Camera3D Camera;
+    [Export] public Godot.Collections.Array<Renderer> Renderers;
     [Export] public MeshInstance3D Grid;
     [Export] public MeshInstance3D Cursor;
-    [Export] public MultiMeshInstance3D Notes;
+    // [Export] public MultiMeshInstance3D Notes;
     [Export] public VideoStreamPlayer VideoStreamPlayer;
 
     public override void _Ready()
     {
         base._Ready();
 
-        // if null, assign them to nodes under Runner
         HudManager ??= GetNode<HudManager>("HUD");
         Camera ??= GetNode<Camera3D>("Camera3D");
         Grid ??= HudManager.GetNode<MeshInstance3D>("Grid");
         Cursor ??= GetNode<MeshInstance3D>("Cursor");
-        Notes ??= GetNode<MultiMeshInstance3D>("Notes");
+        // Notes ??= GetNode<MultiMeshInstance3D>("Notes");
         VideoStreamPlayer ??= GetNode<MeshInstance3D>("Video").GetNode<SubViewport>("VideoViewport").GetNode<VideoStreamPlayer>("VideoStreamPlayer");
     }
 
@@ -58,7 +56,6 @@ public partial class Runner : Node3D
         lastFrame = now;
 
         if (!Playing) return;
-        // don't process through the first (slow) frame
         if (firstFrame) { firstFrame = false; return; }
 
         Attempt.Progress += delta * 1000 * Attempt.Speed;
@@ -81,6 +78,7 @@ public partial class Runner : Node3D
         }
 
         // if not paused & record replays on & not a temporary map & time from now and last replay frame was 60 frames apart
+
         if (!Attempt.Stopped && settings.RecordReplays && !Attempt.Map.Ephemeral && now - Attempt.LastReplayFrame >= 1000000 / 60)
         {
             if (Attempt.ReplayFrames.Count == 0 || (Attempt.ReplayFrames[^1][1..2] != new float[] { Attempt.CursorPosition.X, Attempt.CursorPosition.Y }))
@@ -201,6 +199,11 @@ public partial class Runner : Node3D
             }
         }
 
+        foreach (var renderer in Renderers)
+        {
+            renderer.Process(delta, Attempt);
+        }
+
         if (StopQueued || Attempt.Progress >= Attempt.MapLength)
         {
             StopQueued = false;
@@ -268,7 +271,7 @@ public partial class Runner : Node3D
                     Attempt.DeathTime = Attempt.Progress;
                     SoundManager.FailSound.Play();
 
-                    if (!Attempt.Mods["NoFail"]) QueueStop();
+                    // if (!Attempt.Mods["NoFail"]) QueueStop();
                 }
 
                 break;
@@ -292,10 +295,17 @@ public partial class Runner : Node3D
             EmitSignal(SignalName.AttemptStatsUpdated, Attempt);
         }
 
+        foreach (var renderer in Renderers)
+        {
+            renderer.ApplySettings(Attempt.Settings);
+        }
+
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;
-        SpinCamera = Attempt.Mods["Spin"];
         Camera.Fov = (float)settings.FoV.Value;
-        Notes.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
+        // Notes.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
+
+        // temp until skinning support
+        (Renderers[0] as NoteRenderer).NoteMultiMesh.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
 
         SoundManager.BeginGameplayScope(Attempt.Map);
 
@@ -398,9 +408,16 @@ public partial class Runner : Node3D
                     File.WriteAllBytes($"{Constants.USER_FOLDER}/pbs/{Attempt.Map.Name}", [.. bytes]);
                 }
 
+                Dictionary<string, bool> mods = [];
+
+                foreach (var mod in Attempt.Mods)
+                {
+                    mods[mod.Name] = true;
+                }
+
                 Leaderboard leaderboard = new(Attempt.Map.Name, $"{Constants.USER_FOLDER}/pbs/{Attempt.Map.Name}");
 
-                leaderboard.Add(new(Attempt.ID, "You", Attempt.Qualifies, Attempt.Score, Attempt.Accuracy, Time.GetUnixTimeFromSystem(), Attempt.Progress, Attempt.Map.Length, Attempt.Speed, Attempt.Mods));
+                leaderboard.Add(new(Attempt.ID, "You", Attempt.Qualifies, Attempt.Score, Attempt.Accuracy, Time.GetUnixTimeFromSystem(), Attempt.Progress, Attempt.Map.Length, Attempt.Speed, mods));
                 leaderboard.Save();
 
                 if (Attempt.Qualifies)

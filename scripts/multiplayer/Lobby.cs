@@ -21,15 +21,7 @@ public partial class Lobby : Node
     /// </summary>
     public static double StartFrom = 0;
 
-    public static Dictionary<string, bool> Modifiers = new()
-    {
-        ["NoFail"] = false,
-        ["Ghost"] = false,
-        ["Spin"] = false,
-        ["Flashlight"] = false,
-        ["Chaos"] = false,
-        ["HardRock"] = false
-    };
+    public static List<Mod> Modifiers = [];
 
     [Signal]
     public delegate void AllReadyEventHandler();
@@ -131,12 +123,12 @@ public partial class Lobby : Node
 
     public static void SetModifier(string mod, bool active)
     {
-        if (!Modifiers.ContainsKey(mod)) { return; }
+        // if (!Modifiers.ContainsKey(mod)) { return; }
 
-        Modifiers[mod] = active;
+        // Modifiers[mod] = active;
 
-        Godot.Collections.Dictionary<string, bool> mods = new(Modifiers);
+        // Godot.Collections.Dictionary<string, bool> mods = new(Modifiers);
 
-        Instance.EmitSignal(SignalName.ModifiersChanged, mods);
+        // Instance.EmitSignal(SignalName.ModifiersChanged, mods);
     }
 }

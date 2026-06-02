@@ -11,24 +11,20 @@ public partial class CameraModeButton : Button
     {
         base._Ready();
 
-        Godot.Collections.Dictionary<string, bool> mods = new(Lobby.Modifiers);
-
-        updateState(mods);
-
-        Lobby.Instance.ModifiersChanged += updateState;
+        // Lobby.Instance.ModifiersChanged += updateState;
     }
 
     public override void _Pressed()
     {
         base._Pressed();
 
-        Lobby.SetModifier("Spin", CameraMode == "Spin");
+        // Lobby.SetModifier("Spin", CameraMode == "Spin");
     }
 
     private void updateState(Godot.Collections.Dictionary<string, bool> mods)
     {
         if (!IsInstanceValid(this)) { return; }
 
-        Disabled = (CameraMode == "Spin" && mods["Spin"]) || (CameraMode == "Lock" && !mods["Spin"]);
+        // Disabled = (CameraMode == "Spin" && mods["Spin"]) || (CameraMode == "Lock" && !mods["Spin"]);
     }
 }

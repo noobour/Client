@@ -43,7 +43,7 @@ public partial class PlaytestOverlay : Panel
 
         var holder = GetNode("VB");
 
-        Rhythia.Instance.TempMods["Spin"] = holder.GetNode<CheckButton>("SpinCheck").ButtonPressed;
+        // Rhythia.Instance.TempMods["Spin"] = holder.GetNode<CheckButton>("SpinCheck").ButtonPressed;
 
         var startFromEdit = holder.GetNode<LineEdit>("StartFrom/LineEdit");
         var speedEdit = holder.GetNode<LineEdit>("Speed/LineEdit");
@@ -67,11 +67,14 @@ public partial class PlaytestOverlay : Panel
             var oldAttempt = Attempt;
             Runner.Stop(false);
 
-            var map = MapParser.Decode(oldAttempt.Map.FilePath, Rhythia.AudioFilePath);
-
             double speedValue = 1.0;
+
             if (double.TryParse(speedEdit.Text, out double speedDouble))
+            {
                 speedValue = speedDouble;
+            }
+
+            var map = MapParser.Decode(oldAttempt.Map.FilePath, Rhythia.AudioFilePath);
 
             Game.Attempt = new(map, speedValue, GetStartFrom(startFromEdit) * 1000, Rhythia.Instance.TempMods);
             SceneManager.ReloadCurrentScene();

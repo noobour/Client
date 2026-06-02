@@ -43,17 +43,14 @@ public partial class Results : BaseScene
         HBoxContainer modifiersContainer = holder.GetNode("Modifiers").GetNode<HBoxContainer>("HBoxContainer");
         TextureRect modTemplate = modifiersContainer.GetNode<TextureRect>("ModifierTemplate");
 
-        foreach (KeyValuePair<string, bool> mod in attempt.Mods)
+        foreach (var mod in attempt.Mods)
         {
-            if (mod.Value)
-            {
-                TextureRect icon = modTemplate.Duplicate() as TextureRect;
+            TextureRect icon = modTemplate.Duplicate() as TextureRect;
 
-                icon.Visible = true;
-                icon.Texture = Util.Misc.GetModIcon(mod.Key);
+            icon.Visible = true;
+            icon.Texture = Util.Misc.GetModIcon(mod.Name);
 
-                modifiersContainer.AddChild(icon);
-            }
+            modifiersContainer.AddChild(icon);
         }
 
         if (attempt.Map.CoverBuffer != null)

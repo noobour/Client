@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://dp8nga2aot1n2" path="res://scripts/game/Runner.cs" id="2_qnb83"]
 [ext_resource type="Script" uid="uid://bxwlotp5vcjux" path="res://scripts/game/managers/ReplayManager.cs" id="2_twgab"]
 [ext_resource type="Script" uid="uid://c6nlc0umyu342" path="res://scripts/game/renderers/TrailRenderer.cs" id="3_7025r"]
-[ext_resource type="Script" uid="uid://okqdw5gj567n" path="res://scripts/game/LegacyRenderer.cs" id="3_ew8wr"]
 [ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/default/game/cursor.png" id="3_negii"]
 [ext_resource type="Script" uid="uid://n6n303pw3qbd" path="res://scripts/game/managers/HudManager.cs" id="3_sww3w"]
 [ext_resource type="Script" uid="uid://cqqaf7cwx5ty1" path="res://scripts/game/ui/HealthBar.cs" id="4_js0lu"]
@@ -38,6 +37,7 @@
 [ext_resource type="Script" uid="uid://dhrqgv44b65ls" path="res://scripts/game/ui/Skip.cs" id="25_nepv3"]
 [ext_resource type="Script" uid="uid://ddtnij8m4eipl" path="res://scripts/game/ui/Grid.cs" id="27_js0lu"]
 [ext_resource type="Script" uid="uid://b7jvxorkr4xfi" path="res://scripts/game/ui/Speed.cs" id="28_gxtfn"]
+[ext_resource type="Script" uid="uid://cvaggwr3rrenl" path="res://scripts/game/renderers/NoteRenderer.cs" id="34_pr1ej"]
 [ext_resource type="Script" uid="uid://c8d872aoiqglo" path="res://scripts/PlayerInputController.cs" id="37_02fa5"]
 [ext_resource type="Script" uid="uid://dlxxg2h4cl5hj" path="res://scripts/game/ui/PauseMenu.cs" id="38_8ool0"]
 [ext_resource type="Script" uid="uid://c24b7vefbxvbh" path="res://scripts/game/ui/PlaytestOverlay.cs" id="40_m4url"]
@@ -293,13 +293,13 @@ Runner = NodePath("../Runner")
 ReplayViewer = NodePath("../ReplayViewer")
 CursorManager = NodePath("../CursorManager")
 
-[node name="Runner" type="Node3D" parent="." unique_id=580620214 node_paths=PackedStringArray("HudManager", "Camera", "Grid", "Cursor", "Notes", "VideoStreamPlayer")]
+[node name="Runner" type="Node3D" parent="." unique_id=580620214 node_paths=PackedStringArray("HudManager", "Camera", "Renderers", "Grid", "Cursor", "VideoStreamPlayer")]
 script = ExtResource("2_qnb83")
 HudManager = NodePath("HUD")
 Camera = NodePath("Camera3D")
+Renderers = [NodePath("Renderers/Notes")]
 Grid = NodePath("HUD/Grid")
 Cursor = NodePath("HUD/Grid/Cursor")
-Notes = NodePath("Notes")
 VideoStreamPlayer = NodePath("Video/VideoViewport/VideoStreamPlayer")
 
 [node name="HUD" type="Node3D" parent="Runner" unique_id=1234434255 node_paths=PackedStringArray("Runner")]
@@ -680,18 +680,23 @@ outline_modulate = Color(0, 0, 0, 0)
 text = "Press Space to skip"
 font = ExtResource("12_axsek")
 
+[node name="Renderers" type="Node3D" parent="Runner" unique_id=561265512]
+
+[node name="Notes" type="Node3D" parent="Runner/Renderers" unique_id=572155712 node_paths=PackedStringArray("runner")]
+script = ExtResource("34_pr1ej")
+runner = NodePath("../..")
+
 [node name="Camera3D" type="Camera3D" parent="Runner" unique_id=112686709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.75)
 current = true
 fov = 70.0
 size = 5.0
 
-[node name="Notes" type="MultiMeshInstance3D" parent="Runner" unique_id=77746100 node_paths=PackedStringArray("Runner")]
+[node name="Notes" type="MultiMeshInstance3D" parent="Runner" unique_id=77746100]
+visible = false
 material_override = SubResource("StandardMaterial3D_73q55")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_almyi")
-script = ExtResource("3_ew8wr")
-Runner = NodePath("..")
 
 [node name="Video" type="MeshInstance3D" parent="Runner" unique_id=1036410191]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.479675, -0.459572, -99.9929)
