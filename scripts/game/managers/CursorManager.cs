@@ -110,10 +110,15 @@ public partial class CursorManager : Node
 
         Vector3 cursorPos;
 
-        if (runner.SpinCamera)
+        // if (runner.Attempt.Mods["Spin"])
+        if (false)
+        {
             cursorPos = updateSpinState(inputDelta);
+        }
         else
+        {
             cursorPos = updateLockedState(inputDelta);
+        }
 
         cursors[cursorIndex].Position = cursorPos;
     }

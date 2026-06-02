@@ -13,6 +13,6 @@ public class GhostMod : Mod, IObjectRenderModifier<Note>
     {
         float ad = (float)attempt.Settings.ApproachDistance.Value;
 
-        note.Transparency -= Mathf.Min(1, (ad - depth) / (ad / 2));
+        note.Opacity -= Mathf.Min(1, (ad - depth) / (ad / 2));
     }
 }

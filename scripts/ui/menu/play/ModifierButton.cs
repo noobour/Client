@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class ModifierButton : Button
@@ -12,28 +13,26 @@ public partial class ModifierButton : Button
 
         TooltipText = Modifier;
 
-        Godot.Collections.Dictionary<string, bool> mods = new(Lobby.Modifiers);
+        updateState(Lobby.Modifiers);
 
-        updateState(mods);
-
-        Lobby.Instance.ModifiersChanged += updateState;
+        // Lobby.Instance.ModifiersChanged += updateState;
     }
 
     public override void _Pressed()
     {
         base._Pressed();
 
-        if (Lobby.Modifiers.TryGetValue(Modifier, out bool active))
-        {
-            Lobby.SetModifier(Modifier, !active);
-        }
+        // if (Lobby.Modifiers.TryGetValue(Modifier, out bool active))
+        // {
+        //     Lobby.SetModifier(Modifier, !active);
+        // }
     }
 
-    private void updateState(Godot.Collections.Dictionary<string, bool> mods)
+    private void updateState(List<Mod> mods)
     {
-        if (IsInstanceValid(this) && mods.TryGetValue(Modifier, out bool active))
-        {
-            ButtonPressed = active;
-        }
+        // if (IsInstanceValid(this) && mods.TryGetValue(Modifier, out bool active))
+        // {
+        //     ButtonPressed = active;
+        // }
     }
 }

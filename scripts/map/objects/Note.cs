@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Godot;
 
 public partial class Note : IHitObject, IAnimatableObject<NoteAnimation>, IComparable<Note>
@@ -17,7 +16,7 @@ public partial class Note : IHitObject, IAnimatableObject<NoteAnimation>, ICompa
     public int Millisecond { get; set; }
     public Tween CurrentTween { get; set; }
     public List<NoteAnimation> AnimationObjects { get; set; }
-    public float Transparency { get; set; } = 1;
+    public float Opacity { get; set; } = 1;
 
     public Note(int index, int millisecond, float x, float y)
     {

@@ -164,14 +164,14 @@ public partial class Game : BaseScene
         }
     }
 
-    public static void Play(Map map, double speed, double startFrom, Dictionary<string, bool> mods, string[] players = null, Replay[] replays = null)
+    public static void Play(Map map, double speed, double startFrom, List<Mod> mods, string[] players = null, Replay[] replays = null)
     {
         if (StartQueued) return;
 
         StartQueued = true;
 
         var parsedMap = MapParser.Decode(map.FilePath, Rhythia.AudioFilePath);
-        Attempt = new(parsedMap, speed, startFrom, mods ?? [], players, replays);
+        Attempt = new(parsedMap, speed, startFrom, mods, players, replays);
 
         if (!Attempt.IsReplay)
         {

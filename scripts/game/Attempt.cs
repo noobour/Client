@@ -8,9 +8,9 @@ public partial class Attempt : GodotObject
     public double DeathTime = -1;
     public string ID;
     public Map Map;
-    //public List<Mod> Mods { get; set; } = new();
-    public Dictionary<string, bool> Mods { get; set; } = new();
-    public Dictionary<Type, IList<object>> Objects { get; set; } = new();
+    public List<Mod> Mods { get; set; } = new();
+    // public Dictionary<string, bool> Mods { get; set; } = new();
+    public Dictionary<Type, IList<ITimelineObject>> Objects { get; set; } = new();
     public SettingsProfile Settings;
     public bool IsReplay = false;
     public bool Stopped = false;
@@ -62,7 +62,7 @@ public partial class Attempt : GodotObject
     public uint ReplayFrameCountOffset = 0;
     public uint ReplayAttemptStatusOffset = 0;
 
-    public Attempt(Map map, double speed, double startFrom, Dictionary<string, bool> mods, string[] players = null, Replay[] replays = null)
+    public Attempt(Map map, double speed, double startFrom, List<Mod> mods, string[] players = null, Replay[] replays = null)
     {
         ID = $"{map.Name}_{OS.GetUniqueId()}_{Time.GetDatetimeStringFromUnixTime((long)Time.GetUnixTimeFromSystem())}".Replace(":", "_");
         Settings = SettingsManager.Instance.Settings;
@@ -75,6 +75,7 @@ public partial class Attempt : GodotObject
         Progress = Speed * -1000 - Settings.ApproachTime.Value * 1000 + StartFrom;
         ComboMultiplierIncrement = Math.Max(2, (uint)Map.Notes.Length / 200);
         Mods = mods;
+        Objects[typeof(Note)] = [.. map.Notes];
         HitsInfo = IsReplay ? Replays[0].Notes : new float[Map.Notes.Length];
 
         if (IsReplay)

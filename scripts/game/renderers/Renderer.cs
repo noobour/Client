@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Godot;
 
 // The generic is kinda useless right now but keeping it for future use

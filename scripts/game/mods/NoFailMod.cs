@@ -2,7 +2,7 @@
 
 public class NoFailMod : Mod, IFailModifier
 {
-    public override string Name => "No Fail";
+    public override string Name => "NoFail";
 
     public bool IsFail => false;
 

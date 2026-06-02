@@ -60,7 +60,7 @@ public partial class ReplayManager : Node
         statusOffset = (uint)_file.GetPosition();
         _file.Store8(0);
 
-        string mods = string.Join("_", Runner.Attempt.Mods.Where(mod => mod.Value).Select(mod => mod.Key));
+        string mods = string.Join("_", Runner.Attempt.Mods.Select(mod => mod.Name));
         string mapName = attempt.Map.FilePath.GetFile().GetBaseName();
         string player = "You";
 
