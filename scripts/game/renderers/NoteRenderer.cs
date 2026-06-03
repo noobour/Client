@@ -59,7 +59,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         float fadeIn = (float)Settings.FadeIn / 100;
         float fadeOut = (float)Settings.FadeOut / 100;
         float noteOpacity = (float)Settings.NoteOpacity;
-        float noteOpacityExponent = (float)Settings.NoteOpacityExponent;
+        float noteOpacityExponent = Math.Max(Mathf.Epsilon, (float)Settings.NoteOpacityExponent);
         bool pushback = Settings.Pushback;
         var transform = new Transform3D(new(noteSize / 2, 0, 0), new(0, noteSize / 2, 0), new(0, 0, noteSize / 2), Vector3.Zero);
         float hitWindowDepth = pushback ? (float)Constants.HIT_WINDOW * ar / 1000 : 0;
