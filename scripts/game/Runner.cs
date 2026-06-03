@@ -143,6 +143,16 @@ public partial class Runner : Node3D
             {
                 if (i + 1 > Attempt.PassedNotes)
                 {
+                    if (!note.Hittable)
+                    {
+                        note.Hittable = true;
+
+                        if (settings.AlwaysPlayHitSound)
+                        {
+                            SoundManager.PlayHitSound();
+                        }
+                    }
+
                     if (!Attempt.IsReplay && note.Hittable || Attempt.IsReplay && Attempt.Replays.Length == 1 && Attempt.Replays[0].Notes[note.Index] == -1)
                     {
                         note.Miss(this);
@@ -160,16 +170,6 @@ public partial class Runner : Node3D
             else if (note.LastResult == HitResult.Hit) // no point
             {
                 continue;
-            }
-
-            if (!note.Hittable)
-            {
-                note.Hittable = true;
-
-                if (settings.AlwaysPlayHitSound)
-                {
-                    SoundManager.PlayHitSound();
-                }
             }
 
             ToProcess++;
@@ -190,7 +190,7 @@ public partial class Runner : Node3D
 
                 if (result == HitResult.Hit)
                 {
-                    note.Hit(this);
+                    note.Hit(this, !settings.AlwaysPlayHitSound);
                 }
             }
             else if (Attempt.Replays.Length > 1
