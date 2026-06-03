@@ -7,15 +7,14 @@
 [ext_resource type="Script" uid="uid://c1235cyjfh4rl" path="res://scripts/ui/LinkPopupButton.cs" id="4_dccrs"]
 [ext_resource type="Texture2D" uid="uid://7px5v8ikildx" path="res://user/skins/default/ui/buttons/favorite.png" id="5_1m5pv"]
 [ext_resource type="Script" uid="uid://dy45uerqy0yd7" path="res://scripts/ui/FlatPreview.cs" id="5_svokg"]
-[ext_resource type="Script" uid="uid://dfj260vsm4j" path="res://scripts/ui/menu/play/CameraModeButton.cs" id="6_8cypg"]
 [ext_resource type="Texture2D" uid="uid://degvlg4p0if70" path="res://user/skins/default/ui/buttons/add_video.png" id="6_g02bu"]
-[ext_resource type="PackedScene" uid="uid://dndbtgq2yrwen" path="res://prefabs/ui/menu/modifier_button.tscn" id="7_dccrs"]
 [ext_resource type="Texture2D" uid="uid://cgxbwx4f28lt2" path="res://user/skins/default/ui/buttons/copy.png" id="7_oibm8"]
 [ext_resource type="PackedScene" uid="uid://kwoco4d2gdqc" path="res://prefabs/ui/menu/speed_preset_button.tscn" id="8_i21mh"]
 [ext_resource type="Texture2D" uid="uid://xd005fiv7qgg" path="res://user/skins/default/ui/buttons/delete.png" id="8_ssthb"]
 [ext_resource type="Texture2D" uid="uid://6ptjvvnn8jhm" path="res://user/skins/default/modifiers/nofail.png" id="8_wk5qh"]
-[ext_resource type="Texture2D" uid="uid://b48yn1sht6uo0" path="res://user/skins/default/modifiers/ghost.png" id="9_abwk8"]
 [ext_resource type="Texture2D" uid="uid://40acunj8wr8e" path="res://user/skins/default/ui/buttons/speed_minus_minus.png" id="11_1jb84"]
+[ext_resource type="Script" uid="uid://cm7n8tbhupiqu" path="res://scripts/ui/menu/play/CameraModes.cs" id="11_ne4r3"]
+[ext_resource type="Script" uid="uid://3olp17mlwm8c" path="res://scripts/ui/menu/play/Modifiers.cs" id="12_1m5pv"]
 [ext_resource type="Texture2D" uid="uid://dte55kqyqtf12" path="res://user/skins/default/ui/buttons/speed_minus.png" id="12_cqtnb"]
 [ext_resource type="Texture2D" uid="uid://r6nsvqtknp20" path="res://user/skins/default/ui/buttons/speed_plus.png" id="13_3adhn"]
 [ext_resource type="Texture2D" uid="uid://csk7favaty7k2" path="res://user/skins/default/ui/buttons/speed_plus_plus.png" id="14_hri10"]
@@ -518,7 +517,7 @@ theme = ExtResource("4_4d08m")
 layout_mode = 2
 script = ExtResource("5_svokg")
 
-[node name="Modes" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=61555324]
+[node name="Modes" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=61555324 node_paths=PackedStringArray("container", "templateButton")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -532,6 +531,9 @@ grow_horizontal = 2
 grow_vertical = 0
 tooltip_text = "Favorite"
 theme = ExtResource("4_4d08m")
+script = ExtResource("11_ne4r3")
+container = NodePath("ScrollContainer/VBoxContainer")
+templateButton = NodePath("ScrollContainer/VBoxContainer/CameraButton")
 
 [node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Modes" unique_id=1992359892]
 custom_minimum_size = Vector2(0, 32)
@@ -557,33 +559,18 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Lock" type="Button" parent="Actions/ScrollContainer/Holder/Modes/ScrollContainer/VBoxContainer" unique_id=73533266]
+[node name="CameraButton" type="Button" parent="Actions/ScrollContainer/Holder/Modes/ScrollContainer/VBoxContainer" unique_id=73533266]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_4d08m")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-disabled = true
-text = "Lock"
+toggle_mode = true
+text = "CameraMode"
 icon_alignment = 1
-script = ExtResource("6_8cypg")
-CameraMode = "Lock"
 
-[node name="Spin" type="Button" parent="Actions/ScrollContainer/Holder/Modes/ScrollContainer/VBoxContainer" unique_id=1698246569]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme = ExtResource("4_4d08m")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Spin
-"
-icon_alignment = 1
-script = ExtResource("6_8cypg")
-CameraMode = "Spin"
-
-[node name="Modifiers" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=892128765]
+[node name="Modifiers" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=892128765 node_paths=PackedStringArray("container", "templateButton")]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.5
@@ -595,6 +582,9 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8cypg")
+script = ExtResource("12_1m5pv")
+container = NodePath("ScrollContainer/HBoxContainer")
+templateButton = NodePath("ScrollContainer/HBoxContainer/ModifierButton")
 
 [node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Modifiers" unique_id=1601764005]
 custom_minimum_size = Vector2(0, 32)
@@ -622,23 +612,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="NoFail" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer/HBoxContainer" unique_id=1825478316]
+[node name="ModifierButton" type="Button" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer/HBoxContainer" unique_id=1204227493]
 layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="ModifierButton" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer/HBoxContainer/NoFail" unique_id=1204227493 instance=ExtResource("7_dccrs")]
-layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_4d08m")
+theme_override_constants/icon_max_width = 42
+toggle_mode = true
 icon = ExtResource("8_wk5qh")
-Modifier = "NoFail"
-
-[node name="Ghost" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer/HBoxContainer" unique_id=555655251]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="ModifierButton" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer/HBoxContainer/Ghost" unique_id=1456808888 instance=ExtResource("7_dccrs")]
-layout_mode = 2
-icon = ExtResource("9_abwk8")
-Modifier = "Ghost"
+icon_alignment = 1
 
 [node name="Speed" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=1748400541]
 custom_minimum_size = Vector2(0, 32)

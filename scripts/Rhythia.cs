@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Godot;
 
 public partial class Rhythia : Node
@@ -17,7 +15,7 @@ public partial class Rhythia : Node
     public static bool Quitting { get; private set; } = false;
 
     // For Temporary Maps
-    public List<Mod> TempMods = [new NoFailMod()];
+    public List<Modifier> TempMods = [ new NoFailModifier() ];
 
     public static bool TempMode = false;
     public static string TextFilePath = null;
@@ -52,32 +50,20 @@ public partial class Rhythia : Node
         Stats.Initialize();
         Stats.Instance.GamesOpened++;
 
-        // marking sspms for importing can be done with an one liner, kept the following block of code in case we need to loop over every valid map file for some reason
+        // Map import
+        var nonConvertedMaps = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f =>
+            f.GetExtension().ToLower() != Constants.DEFAULT_MAP_EXT
+            && MapParser.IsValidExt(f.GetExtension().ToLower())
+        );
 
-        // List<string> import = [];
-        // HashSet<string> validExtensions = new HashSet<string> { "phxm", "sspm", "txt" };
-        // var files = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f => validExtensions.Contains(f.GetExtension().ToLower()));
+        await MapParser.BulkImport([.. nonConvertedMaps], notify: true);
 
-        // foreach (string file in files)
-        // {
-        //     string ext = file.GetExtension();
-
-        //     if (ext != Constants.DEFAULT_MAP_EXT)
-        //     {
-        //         import.Add(file);
-        //     }
-        // }
-
-        var nonPhxmMaps = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f => f.GetExtension().ToLower() == "sspm" || f.GetExtension().ToLower() == "txt");
-        await MapParser.BulkImport([.. nonPhxmMaps], notify: true);
-
-        // delete after importing
-        foreach (string file in nonPhxmMaps)
+        foreach (string file in nonConvertedMaps)
         {
             File.Delete(file);
         }
 
-        // Temporary Map Testing Support
+        // Temporary map testing support
         string[] cmdArgs = OS.GetCmdlineArgs();
 
         foreach (string command in cmdArgs)
@@ -175,6 +161,22 @@ public partial class Rhythia : Node
         loaded = true;
     }
 
+    public static CameraMode[] RegisterCameraModes()
+    {
+        return [
+            new CameraLock(),
+            new CameraSpin()
+        ];
+    }
+
+    public static Modifier[] RegisterModifiers()
+    {
+        return [
+            new NoFailModifier(),
+            new GhostModifier()
+        ];
+    }
+
     public static void Quit()
     {
         if (Quitting)
@@ -216,7 +218,10 @@ public partial class Rhythia : Node
         if (what == NotificationWMCloseRequest)
         {
             if (SceneManager.Scene != null && SceneManager.Scene is Game)
+            {
                 Stats.Instance.RageQuits++;
+            }
+
             Quit();
         }
         else if (what == NotificationApplicationFocusOut)

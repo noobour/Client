@@ -1,13 +1,10 @@
-﻿using System;
-using Godot;
-
-/// <summary>
+﻿/// <summary>
 /// Base interface for modifiers
 /// </summary>
-public interface IMod
+public interface IModifier
 {
     /// <summary>
-    /// Name of the <see cref="Mod"/>
+    /// Name of the <see cref="Modifier"/>
     /// </summary>
     string Name { get; }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using Godot;
 
@@ -230,8 +231,6 @@ public partial class Runner : Node3D
                 Attempt.ComboMultiplierProgress++;
                 Attempt.LastHitColour = SkinManager.Instance.Skin.NoteColors[noteIndex % SkinManager.Instance.Skin.NoteColors.Length];
                 Attempt.Score += hitScore;
-                Attempt.HealthStep = Math.Max(Attempt.HealthStep / 1.45, 15);
-                Attempt.Health = Math.Min(100, Attempt.Health + Attempt.HealthStep / 1.75);
 
                 if (!Attempt.IsReplay)
                 {
@@ -257,8 +256,6 @@ public partial class Runner : Node3D
                 Attempt.Combo = 0;
                 Attempt.ComboMultiplierProgress = 0;
                 Attempt.ComboMultiplier = Math.Max(1, Attempt.ComboMultiplier - 1);
-                Attempt.Health = Math.Max(0, Attempt.Health - Attempt.HealthStep);
-                Attempt.HealthStep = Math.Min(Attempt.HealthStep * 1.2, 100);
 
                 if (!Attempt.IsReplay)
                 {
@@ -266,19 +263,29 @@ public partial class Runner : Node3D
                     Attempt.HitsInfo[noteIndex] = -1;
                 }
 
-                if (!Attempt.IsReplay && Attempt.Health <= 0 && Attempt.Alive)
-                {
-                    Attempt.Alive = false;
-                    Attempt.Qualifies = false;
-                    Attempt.DeathTime = Attempt.Progress;
-                    SoundManager.FailSound.Play();
-
-                    // if (!Attempt.Mods["NoFail"]) QueueStop();
-                }
-
                 break;
             default:
                 break;
+        }
+
+        if (hitResult != HitResult.None)
+        {
+            bool hit = hitResult == HitResult.Hit;
+
+            updateHealth(hit);
+
+            if (!Attempt.IsReplay && Attempt.Health <= 0 && Attempt.Alive)
+            {
+                Attempt.Alive = false;
+                Attempt.Qualifies = false;
+                Attempt.DeathTime = Attempt.Progress;
+                SoundManager.FailSound.Play();
+            }
+
+            if (!StopQueued && checkFail(hit, Attempt.Health))
+            {
+                QueueStop();
+            }
         }
 
         EmitSignal(SignalName.AttemptStatsUpdated, Attempt);
@@ -295,6 +302,17 @@ public partial class Runner : Node3D
             HitResultChanged += OnHitResultChanged;
 
             EmitSignal(SignalName.AttemptStatsUpdated, Attempt);
+        }
+
+        foreach (var mod in Attempt.Modifiers)
+        {
+            mod.Active = false;
+
+            if (mod is IObjectRenderModifier<Note>)
+            {
+                mod.Activate();
+                HudManager.DisplayModifier(mod);
+            }
         }
 
         foreach (var renderer in Renderers)
@@ -412,7 +430,7 @@ public partial class Runner : Node3D
 
                 Dictionary<string, bool> mods = [];
 
-                foreach (var mod in Attempt.Mods)
+                foreach (var mod in Attempt.Modifiers)
                 {
                     mods[mod.Name] = true;
                 }
@@ -450,5 +468,62 @@ public partial class Runner : Node3D
         {
             SceneManager.Load("res://scenes/results.tscn");
         }
+    }
+
+    private void updateHealth(bool hit)
+    {
+        if (Attempt.HasHealthModifier)
+        {
+            foreach (var mod in Attempt.Modifiers.Where(mod => mod is IHealthModifier healthMod))
+            {
+                Attempt.Health = (mod as IHealthModifier).ApplyHealthResult(hit, Attempt.Health);
+
+                if (!mod.Active)
+                {
+                    mod.Activate();
+                    HudManager.DisplayModifier(mod);
+                }
+            }
+        }
+        else
+        {
+            if (hit)
+            {
+                Attempt.HealthStep = Math.Max(Attempt.HealthStep / 1.45, 15);
+                Attempt.Health = Math.Min(100, Attempt.Health + Attempt.HealthStep / 1.75);
+            }
+            else
+            {
+                Attempt.Health = Math.Max(0, Attempt.Health - Attempt.HealthStep);
+                Attempt.HealthStep = Math.Min(Attempt.HealthStep * 1.2, 100);
+            }
+        }
+    }
+
+    private bool checkFail(bool hit, double health)
+    {
+        bool dead = health <= 0;
+        bool? failed = null;
+
+        foreach (var mod in Attempt.Modifiers)
+        {
+            if (mod is IFailModifier failMod)
+            {
+                failed = failMod.CheckFailCondition(hit, health);
+
+                if (failed != dead && !mod.Active)
+                {
+                    mod.Activate();
+                    HudManager.DisplayModifier(mod);
+                }
+
+                if (failed == true)
+                {
+                    break;
+                }
+            }
+        }
+
+        return failed ?? dead;
     }
 }

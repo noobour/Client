@@ -10,8 +10,6 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 
     private Color transparent = new(0xffffff00);
 
-    private Color white = new(0xffffffff);
-
     public override void _Ready()
     {
         runner ??= GetParent().GetParent<Runner>();
@@ -22,8 +20,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
             Multimesh = new()
             {
                 UseColors = true,
-                TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-                Mesh = new()
+                TransformFormat = MultiMesh.TransformFormatEnum.Transform3D
             },
             MaterialOverride = new StandardMaterial3D()
             {
@@ -101,7 +98,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
                 note.Opacity -= 1 - Math.Min(1, (1 - progress) / fadeOut);
             }
 
-            foreach (var mod in runner.Attempt.Mods)
+            foreach (var mod in runner.Attempt.Modifiers)
             {
                 if (mod is IObjectRenderModifier<Note> modifier)
                 {
@@ -112,7 +109,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
             var color = SkinManager.Instance.Skin.NoteColors[note.Index % SkinManager.Instance.Skin.NoteColors.Length];
 
             transform.Origin = new Vector3(note.X, note.Y, -depth);
-            color.A = Math.Clamp((float)Math.Pow(note.Opacity * noteOpacity, noteOpacityExponent), 0, 1);
+            color.A = Math.Clamp((float)Math.Pow(Math.Max(0, note.Opacity * noteOpacity), noteOpacityExponent), 0, 1);
             NoteMultiMesh.Multimesh.SetInstanceTransform(i, transform);
             NoteMultiMesh.Multimesh.SetInstanceColor(i, color);
         }
