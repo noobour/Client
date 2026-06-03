@@ -43,7 +43,7 @@ public partial class Results : BaseScene
         HBoxContainer modifiersContainer = holder.GetNode("Modifiers").GetNode<HBoxContainer>("HBoxContainer");
         TextureRect modTemplate = modifiersContainer.GetNode<TextureRect>("ModifierTemplate");
 
-        foreach (var mod in attempt.Mods)
+        foreach (var mod in attempt.Modifiers)
         {
             TextureRect icon = modTemplate.Duplicate() as TextureRect;
 
@@ -177,7 +177,7 @@ public partial class Results : BaseScene
         map.Ephemeral = attempt.Map.Ephemeral;
         SoundManager.Song.Stop();
 
-        Game.Play(map, attempt.Speed, attempt.StartFrom, attempt.Mods);
+        Game.Play(map, attempt.Speed, attempt.StartFrom, attempt.Modifiers);
     }
 
     public void Stop()

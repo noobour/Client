@@ -1,10 +1,7 @@
-﻿using System;
-using Godot;
-
-/// <summary>
+﻿/// <summary>
 /// Modifies the timeline object rendering
 /// </summary>
-public interface IObjectRenderModifier<T> : IMod
+public interface IObjectRenderModifier<T> : IModifier
     where T : ITimelineObject
 {
     /// <summary>

@@ -17,7 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://dmc5f6ajp8xv1" path="res://user/skins/default/game/progress_background.png" id="8_eu3ux"]
 [ext_resource type="Shader" uid="uid://dsysoy6w8ndnk" path="res://scripts/shaders/video_background.gdshader" id="8_ocxsu"]
 [ext_resource type="Script" uid="uid://dv0gni2j4t686" path="res://scripts/game/ui/PanelLeft.cs" id="8_qnb83"]
-[ext_resource type="ArrayMesh" uid="uid://uqxu6tq6xhhg" path="res://user/meshes/squircle.obj" id="9_e1j6l"]
 [ext_resource type="Texture2D" uid="uid://d3s17ehomjscd" path="res://user/skins/default/game/progress.png" id="9_nde5v"]
 [ext_resource type="FontFile" uid="uid://cmjos3o0k2f6t" path="res://fonts/Comfortaa-Medium.ttf" id="11_o37lt"]
 [ext_resource type="Texture2D" uid="uid://80bitp5weqrb" path="res://user/skins/default/game/panel_left_background.png" id="11_sdncv"]
@@ -37,6 +36,7 @@
 [ext_resource type="Script" uid="uid://dhrqgv44b65ls" path="res://scripts/game/ui/Skip.cs" id="25_nepv3"]
 [ext_resource type="Script" uid="uid://ddtnij8m4eipl" path="res://scripts/game/ui/Grid.cs" id="27_js0lu"]
 [ext_resource type="Script" uid="uid://b7jvxorkr4xfi" path="res://scripts/game/ui/Speed.cs" id="28_gxtfn"]
+[ext_resource type="Texture2D" uid="uid://6ptjvvnn8jhm" path="res://user/skins/default/modifiers/nofail.png" id="34_8ool0"]
 [ext_resource type="Script" uid="uid://cvaggwr3rrenl" path="res://scripts/game/renderers/NoteRenderer.cs" id="34_pr1ej"]
 [ext_resource type="Script" uid="uid://c8d872aoiqglo" path="res://scripts/PlayerInputController.cs" id="37_02fa5"]
 [ext_resource type="Script" uid="uid://dlxxg2h4cl5hj" path="res://scripts/game/ui/PauseMenu.cs" id="38_8ool0"]
@@ -183,19 +183,6 @@ texture_repeat = false
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_p1h21")
 size = Vector2(10.88, 0.8)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_73q55"]
-transparency = 1
-shading_mode = 0
-specular_mode = 2
-disable_fog = true
-vertex_color_use_as_albedo = true
-vertex_color_is_srgb = true
-
-[sub_resource type="MultiMesh" id="MultiMesh_almyi"]
-transform_format = 1
-use_colors = true
-mesh = ExtResource("9_e1j6l")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_qnb83"]
 viewport_path = NodePath("Runner/Video/VideoViewport")
@@ -680,6 +667,14 @@ outline_modulate = Color(0, 0, 0, 0)
 text = "Press Space to skip"
 font = ExtResource("12_axsek")
 
+[node name="TemplateModifier" type="Sprite3D" parent="Runner/HUD" unique_id=1238434581]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -8.5, -10)
+visible = false
+modulate = Color(1, 1, 1, 0.376471)
+double_sided = false
+no_depth_test = true
+texture = ExtResource("34_8ool0")
+
 [node name="Renderers" type="Node3D" parent="Runner" unique_id=561265512]
 
 [node name="Notes" type="Node3D" parent="Runner/Renderers" unique_id=572155712 node_paths=PackedStringArray("runner")]
@@ -691,12 +686,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.75)
 current = true
 fov = 70.0
 size = 5.0
-
-[node name="Notes" type="MultiMeshInstance3D" parent="Runner" unique_id=77746100]
-visible = false
-material_override = SubResource("StandardMaterial3D_73q55")
-cast_shadow = 0
-multimesh = SubResource("MultiMesh_almyi")
 
 [node name="Video" type="MeshInstance3D" parent="Runner" unique_id=1036410191]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.479675, -0.459572, -99.9929)

@@ -2,7 +2,7 @@
 /// <summary>
 /// Modifiers that override the fail condition
 /// </summary>
-public interface IFailModifier : IMod
+public interface IFailModifier : IModifier
 {
     bool IsFail { get; }
 

@@ -22,7 +22,7 @@ public struct Replay
     public double Speed;
     public double StartFrom;
     public ulong FirstNote;
-    public List<Mod> Modifiers;
+    public List<Modifier> Modifiers;
     public double ApproachRate;
     public double ApproachDistance;
     public double ApproachTime;
@@ -124,10 +124,10 @@ public struct Replay
                 switch (modName)
                 {
                     case "NoFail":
-                        Modifiers.Add(new NoFailMod());
+                        Modifiers.Add(new NoFailModifier());
                         break;
                     case "Ghost":
-                        Modifiers.Add(new GhostMod());
+                        Modifiers.Add(new GhostModifier());
                         break;
                     default:
                         break;

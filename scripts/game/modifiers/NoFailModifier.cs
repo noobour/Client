@@ -1,6 +1,4 @@
-﻿using System;
-
-public class NoFailMod : Mod, IFailModifier
+﻿public class NoFailModifier : Modifier, IFailModifier
 {
     public override string Name => "NoFail";
 

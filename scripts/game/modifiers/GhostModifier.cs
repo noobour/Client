@@ -1,7 +1,6 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 
-public class GhostMod : Mod, IObjectRenderModifier<Note>
+public class GhostModifier : Modifier, IObjectRenderModifier<Note>
 {
     public override string Name => "Ghost";
 
@@ -11,7 +10,7 @@ public class GhostMod : Mod, IObjectRenderModifier<Note>
 
     public void ModifyRenderObject(Note note, float depth, Attempt attempt)
     {
-        float ad = (float)attempt.Settings.ApproachDistance.Value;
+        float ad = (float)attempt.Settings.ApproachDistance;
 
         note.Opacity -= Mathf.Min(1, (ad - depth) / (ad / 2));
     }

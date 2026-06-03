@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class Attempt : GodotObject
@@ -9,8 +10,7 @@ public partial class Attempt : GodotObject
     public string ID;
     public Map Map;
     public CameraMode CameraMode { get; set; } = new CameraLock();
-    public List<Mod> Mods { get; set; } = [];
-    // public Dictionary<string, bool> Mods { get; set; } = new();
+    public List<Modifier> Modifiers { get; set; } = [];
     public Dictionary<Type, IList<ITimelineObject>> Objects { get; set; } = [];
     public SettingsProfile Settings;
     public bool IsReplay = false;
@@ -31,6 +31,7 @@ public partial class Attempt : GodotObject
     public double Accuracy = 100;
     public double Health = 100;
     public double HealthStep = 15;
+    public bool HasHealthModifier = false;
 
     public uint Hits = 0;
     public uint Misses = 0;
@@ -62,7 +63,7 @@ public partial class Attempt : GodotObject
     public uint ReplayFrameCountOffset = 0;
     public uint ReplayAttemptStatusOffset = 0;
 
-    public Attempt(Map map, double speed, double startFrom, List<Mod> mods, string[] players = null, Replay[] replays = null)
+    public Attempt(Map map, double speed, double startFrom, List<Modifier> mods, string[] players = null, Replay[] replays = null)
     {
         ID = $"{map.Name}_{OS.GetUniqueId()}_{Time.GetDatetimeStringFromUnixTime((long)Time.GetUnixTimeFromSystem())}".Replace(":", "_");
         Settings = SettingsManager.Instance.Settings;
@@ -74,7 +75,8 @@ public partial class Attempt : GodotObject
         Players = players ?? [];
         Progress = Speed * -1000 - Settings.ApproachTime.Value * 1000 + StartFrom;
         ComboMultiplierIncrement = Math.Max(2, (uint)Map.Notes.Length / 200);
-        Mods = mods;
+        Modifiers = mods;
+        HasHealthModifier = Modifiers.Any(mod => mod is IHealthModifier);
         Objects[typeof(Note)] = [.. map.Notes];
         HitsInfo = IsReplay ? Replays[0].Notes : new float[Map.Notes.Length];
 
