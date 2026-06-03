@@ -35,7 +35,6 @@ public partial class Runner : Node3D
     [Export] public Godot.Collections.Array<Renderer> Renderers;
     [Export] public MeshInstance3D Grid;
     [Export] public MeshInstance3D Cursor;
-    // [Export] public MultiMeshInstance3D Notes;
     [Export] public VideoStreamPlayer VideoStreamPlayer;
 
     public override void _Ready()
@@ -46,7 +45,6 @@ public partial class Runner : Node3D
         Camera ??= GetNode<Camera3D>("Camera3D");
         Grid ??= HudManager.GetNode<MeshInstance3D>("Grid");
         Cursor ??= GetNode<MeshInstance3D>("Cursor");
-        // Notes ??= GetNode<MultiMeshInstance3D>("Notes");
         VideoStreamPlayer ??= GetNode<MeshInstance3D>("Video").GetNode<SubViewport>("VideoViewport").GetNode<VideoStreamPlayer>("VideoStreamPlayer");
     }
 
@@ -211,7 +209,6 @@ public partial class Runner : Node3D
         {
             StopQueued = false;
             Stop();
-            return;
         }
     }
 
@@ -322,7 +319,6 @@ public partial class Runner : Node3D
 
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;
         Camera.Fov = (float)settings.FoV.Value;
-        // Notes.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
 
         // temp until skinning support
         (Renderers[0] as NoteRenderer).NoteMultiMesh.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
