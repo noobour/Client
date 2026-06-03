@@ -28,7 +28,7 @@ public partial class ReplayManager : Node
     public string ReplayPath;
     public Vector2 CursorPosition { get; private set; }
 
-    private FileAccess _file;
+    private FileAccess file;
     private ulong statusOffset, frameCountOffset;
 
     public void NewReplay(Attempt attempt)
@@ -39,72 +39,80 @@ public partial class ReplayManager : Node
 
         ReplayPath = $"{Constants.USER_FOLDER}/replays/{attempt.ID}.phxr";
 
-        _file = FileAccess.Open(ReplayPath, FileAccess.ModeFlags.Write);
+        file = FileAccess.Open(ReplayPath, FileAccess.ModeFlags.Write);
 
-        _file.StoreString("phxr");  // sig
-        _file.Store8(1);    // replay file version
+        file.StoreString("phxr");  // sig
+        file.Store8(1);    // replay file version
 
-        _file.StoreDouble(attempt.Speed);
-        _file.StoreDouble(attempt.StartFrom);
-        _file.StoreDouble(settings.ApproachRate);
-        _file.StoreDouble(settings.ApproachDistance);
-        _file.StoreDouble(settings.FadeIn);
-        // _file.Store8((byte)(settings.FadeOut ? 1 : 0));
-        _file.Store8((byte)(settings.FadeOut > 0 ? 1 : 0));
-        _file.Store8((byte)(settings.Pushback ? 1 : 0));
-        _file.StoreDouble(settings.CameraParallax);
-        _file.StoreDouble(settings.FoV.Value);
-        _file.StoreDouble(settings.NoteSize);
-        _file.StoreDouble(settings.Sensitivity);
+        file.StoreDouble(attempt.Speed);
+        file.StoreDouble(attempt.StartFrom);
+        file.StoreDouble(settings.ApproachRate);
+        file.StoreDouble(settings.ApproachDistance);
+        file.StoreDouble(settings.FadeIn);
+        // file.Store8((byte)(settings.FadeOut ? 1 : 0));
+        file.Store8((byte)(settings.FadeOut > 0 ? 1 : 0));
+        file.Store8((byte)(settings.Pushback ? 1 : 0));
+        file.StoreDouble(settings.CameraParallax);
+        file.StoreDouble(settings.FoV.Value);
+        file.StoreDouble(settings.NoteSize);
+        file.StoreDouble(settings.Sensitivity);
 
-        statusOffset = (uint)_file.GetPosition();
-        _file.Store8(0);
+        statusOffset = (uint)file.GetPosition();
+        file.Store8(0);
 
-        string mods = string.Join("_", Runner.Attempt.Modifiers.Select(mod => mod.Name));
+        var mods = Runner.Attempt.Modifiers.Select(mod => mod.Name);
+
+        // temp until replays are redone
+        if (Runner.Attempt.CameraMode.Name == "Spin")
+        {
+            mods = mods.Append("Spin");
+        }
+
+        string serializedMods = string.Join("_", mods);
         string mapName = attempt.Map.FilePath.GetFile().GetBaseName();
         string player = "You";
 
         void storeSizedString(string data)
         {
-            _file.Store32((uint)data.Length);
-            _file.StoreString(data);
+            file.Store32((uint)data.Length);
+            file.StoreString(data);
         }
 
-        storeSizedString(mods);
+        storeSizedString(serializedMods);
         storeSizedString(mapName);
-        _file.Store64((ulong)attempt.Map.Notes.Length);
+        file.Store64((ulong)attempt.Map.Notes.Length);
         storeSizedString(player);
 
-        frameCountOffset = (uint)_file.GetPosition();
-        _file.Store64(0);   // reserve frame count
+        frameCountOffset = (uint)file.GetPosition();
+        file.Store64(0);   // reserve frame count
     }
 
     public void SaveReplay(Attempt attempt)
     {
-        if (_file == null || !_file.IsOpen()) { return; }
+        if (file == null || !file.IsOpen()) { return; }
 
-        _file.Seek(statusOffset);
-        _file.Store8((byte)(attempt.Alive ? (attempt.Qualifies ? 0 : 1) : 2));
-        _file.Seek(frameCountOffset);
-        _file.Store64((ulong)attempt.ReplayFrames.Count);
+        file.Seek(statusOffset);
+        file.Store8((byte)(attempt.Alive ? (attempt.Qualifies ? 0 : 1) : 2));
+        file.Seek(frameCountOffset);
+        file.Store64((ulong)attempt.ReplayFrames.Count);
 
         foreach (float[] frame in attempt.ReplayFrames)
         {
-            _file.StoreFloat(frame[0]);
-            _file.StoreFloat(frame[1]);
-            _file.StoreFloat(frame[2]);
+            file.StoreFloat(frame[0]);
+            file.StoreFloat(frame[1]);
+            file.StoreFloat(frame[2]);
         }
 
-        _file.Seek(_file.GetLength());
-        _file.Store64(attempt.FirstNote);
-        _file.Store64(attempt.Sum);
+        file.Seek(file.GetLength());
+        file.Store64(attempt.FirstNote);
+        file.Store64(attempt.Sum);
         // Logger.Log(string.Join(", ", attempt.HitsInfo));
         // Logger.Log($"Sum: {attempt.FirstNote}+{attempt.Sum}={attempt.FirstNote + attempt.Sum}");
         // Logger.Log($"HitsInfoCount: {attempt.HitsInfo.Count()}");
 
         // if (attempt.FirstNote + attempt.Sum != (uint)attempt.HitsInfo.Length)
         // {
-        // 	_file.Close();
+        // 	file.Close();
 
         // 	if (FileAccess.FileExists(ReplayPath))
         // 	{
@@ -120,25 +128,25 @@ public partial class ReplayManager : Node
 
         for (ulong i = 0; i < attempt.Sum; i++)
         {
-            _file.Store8((byte)(attempt.HitsInfo[i] == -1 ? 255 : Math.Min(254, attempt.HitsInfo[i] * (254 / 55))));
+            file.Store8((byte)(attempt.HitsInfo[i] == -1 ? 255 : Math.Min(254, attempt.HitsInfo[i] * (254 / 55))));
         }
 
-        _file.Store64((ulong)attempt.ReplaySkips.Count);
+        file.Store64((ulong)attempt.ReplaySkips.Count);
 
         foreach (float skip in attempt.ReplaySkips)
         {
-            _file.StoreFloat(skip);
+            file.StoreFloat(skip);
         }
 
-        _file.Close();
+        file.Close();
 
         // open replay to store hash
-        _file = FileAccess.Open($"{Constants.USER_FOLDER}/replays/{attempt.ID}.phxr", FileAccess.ModeFlags.ReadWrite);
-        ulong length = _file.GetLength();
-        byte[] hash = SHA256.HashData(_file.GetBuffer((long)length));
-        _file.StoreBuffer(hash);
+        file = FileAccess.Open($"{Constants.USER_FOLDER}/replays/{attempt.ID}.phxr", FileAccess.ModeFlags.ReadWrite);
+        ulong length = file.GetLength();
+        byte[] hash = SHA256.HashData(file.GetBuffer((long)length));
+        file.StoreBuffer(hash);
 
-        _file.Close();
+        file.Close();
 
         attempt.ReplayPath = ReplayPath;
     }

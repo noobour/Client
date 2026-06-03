@@ -64,7 +64,7 @@ public partial class Attempt : GodotObject
     public uint ReplayFrameCountOffset = 0;
     public uint ReplayAttemptStatusOffset = 0;
 
-    public Attempt(Map map, double speed, double startFrom, List<Modifier> mods, string[] players = null, Replay[] replays = null)
+    public Attempt(Map map, double speed, double startFrom, CameraMode cameraMode, List<Modifier> mods, string[] players = null, Replay[] replays = null)
     {
         ID = $"{map.Name}_{OS.GetUniqueId()}_{Time.GetDatetimeStringFromUnixTime((long)Time.GetUnixTimeFromSystem())}".Replace(":", "_");
         Settings = SettingsManager.Instance.Settings;
@@ -76,6 +76,7 @@ public partial class Attempt : GodotObject
         Players = players ?? [];
         Progress = Speed * -1000 - Settings.ApproachTime.Value * 1000 + StartFrom;
         ComboMultiplierIncrement = Math.Max(2, (uint)Map.Notes.Length / 200);
+        CameraMode = cameraMode;
         Modifiers = mods;
         HasHealthModifier = Modifiers.Any(mod => mod is IHealthModifier);
         Objects[typeof(Note)] = [.. map.Notes];

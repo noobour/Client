@@ -164,14 +164,14 @@ public partial class Game : BaseScene
         }
     }
 
-    public static void Play(Map map, double speed, double startFrom, List<Modifier> mods, string[] players = null, Replay[] replays = null)
+    public static void Play(Map map, double speed, double startFrom, CameraMode cameraMode, List<Modifier> mods, string[] players = null, Replay[] replays = null)
     {
         if (StartQueued) return;
 
         StartQueued = true;
 
         var parsedMap = MapParser.Decode(map.FilePath, Rhythia.AudioFilePath);
-        Attempt = new(parsedMap, speed, startFrom, mods, players, replays);
+        Attempt = new(parsedMap, speed, startFrom, cameraMode, mods, players, replays);
 
         if (!Attempt.IsReplay)
         {
@@ -193,7 +193,7 @@ public partial class Game : BaseScene
         var oldAttempt = Attempt;
         var map = MapParser.Decode(oldAttempt.Map.FilePath, Rhythia.AudioFilePath);
 
-        Attempt = new(map, oldAttempt.Speed, oldAttempt.StartFrom, oldAttempt.Modifiers, oldAttempt.Players, oldAttempt.Replays);
+        Attempt = new(map, oldAttempt.Speed, oldAttempt.StartFrom, oldAttempt.CameraMode, oldAttempt.Modifiers, oldAttempt.Players, oldAttempt.Replays);
 
         SceneManager.ReloadCurrentScene();
     }

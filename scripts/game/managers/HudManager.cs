@@ -7,25 +7,10 @@ public partial class HudManager : Node
 
     private List<IUIComponent> components = [];
 
-    private List<IUIComponent> FindAllComponents(Node root)
-    {
-        List<IUIComponent> comps = new();
-
-        foreach (Node child in root.GetChildren())
-        {
-            if (child is IUIComponent component)
-                comps.Add(component);
-
-            comps.AddRange(FindAllComponents(child));
-        }
-
-        return comps;
-    }
-
     public void Init()
     {
         Runner ??= GetParent<Runner>();
-        components = FindAllComponents(this);
+        components = findAllComponents(this);
 
         foreach (var component in components)
         {
@@ -48,5 +33,20 @@ public partial class HudManager : Node
         {
             component.Process(delta, Runner.Attempt);
         }
+    }
+
+    private List<IUIComponent> findAllComponents(Node root)
+    {
+        List<IUIComponent> comps = new();
+
+        foreach (Node child in root.GetChildren())
+        {
+            if (child is IUIComponent component)
+                comps.Add(component);
+
+            comps.AddRange(findAllComponents(child));
+        }
+
+        return comps;
     }
 }

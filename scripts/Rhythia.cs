@@ -15,7 +15,8 @@ public partial class Rhythia : Node
     public static bool Quitting { get; private set; } = false;
 
     // For Temporary Maps
-    public List<Modifier> TempMods = [new NoFailModifier()];
+    public List<Modifier> TempMods = [ new NoFailModifier() ];
+    public CameraMode TempCam = new CameraLock();
 
     public static bool TempMode = false;
     public static string TextFilePath = null;
@@ -95,7 +96,7 @@ public partial class Rhythia : Node
         {
             var tempMap = MapParser.Decode(TextFilePath, AudioFilePath);
 
-            Game.Play(tempMap, 1.0, 0.0, TempMods);
+            Game.Play(tempMap, 1.0, 0.0, TempCam, TempMods);
         }
 
         GetViewport().Connect("files_dropped", Callable.From((string[] files) =>
@@ -154,7 +155,7 @@ public partial class Rhythia : Node
                     }
                 }
 
-                Game.Play(MapParser.Decode(matching[0].MapFilePath), matching[0].Speed, matching[0].StartFrom, matching[0].Modifiers, null, [.. matching]);
+                Game.Play(MapParser.Decode(matching[0].MapFilePath), matching[0].Speed, matching[0].StartFrom, matching[0].CameraMode, matching[0].Modifiers, null, [.. matching]);
             }
         }));
 

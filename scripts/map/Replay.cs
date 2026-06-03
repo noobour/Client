@@ -22,6 +22,7 @@ public struct Replay
     public double Speed;
     public double StartFrom;
     public ulong FirstNote;
+    public CameraMode CameraMode;
     public List<Modifier> Modifiers;
     public double ApproachRate;
     public double ApproachDistance;
@@ -118,6 +119,7 @@ public struct Replay
             List<string> rawMods = [.. FileBuffer.GetString((int)FileBuffer.GetUInt32()).Split("_")];
 
             Modifiers = [];
+            CameraMode = new CameraLock();
 
             foreach (string modName in rawMods)
             {
@@ -128,6 +130,9 @@ public struct Replay
                         break;
                     case "Ghost":
                         Modifiers.Add(new GhostModifier());
+                        break;
+                    case "Spin":
+                        CameraMode = new CameraSpin();
                         break;
                     default:
                         break;

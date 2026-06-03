@@ -106,88 +106,13 @@ public partial class CursorManager : Node
         sensitivity *= (float)settings.FoV / 70f;
 
         if (settings.AbsoluteInput || runner.Attempt.IsReplay)
+        {
             repositionAbsolute();
-
-        Vector3 cursorPos;
-
-        // if (runner.Attempt.Mods["Spin"])
-        if (false)
-        {
-            cursorPos = updateSpinState(inputDelta);
-        }
-        else
-        {
-            cursorPos = updateLockedState(inputDelta);
         }
 
-        if (cursorPos.IsFinite())
-        {
-            cursors[cursorIndex].Position = cursorPos;
-        }
-    }
-
-    private Vector3 updateSpinState(Vector2 inputDelta)
-    {
         var attempt = runner.Attempt;
 
-        if (!attempt.IsReplay)
-        {
-            camera.Rotation += new Vector3(-inputDelta.Y / 120 * sensitivity / (float)Math.PI, -inputDelta.X / 120 * sensitivity / (float)Math.PI, 0);
-        }
-        else
-        {
-            camera.Rotation += new Vector3(inputDelta.Y / (float)Math.PI, -inputDelta.X / (float)Math.PI, 0);
-        }
-        camera.Rotation = new Vector3((float)Math.Clamp(camera.Rotation.X, Mathf.DegToRad(-90), Mathf.DegToRad(90)), camera.Rotation.Y, camera.Rotation.Z);
-
-        var origin = new Vector3(0, 0, 3.5f);
-        var cursorLock = new Vector3(attempt.CursorPosition.X, attempt.CursorPosition.Y, 0);
-        // The pivot is to mimic ROBLOX's orbital camera
-        var pivot = camera.Basis.Z / 4f;
-
-        // Proper Parallax Support
-        camera.Position = origin + cursorLock * (float)settings.CameraParallax + pivot;
-
-        var lookVector = camera.Basis.Z;
-        var cameraVector2 = new Vector2(camera.Position.X, camera.Position.Y);
-        var lookVector2 = new Vector2(lookVector.X, lookVector.Y);
-
-        // Project Cursor from Camera's "ray cast"
-        attempt.RawCursorPosition = cameraVector2 - lookVector2 * Mathf.Abs(camera.Position.Z / lookVector.Z);
-        attempt.CursorPosition = attempt.RawCursorPosition.Clamp(-Constants.BOUNDS, Constants.BOUNDS);
-
-        return new(attempt.CursorPosition.X, attempt.CursorPosition.Y, 0);
-    }
-
-    private Vector3 updateLockedState(Vector2 inputDelta)
-    {
-        var attempt = runner.Attempt;
-        var delta = new Vector2(1, -1) * (inputDelta * sensitivity / 120f);
-
-        if (settings.CursorDrift)
-        {
-            attempt.CursorPosition = attempt.IsReplay
-                ? replayManager.CursorPosition.Clamp(-Constants.BOUNDS, Constants.BOUNDS)
-                : (attempt.CursorPosition + delta).Clamp(-Constants.BOUNDS, Constants.BOUNDS);
-        }
-        else
-        {
-            attempt.RawCursorPosition = attempt.IsReplay
-                ? replayManager.CursorPosition
-                : attempt.RawCursorPosition + delta;
-            attempt.CursorPosition = attempt.RawCursorPosition.Clamp(-Constants.BOUNDS, Constants.BOUNDS);
-        }
-
-        var origin = new Vector3(0, 0, 3.75f);
-        float parallax = (float)settings.CameraParallax;
-
-        // camera should manage parallax on its own
-        camera.Position = origin + (attempt.IsReplay && attempt.Replays.Length > 1
-            ? Vector3.Zero
-            : new Vector3(attempt.CursorPosition.X, attempt.CursorPosition.Y, 0) * parallax);
-        camera.Rotation = Vector3.Zero;
-
-        return new(attempt.CursorPosition.X, attempt.CursorPosition.Y, 0);
+        attempt.CameraMode.Process(attempt, replayManager, camera, cursors[cursorIndex], inputDelta, sensitivity);
     }
 
     // Reset everything to zero so it doesn't have infinite sensitivity
@@ -197,5 +122,6 @@ public partial class CursorManager : Node
         runner.Attempt.RawCursorPosition = Vector2.Zero;
         runner.Attempt.CursorPosition = Vector2.Zero;
     }
+
     private void updateCursorRotation(double delta) => cursorMesh.RotationDegrees += Vector3.Back * (float)settings.CursorRotation * (float)delta;
 }

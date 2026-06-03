@@ -45,7 +45,7 @@ public partial class Runner : Node3D
         Camera ??= GetNode<Camera3D>("Camera3D");
         Grid ??= HudManager.GetNode<MeshInstance3D>("Grid");
         Cursor ??= GetNode<MeshInstance3D>("Cursor");
-        VideoStreamPlayer ??= GetNode<MeshInstance3D>("Video").GetNode<SubViewport>("VideoViewport").GetNode<VideoStreamPlayer>("VideoStreamPlayer");
+        VideoStreamPlayer ??= GetNode<VideoStreamPlayer>("Video/VideoViewport/VideoStreamPlayer");
     }
 
     public override void _Process(double delta)

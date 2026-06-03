@@ -87,9 +87,9 @@ public partial class ScorePanel : Panel
         if (File.Exists(replayPath))
         {
             Replay replay = new(replayPath);
-            Map map = MapParser.Decode(replay.MapFilePath);
+            var map = MapParser.Decode(replay.MapFilePath);
 
-            Game.Play(map, replay.Speed, replay.StartFrom, replay.Modifiers, null, [replay]);
+            Game.Play(map, replay.Speed, replay.StartFrom, replay.CameraMode, replay.Modifiers, null, [replay]);
         }
     }
 }
