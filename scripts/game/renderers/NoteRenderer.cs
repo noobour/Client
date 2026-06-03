@@ -44,9 +44,9 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         NoteMultiMesh.Multimesh.VisibleInstanceCount = -1;
     }
 
-    private bool doRender(Note note, float time, float approachTime)
+    private bool doRender(Note note, float time, float approachTime, float speed)
     {
-        return note.Millisecond - time >= (Settings.Pushback ? -Constants.HIT_WINDOW : 0) && note.Millisecond - time <= approachTime * 1000;
+        return note.Millisecond - time >= (Settings.Pushback ? -Constants.HIT_WINDOW * speed : 0) && note.Millisecond - time <= approachTime * 1000 * speed;
     }
 
     public void Render(double delta, double time, IList<Note> notes)
@@ -78,7 +78,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         {
             var note = notes[i];
 
-            if (!doRender(note, (float)time, at) || note.LastResult == HitResult.Hit)
+            if (!doRender(note, (float)time, at, (float)attempt.Speed) || note.LastResult == HitResult.Hit)
             {
                 NoteMultiMesh.Multimesh.SetInstanceColor(i, transparent);
                 continue;
