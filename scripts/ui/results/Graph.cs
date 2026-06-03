@@ -9,11 +9,18 @@ public partial class Graph : ColorRect
 
         var attempt = Game.Attempt;
         float[] hitsInfo = attempt.IsReplay ? attempt.Replays[0].Notes : attempt.HitsInfo;
+        float deathTime = (float)(attempt.IsReplay ? attempt.MaxReplayLength : attempt.DeathTime);
 
         for (ulong i = 0; i < (ulong)hitsInfo.Length; i++)
         {
             float offset = hitsInfo[i];
-            float noteProgress = (float)attempt.Map.Notes[i + attempt.FirstNote].Millisecond / attempt.Map.Length;
+            float ms = attempt.Map.Notes[i + attempt.FirstNote].Millisecond;
+            float noteProgress = ms / attempt.Map.Length;
+
+            if (ms > deathTime)
+            {
+                break;
+            }
 
             if (offset < 0)
             {
@@ -26,9 +33,9 @@ public partial class Graph : ColorRect
             }
         }
 
-        if (attempt.DeathTime >= 0)
+        if (deathTime >= 0)
         {
-            int position = (int)(Size.X * attempt.DeathTime / attempt.Map.Length);
+            int position = (int)(Size.X * deathTime / attempt.Map.Length);
             DrawLine(Vector2.Right * position, new(position, Size.Y), new(0xffff00), 3);
         }
     }
