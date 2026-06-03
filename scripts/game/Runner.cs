@@ -57,7 +57,7 @@ public partial class Runner : Node3D
         if (!Playing) return;
         if (firstFrame) { firstFrame = false; return; }
 
-        Attempt.Progress += delta * 1000 * Attempt.Speed;
+        Attempt.Progress += delta * 1000 * Speed;
 
         // De-sync corrector
 
@@ -66,13 +66,13 @@ public partial class Runner : Node3D
             double audioDelay = Attempt.Progress - Attempt.Settings.LocalOffset.Value - (1000 * (SoundManager.Song.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix()));
 
             // If de-sync is over 40 milliseconds, then slightly adjust the speed of the song until under 40 milliseconds
-            if (Math.Abs(audioDelay / Attempt.Speed) > Math.Max(40, delta))
+            if (Math.Abs(audioDelay / Speed) > Math.Max(40, delta))
             {
-                SoundManager.Song.PitchScale = (float)Math.Clamp(Attempt.Speed + audioDelay / 1000, Math.Max(0.01, Attempt.Speed - 0.5), Attempt.Speed + 0.5);
+                SoundManager.Song.PitchScale = (float)Math.Clamp(Speed + audioDelay / 1000, Math.Max(0.01, Speed - 0.5), Speed + 0.5);
             }
-            else if (Math.Abs(SoundManager.Song.PitchScale - Attempt.Speed) > Mathf.Epsilon)
+            else if (Math.Abs(SoundManager.Song.PitchScale - Speed) > Mathf.Epsilon)
             {
-                SoundManager.Song.PitchScale = (float)Attempt.Speed;
+                SoundManager.Song.PitchScale = (float)Speed;
             }
         }
 
@@ -105,12 +105,12 @@ public partial class Runner : Node3D
 
         int nextNoteMillisecond = Attempt.PassedNotes >= Attempt.Map.Notes.Length ? int.MaxValue : Attempt.Map.Notes[Attempt.PassedNotes].Millisecond;
 
-        if (nextNoteMillisecond - Attempt.Progress >= Constants.BREAK_TIME * Attempt.Speed)
+        if (nextNoteMillisecond - Attempt.Progress >= Constants.BREAK_TIME * Speed)
         {
             int lastNoteMillisecond = Attempt.PassedNotes > 0 ? Attempt.Map.Notes[Attempt.PassedNotes - 1].Millisecond : 0;
             int skipWindow = nextNoteMillisecond - Constants.BREAK_TIME - lastNoteMillisecond;
 
-            if (skipWindow >= 1000 * Attempt.Speed) // only allow skipping if i'm gonna allow it for at least 1 second
+            if (skipWindow >= 1000 * Speed) // only allow skipping if i'm gonna allow it for at least 1 second
             {
                 if (!Attempt.CanSkip)
                 {
@@ -138,7 +138,7 @@ public partial class Runner : Node3D
                 continue;
             }
 
-            if (note.Millisecond + Constants.HIT_WINDOW * Attempt.Speed < Attempt.Progress) // past hit window
+            if (note.Millisecond + Constants.HIT_WINDOW * Speed < Attempt.Progress) // past hit window
             {
                 if (i + 1 > Attempt.PassedNotes)
                 {
@@ -152,7 +152,7 @@ public partial class Runner : Node3D
 
                 continue;
             }
-            else if (note.Millisecond > Attempt.Progress + settings.ApproachTime * 1000 * Attempt.Speed)   // past approach distance
+            else if (note.Millisecond > Attempt.Progress + settings.ApproachTime * 1000 * Speed)   // past approach distance
             {
                 break;
             }
@@ -194,7 +194,7 @@ public partial class Runner : Node3D
             }
             else if (Attempt.Replays.Length > 1
                 && note.Millisecond - Attempt.Progress <= 0 || Attempt.Replays[0].Notes[note.Index] != -1
-                && note.Millisecond - Attempt.Progress + Attempt.Replays[0].Notes[note.Index] * Attempt.Speed <= 0)
+                && note.Millisecond - Attempt.Progress + Attempt.Replays[0].Notes[note.Index] * Speed <= 0)
             {
                 note.Hit(this);
             }
@@ -214,9 +214,9 @@ public partial class Runner : Node3D
 
     public void OnHitResultChanged(int noteIndex, HitResult hitResult)
     {
-        float lateness = Attempt.IsReplay ? Attempt.HitsInfo[noteIndex] : (float)(((int)Attempt.Progress - Attempt.Map.Notes[noteIndex].Millisecond) / Attempt.Speed);
+        float lateness = Attempt.IsReplay ? Attempt.HitsInfo[noteIndex] : (float)(((int)Attempt.Progress - Attempt.Map.Notes[noteIndex].Millisecond) / Speed);
         float factor = 1 - Math.Max(0, lateness - 25) / 150f;
-        uint hitScore = (uint)(100 * Attempt.ComboMultiplier * Attempt.ModsMultiplier * factor * ((Attempt.Speed - 1) / 2.5 + 1));
+        uint hitScore = (uint)(100 * Attempt.ComboMultiplier * Attempt.ModsMultiplier * factor * ((Speed - 1) / 2.5 + 1));
 
         switch (hitResult)
         {
@@ -318,6 +318,7 @@ public partial class Runner : Node3D
         }
 
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;
+        Speed = Attempt.Speed;
         Camera.Fov = (float)settings.FoV.Value;
 
         // temp until skinning support
@@ -333,7 +334,7 @@ public partial class Runner : Node3D
         if (Attempt.Map.AudioBuffer != null)
         {
             SoundManager.Song.Stream = Util.Audio.LoadStream(Attempt.Map.AudioBuffer);
-            SoundManager.Song.PitchScale = (float)Attempt.Speed;
+            SoundManager.Song.PitchScale = (float)Speed;
             Attempt.MapLength = (float)(SoundManager.Song.Stream.GetLength() * 1000);
         }
         else
@@ -363,9 +364,9 @@ public partial class Runner : Node3D
             }
             else
             {
-                Attempt.Progress = Attempt.Map.Notes[Attempt.PassedNotes].Millisecond - settings.ApproachTime * 1500 * Attempt.Speed; // turn AT to ms and multiply by 1.5x
+                Attempt.Progress = Attempt.Map.Notes[Attempt.PassedNotes].Millisecond - settings.ApproachTime * 1500 * Speed; // turn AT to ms and multiply by 1.5x
 
-                // Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + (Attempt.Map.Length - Attempt.Progress) / 1000 / Attempt.Speed)));
+                // Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + (Attempt.Map.Length - Attempt.Progress) / 1000 / Speed)));
 
                 if (Attempt.Map.AudioBuffer != null)
                 {
@@ -436,7 +437,7 @@ public partial class Runner : Node3D
 
                 Leaderboard leaderboard = new(Attempt.Map.Name, $"{Constants.USER_FOLDER}/pbs/{Attempt.Map.Name}");
 
-                leaderboard.Add(new(Attempt.ID, "You", Attempt.Qualifies, Attempt.Score, Attempt.Accuracy, Time.GetUnixTimeFromSystem(), Attempt.Progress, Attempt.Map.Length, Attempt.Speed, mods));
+                leaderboard.Add(new(Attempt.ID, "You", Attempt.Qualifies, Attempt.Score, Attempt.Accuracy, Time.GetUnixTimeFromSystem(), Attempt.Progress, Attempt.Map.Length, Speed, mods));
                 leaderboard.Save();
 
                 if (Attempt.Qualifies)

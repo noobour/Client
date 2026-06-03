@@ -41,9 +41,9 @@ public partial class Grid : MeshInstance3D, IUIComponent
 
     private void onHitResultChanged(int noteIndex, HitResult result)
     {
-        float lateness = Runner.Attempt.IsReplay ? Runner.Attempt.HitsInfo[noteIndex] : (float)(((int)Runner.Attempt.Progress - Runner.Attempt.Map.Notes[noteIndex].Millisecond) / Runner.Attempt.Speed);
+        float lateness = Runner.Attempt.IsReplay ? Runner.Attempt.HitsInfo[noteIndex] : (float)(((int)Runner.Attempt.Progress - Runner.Attempt.Map.Notes[noteIndex].Millisecond) / Runner.Speed);
         float factor = 1 - Math.Max(0, lateness - 25) / 150f;
-        uint hitScore = (uint)(100 * Runner.Attempt.ComboMultiplier * Runner.Attempt.ModsMultiplier * factor * ((Runner.Attempt.Speed - 1) / 2.5 + 1));
+        uint hitScore = (uint)(100 * Runner.Attempt.ComboMultiplier * Runner.Attempt.ModsMultiplier * factor * ((Runner.Speed - 1) / 2.5 + 1));
 
         switch (result)
         {

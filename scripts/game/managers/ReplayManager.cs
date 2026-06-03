@@ -247,7 +247,7 @@ public partial class ReplayManager : Node
     public void PauseReplay()
     {
         Runner.Playing = !Runner.Playing;
-        SoundManager.Song.PitchScale = (float)Runner.Attempt.Speed;
+        SoundManager.Song.PitchScale = (float)Runner.Speed;
         SoundManager.Song.StreamPaused = !Runner.Playing;
 
         if (Runner.Playing)

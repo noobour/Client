@@ -8,7 +8,7 @@ public partial class Speed : UIComponent
     {
         label = GetNode<Label3D>("Label");
 
-        label.Modulate = Color.Color8(255, 255, 255, (byte)(Runner.Attempt.Speed == 1 ? 0 : 100));
-        label.Text = $"{Runner.Attempt.Speed:F2}x";
+        label.Modulate = Color.Color8(255, 255, 255, (byte)(Runner.Speed == 1 ? 0 : 100));
+        label.Text = $"{Runner.Speed:F2}x";
     }
 }
