@@ -8,6 +8,13 @@ public class GhostModifier : Modifier, IObjectRenderModifier<Note>
 
     public override double ScoreMultiplier => 1.03;
 
+    public override void Activate(Attempt attempt)
+    {
+        base.Activate(attempt);
+
+        attempt.UseFadeOut = false;
+    }
+
     public void ModifyRenderObject(Note note, float depth, Attempt attempt)
     {
         float ad = (float)attempt.Settings.ApproachDistance;

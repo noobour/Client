@@ -310,7 +310,7 @@ public partial class Runner : Node3D
 
             if (mod is IObjectRenderModifier<Note>)
             {
-                mod.Activate();
+                mod.Activate(Attempt);
                 HudManager.DisplayModifier(mod);
             }
         }
@@ -480,7 +480,7 @@ public partial class Runner : Node3D
 
                 if (!mod.Active)
                 {
-                    mod.Activate();
+                    mod.Activate(Attempt);
                     HudManager.DisplayModifier(mod);
                 }
             }
@@ -513,7 +513,7 @@ public partial class Runner : Node3D
 
                 if (failed != dead && !mod.Active)
                 {
-                    mod.Activate();
+                    mod.Activate(Attempt);
                     HudManager.DisplayModifier(mod);
                 }
 

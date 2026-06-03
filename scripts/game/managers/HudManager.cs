@@ -37,7 +37,7 @@ public partial class HudManager : Node
     public void DisplayModifier(Modifier mod)
     {
         // TODO: display activated modifiers & clear on Init
-        GD.Print($"activate {mod.Name}");
+        GD.Print($"HUD: display {mod.Name}");
     }
 
     public override void _Process(double delta)

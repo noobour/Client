@@ -110,7 +110,7 @@ public partial class Game : BaseScene
 
         // };
 
-        PlayerInputController.OnToggleFade += () => Attempt.Settings.FadeOut.Value = Attempt.Settings.FadeOut.Value > 0 ? 0 : 100;
+        PlayerInputController.OnToggleFade += () => Attempt.Settings.FadeOut.Value = Attempt.Settings.FadeOut > 0 ? 0 : 100;
         PlayerInputController.OnTogglePushback += () => Attempt.Settings.Pushback.Value = !Attempt.Settings.Pushback;
         PlayerInputController.OnRestartPressed += Restart;
     }
@@ -128,7 +128,7 @@ public partial class Game : BaseScene
         var focused = SceneManager.Root.GetViewport().GuiGetFocusOwner();
         focused?.ReleaseFocus();
 
-        Input.MouseMode = Attempt.Settings.AbsoluteInput.Value || Attempt.IsReplay ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+        Input.MouseMode = Attempt.Settings.AbsoluteInput || Attempt.IsReplay ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
         Input.UseAccumulatedInput = false;
 
         Runner.Attempt = Attempt;

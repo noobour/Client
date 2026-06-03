@@ -30,7 +30,7 @@ public abstract class Modifier : IModifier
     /// <summary>
     /// Called when the <see cref="Modifier"/> is affecting gameplay
     /// </summary>
-    public virtual void Activate()
+    public virtual void Activate(Attempt attempt)
     {
         Active = true;
     }
