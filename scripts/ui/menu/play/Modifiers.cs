@@ -10,14 +10,14 @@ public partial class Modifiers : Panel
 
     private List<Button> buttons = [];
 
-	public override void _Ready()
-	{
+    public override void _Ready()
+    {
         container.RemoveChild(templateButton);
 
         Lobby.Instance.ModifiersChanged += updateButtons;
 
         updateModifiers();
-	}
+    }
 
     public override void _EnterTree()
     {
@@ -41,7 +41,8 @@ public partial class Modifiers : Panel
             button.TooltipText = mod.Name;
             button.Icon = Util.Misc.GetModIcon(mod.Name);
 
-            button.Pressed += () => {
+            button.Pressed += () =>
+            {
                 Lobby.SetModifier(mod, !Lobby.Modifiers.Contains(mod));
             };
 

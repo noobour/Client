@@ -8,14 +8,14 @@ public partial class CameraModes : Panel
 
     private List<Button> buttons = [];
 
-	public override void _Ready()
-	{
+    public override void _Ready()
+    {
         container.RemoveChild(templateButton);
 
         Lobby.Instance.CameraModeChanged += updateButtons;
 
         updateModes();
-	}
+    }
 
     public override void _EnterTree()
     {
@@ -38,7 +38,8 @@ public partial class CameraModes : Panel
             button.Name = mode.Name;
             button.Text = mode.Name;
 
-            button.Pressed += () => {
+            button.Pressed += () =>
+            {
                 Lobby.SetCameraMode(mode);
             };
 
