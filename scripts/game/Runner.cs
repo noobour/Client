@@ -400,7 +400,10 @@ public partial class Runner : Node3D
         }
 
         Attempt.Stopped = true;
-        Attempt.HitsInfo = Attempt.HitsInfo[(int)Attempt.FirstNote..(int)(Attempt.FirstNote + Attempt.Sum)];
+
+        int low = Math.Max(0, (int)Attempt.FirstNote);
+        int high = Math.Clamp((int)(Attempt.FirstNote + Attempt.Sum), low, int.MaxValue);
+        Attempt.HitsInfo = Attempt.HitsInfo[low .. high];
 
         HitResultChanged -= OnHitResultChanged;
 
@@ -498,28 +501,28 @@ public partial class Runner : Node3D
 
     private bool checkFail(bool hit, double health)
     {
-        bool dead = health <= 0;
-        bool? failed = null;
+        bool defaultFail = health <= 0;
+        bool? fail = null;
 
         foreach (var mod in Attempt.Modifiers)
         {
             if (mod is IFailModifier failMod)
             {
-                failed = failMod.CheckFailCondition(hit, health);
+                fail = failMod.CheckFailCondition(hit, health);
 
-                if (failed != dead && !mod.Active)
+                if (fail != defaultFail && !mod.Active)
                 {
                     mod.Activate(Attempt);
                     HudManager.DisplayModifier(mod);
                 }
 
-                if (failed == true)
+                if (fail == true)
                 {
                     break;
                 }
             }
         }
 
-        return failed ?? dead;
+        return fail ?? defaultFail;
     }
 }
