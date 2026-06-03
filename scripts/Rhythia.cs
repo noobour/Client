@@ -15,7 +15,7 @@ public partial class Rhythia : Node
     public static bool Quitting { get; private set; } = false;
 
     // For Temporary Maps
-    public List<Modifier> TempMods = [ new NoFailModifier() ];
+    public List<Modifier> TempMods = [new NoFailModifier()];
 
     public static bool TempMode = false;
     public static string TextFilePath = null;
