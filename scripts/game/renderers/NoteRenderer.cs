@@ -89,12 +89,12 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 
             note.Opacity = 1;
 
-            if (fadeIn > 0 && attempt.UseFadeOut)
+            if (fadeIn > 0)
             {
                 note.Opacity = Math.Min(1, progress / fadeIn);
             }
 
-            if (fadeOut > 0)
+            if (fadeOut > 0 && attempt.UseFadeOut)
             {
                 note.Opacity -= 1 - Math.Min(1, (1 - progress) / fadeOut);
             }
