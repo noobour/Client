@@ -341,7 +341,7 @@ public partial class MapList : Panel, ISkinnable
 
                     if (Lobby.Map != null && IsVisibleInTree() && focused is not LineEdit)
                     {
-                        Game.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
+                        Game.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.CameraMode, Lobby.Modifiers);
                         //                     if (Lobby.Map != null && IsVisibleInTree() && focused is not LineEdit)
                         //                     {
                         //                         LegacyRunner.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
@@ -395,7 +395,7 @@ public partial class MapList : Panel, ISkinnable
         // this was also in a merge conflict
         if (selectedMapID == map.Name && playIfPreSelected)
         {
-            Game.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
+            Game.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.CameraMode, Lobby.Modifiers);
         }
 
         selectedMapID = map.Name;

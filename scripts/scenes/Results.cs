@@ -111,7 +111,7 @@ public partial class Results : BaseScene
                 Replay replay = new(path);
                 SoundManager.Song.Stop();
 
-                Game.Play(MapParser.Decode(replay.MapFilePath), replay.Speed, replay.StartFrom, replay.Modifiers, null, [replay]);
+                Game.Play(MapParser.Decode(replay.MapFilePath), replay.Speed, replay.StartFrom, replay.CameraMode, replay.Modifiers, null, [replay]);
             }
         };
     }
@@ -177,7 +177,7 @@ public partial class Results : BaseScene
         map.Ephemeral = attempt.Map.Ephemeral;
         SoundManager.Song.Stop();
 
-        Game.Play(map, attempt.Speed, attempt.StartFrom, attempt.Modifiers);
+        Game.Play(map, attempt.Speed, attempt.StartFrom, attempt.CameraMode, attempt.Modifiers);
     }
 
     public void Stop()
