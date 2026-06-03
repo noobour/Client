@@ -192,7 +192,6 @@ public partial class Game : BaseScene
 
         var oldAttempt = Attempt;
         var map = MapParser.Decode(oldAttempt.Map.FilePath, Rhythia.AudioFilePath);
-
         Attempt = new(map, oldAttempt.Speed, oldAttempt.StartFrom, oldAttempt.CameraMode, oldAttempt.Modifiers, oldAttempt.Players, oldAttempt.Replays);
 
         SceneManager.ReloadCurrentScene();

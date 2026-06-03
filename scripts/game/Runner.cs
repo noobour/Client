@@ -26,6 +26,7 @@ public partial class Runner : Node3D
     public List<Note> ProcessNotes = [];
     private double lastFrame = Time.GetTicksUsec();
     private bool firstFrame = true;
+    private bool eventsConnected = false;
 
     [ExportCategory("Settings")]
     [Export] public bool NotesOnly = false;
@@ -233,6 +234,7 @@ public partial class Runner : Node3D
                 {
                     Stats.Instance.NotesHit++;
                     if (Attempt.Combo > Stats.Instance.HighestCombo) Stats.Instance.HighestCombo = Attempt.Combo;
+
                     Attempt.HitsInfo[noteIndex] = lateness;
                 }
 
@@ -296,7 +298,12 @@ public partial class Runner : Node3D
         {
             HudManager.Init();
             Attempt.TimeStarted = Time.GetTicksUsec();
-            HitResultChanged += OnHitResultChanged;
+
+            if (!eventsConnected)
+            {
+                eventsConnected = true;
+                HitResultChanged += OnHitResultChanged;
+            }
 
             EmitSignal(SignalName.AttemptStatsUpdated, Attempt);
         }
@@ -400,13 +407,19 @@ public partial class Runner : Node3D
             return;
         }
 
+        Playing = false;
+        StopQueued = false;
         Attempt.Stopped = true;
 
         int low = Math.Max(0, (int)Attempt.FirstNote);
         int high = Math.Clamp((int)(Attempt.FirstNote + Attempt.Sum), low, int.MaxValue);
-        Attempt.HitsInfo = Attempt.HitsInfo[low .. high];
+        Attempt.HitsInfo = Attempt.HitsInfo[low..high];
 
-        HitResultChanged -= OnHitResultChanged;
+        if (eventsConnected)
+        {
+            eventsConnected = false;
+            HitResultChanged -= OnHitResultChanged;
+        }
 
         // dont want an infinite dependency loop so im just going to do this -fog
         if (!Attempt.IsReplay && Game.Instance.ReplayManager.CurrentMode == ReplayManager.Mode.RECORD)
