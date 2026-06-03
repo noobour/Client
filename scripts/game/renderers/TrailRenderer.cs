@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Godot;
 
+// this isn't actually a renderer
 public partial class TrailRenderer : Node
 {
     [Export] private MeshInstance3D cursor;

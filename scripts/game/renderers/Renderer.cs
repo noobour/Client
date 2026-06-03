@@ -4,10 +4,12 @@ using Godot;
 public abstract partial class Renderer : Node3D
 {
     internal SettingsProfile Settings { get; private set; }
+    internal SkinProfile Skin { get; private set; }
 
-    public void ApplySettings(SettingsProfile settings)
+    public virtual void Setup(SettingsProfile settings, SkinProfile skin)
     {
         Settings = settings;
+        Skin = skin;
     }
 
     public abstract void Process(double delta, Attempt attempt);

@@ -132,7 +132,7 @@ public partial class Runner : Node3D
 
         for (uint i = Attempt.PassedNotes; i < Attempt.Map.Notes.Length; i++)
         {
-            Note note = Attempt.Map.Notes[i];
+            var note = Attempt.Map.Notes[i];
 
             if (note.Millisecond < Attempt.StartFrom)
             {
@@ -143,10 +143,11 @@ public partial class Runner : Node3D
             {
                 if (i + 1 > Attempt.PassedNotes)
                 {
-                    if (Attempt.IsReplay && Attempt.Replays.Length <= 1 && Attempt.Replays[0].Notes[note.Index] == -1 || !Attempt.IsReplay && note.LastResult != HitResult.Hit)
+                    if (!Attempt.IsReplay && note.Hittable || Attempt.IsReplay && Attempt.Replays.Length == 1 && Attempt.Replays[0].Notes[note.Index] == -1)
                     {
                         note.Miss(this);
                     }
+
                     Attempt.PassedNotes = i + 1;
                 }
 
@@ -161,11 +162,14 @@ public partial class Runner : Node3D
                 continue;
             }
 
-            if (settings.AlwaysPlayHitSound && !Attempt.Map.Notes[i].Hittable && note.Millisecond < Attempt.Progress)
+            if (!note.Hittable)
             {
-                Attempt.Map.Notes[i].Hittable = true;
+                note.Hittable = true;
 
-                SoundManager.PlayHitSound();
+                if (settings.AlwaysPlayHitSound)
+                {
+                    SoundManager.PlayHitSound();
+                }
             }
 
             ToProcess++;
@@ -177,8 +181,6 @@ public partial class Runner : Node3D
         for (int i = 0; i < ToProcess; i++)
         {
             var note = ProcessNotes[i];
-
-            if (note.LastResult == HitResult.Hit) continue;
 
             if (!Attempt.IsReplay)
             {
@@ -297,7 +299,7 @@ public partial class Runner : Node3D
 
         foreach (var renderer in Renderers)
         {
-            renderer.ApplySettings(Attempt.Settings);
+            renderer.Setup(Attempt.Settings, SkinManager.Instance.Skin);
         }
 
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;

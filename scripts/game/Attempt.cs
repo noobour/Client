@@ -8,9 +8,10 @@ public partial class Attempt : GodotObject
     public double DeathTime = -1;
     public string ID;
     public Map Map;
-    public List<Mod> Mods { get; set; } = new();
+    public CameraMode CameraMode { get; set; } = new CameraLock();
+    public List<Mod> Mods { get; set; } = [];
     // public Dictionary<string, bool> Mods { get; set; } = new();
-    public Dictionary<Type, IList<ITimelineObject>> Objects { get; set; } = new();
+    public Dictionary<Type, IList<ITimelineObject>> Objects { get; set; } = [];
     public SettingsProfile Settings;
     public bool IsReplay = false;
     public bool Stopped = false;
@@ -21,7 +22,6 @@ public partial class Attempt : GodotObject
 
     public string[] Players = [];
 
-    public CameraMode CameraMode { get; set; } = new CameraLock();
     public double Progress { get; set; }
     public double Speed;
     public double StartFrom;
@@ -42,9 +42,9 @@ public partial class Attempt : GodotObject
     public uint ComboMultiplierIncrement = 0;
     public double ModsMultiplier = 1;
     public float[] HitsInfo = [];
-    public Color LastHitColour = new Color(0.37254903f, 0.61960787f, 0.627451f, 1);
+    public Color LastHitColour = new();
 
-    public Vector3 CameraPosition { get; set; } = new Vector3(0, 0, 3.75f);
+    public Vector3 CameraPosition { get; set; } = new(0, 0, 3.75f);
     public Vector3 CameraRotation { get; set; } = Vector3.Zero;
     public Vector3 CameraBasisZ { get; set; } = new();
 
