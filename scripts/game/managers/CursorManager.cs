@@ -120,7 +120,10 @@ public partial class CursorManager : Node
             cursorPos = updateLockedState(inputDelta);
         }
 
-        cursors[cursorIndex].Position = cursorPos;
+        if (cursorPos.IsFinite())
+        {
+            cursors[cursorIndex].Position = cursorPos;
+        }
     }
 
     private Vector3 updateSpinState(Vector2 inputDelta)

@@ -39,7 +39,15 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         AddChild(NoteMultiMesh);
     }
 
-    private bool doProcess(Note note, float time, float approachTime)
+    public override void Setup(SettingsProfile settings, SkinProfile skin)
+    {
+        base.Setup(settings, skin);
+
+        NoteMultiMesh.Multimesh.InstanceCount = 0;
+        NoteMultiMesh.Multimesh.VisibleInstanceCount = -1;
+    }
+
+    private bool doRender(Note note, float time, float approachTime)
     {
         return note.Millisecond - time >= (Settings.Pushback ? -Constants.HIT_WINDOW : 0) && note.Millisecond - time <= approachTime * 1000;
     }
@@ -61,6 +69,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         if (notes.Count > NoteMultiMesh.Multimesh.InstanceCount)
         {
             NoteMultiMesh.Multimesh.InstanceCount = notes.Count;
+            NoteMultiMesh.Multimesh.VisibleInstanceCount = NoteMultiMesh.Multimesh.InstanceCount;
         }
         else
         {
@@ -71,7 +80,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         {
             var note = notes[i];
 
-            if (!doProcess(note, (float)time, at) || note.LastResult == HitResult.Hit)
+            if (!doRender(note, (float)time, at) || note.LastResult == HitResult.Hit)
             {
                 NoteMultiMesh.Multimesh.SetInstanceColor(i, transparent);
                 continue;
@@ -117,7 +126,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         }
 
         // var notes = (List<Note>)attempt.Objects[typeof(Note)];
-        var notes = attempt.Map.Notes;
+        var notes = runner.ProcessNotes;
 
         Render(delta, attempt.Progress, notes);
     }
