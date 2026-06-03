@@ -13,6 +13,7 @@ public partial class Attempt : GodotObject
     public List<Modifier> Modifiers { get; set; } = [];
     public Dictionary<Type, IList<ITimelineObject>> Objects { get; set; } = [];
     public SettingsProfile Settings;
+    public bool UseFadeOut = true;
     public bool IsReplay = false;
     public bool Stopped = false;
     public bool Paused = false;

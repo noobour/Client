@@ -51,6 +51,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 
     public void Render(double delta, double time, IList<Note> notes)
     {
+        var attempt = runner.Attempt;
         float ar = (float)Settings.ApproachRate;
         float ad = (float)Settings.ApproachDistance;
         float at = (float)Settings.ApproachTime;
@@ -83,12 +84,12 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
                 continue;
             }
 
-            float depth = (note.Millisecond - (float)runner.Attempt.Progress) / (1000 * at) * ad / (float)runner.Attempt.Speed;
+            float depth = (note.Millisecond - (float)attempt.Progress) / (1000 * at) * ad / (float)attempt.Speed;
             float progress = 1 - Math.Max(0, (depth + hitWindowDepth) / (ad + hitWindowDepth));
 
             note.Opacity = 1;
 
-            if (fadeIn > 0)
+            if (fadeIn > 0 && attempt.UseFadeOut)
             {
                 note.Opacity = Math.Min(1, progress / fadeIn);
             }
@@ -98,11 +99,11 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
                 note.Opacity -= 1 - Math.Min(1, (1 - progress) / fadeOut);
             }
 
-            foreach (var mod in runner.Attempt.Modifiers)
+            foreach (var mod in attempt.Modifiers)
             {
                 if (mod is IObjectRenderModifier<Note> modifier)
                 {
-                    modifier.ModifyRenderObject(note, depth, runner.Attempt);
+                    modifier.ModifyRenderObject(note, depth, attempt);
                 }
             }
 
