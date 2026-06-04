@@ -294,6 +294,8 @@ public partial class Runner : Node3D
     {
         if (Attempt == null) return;
 
+        Speed = Attempt.Speed;
+
         if (!NotesOnly)
         {
             HudManager.Init();
@@ -325,7 +327,6 @@ public partial class Runner : Node3D
         }
 
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;
-        Speed = Attempt.Speed;
         Camera.Fov = (float)settings.FoV.Value;
 
         // temp until skinning support
