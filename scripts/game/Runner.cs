@@ -314,10 +314,15 @@ public partial class Runner : Node3D
         {
             mod.Active = false;
 
-            if (mod is IObjectRenderModifier<Note>)
+            if (mod is IMapModifier || mod is IObjectRenderModifier<Note>)
             {
                 mod.Activate(Attempt);
                 HudManager.DisplayModifier(mod);
+
+                if (mod is IMapModifier mapMod)
+                {
+                    mapMod.ModifyMap(Attempt.Map, Attempt);
+                }
             }
         }
 
