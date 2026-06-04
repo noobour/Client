@@ -61,8 +61,8 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
         float noteOpacity = (float)Settings.NoteOpacity;
         float noteOpacityExponent = Math.Max(Mathf.Epsilon, (float)Settings.NoteOpacityExponent);
         bool pushback = Settings.Pushback;
-        var transform = new Transform3D(new(noteSize / 2, 0, 0), new(0, noteSize / 2, 0), new(0, 0, noteSize / 2), Vector3.Zero);
         float hitWindowDepth = pushback ? (float)Constants.HIT_WINDOW * ar / 1000 : 0;
+        var transform = new Transform3D(new(noteSize / 2, 0, 0), new(0, noteSize / 2, 0), new(0, 0, noteSize / 2), Vector3.Zero);
 
         if (notes.Count > NoteMultiMesh.Multimesh.InstanceCount)
         {
@@ -88,6 +88,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
             float progress = 1 - Math.Max(0, (depth + hitWindowDepth) / (ad + hitWindowDepth));
 
             note.Opacity = 1;
+            note.Transform = transform;
 
             if (fadeIn > 0)
             {
@@ -99,19 +100,20 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
                 note.Opacity -= 1 - Math.Min(1, (1 - progress) / fadeOut);
             }
 
+            note.Transform.Origin = new(note.X, note.Y, -depth);
+
             foreach (var mod in attempt.Modifiers)
             {
                 if (mod is IObjectRenderModifier<Note> modifier)
                 {
-                    modifier.ModifyRenderObject(note, depth, attempt);
+                    modifier.ModifyRenderObject(note, attempt);
                 }
             }
 
             var color = SkinManager.Instance.Skin.NoteColors[note.Index % SkinManager.Instance.Skin.NoteColors.Length];
 
-            transform.Origin = new Vector3(note.X, note.Y, -depth);
             color.A = Math.Clamp((float)Math.Pow(Math.Max(0, note.Opacity * noteOpacity), noteOpacityExponent), 0, 1);
-            NoteMultiMesh.Multimesh.SetInstanceTransform(i, transform);
+            NoteMultiMesh.Multimesh.SetInstanceTransform(i, note.Transform);
             NoteMultiMesh.Multimesh.SetInstanceColor(i, color);
         }
     }

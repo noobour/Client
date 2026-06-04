@@ -7,5 +7,5 @@ public interface IObjectRenderModifier<T> : IModifier
     /// <summary>
     /// Modifies the rendering of <see cref="ITimelineObject"/> for the <see cref="IObjectRenderModifier{T}"/>
     /// </summary>
-    void ModifyRenderObject(T obj, float depth, Attempt attempt);
+    void ModifyRenderObject(T obj, Attempt attempt);
 }
