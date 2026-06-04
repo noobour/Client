@@ -174,7 +174,9 @@ public partial class Rhythia : Node
     {
         return [
             new NoFailModifier(),
-            new GhostModifier()
+            new GhostModifier(),
+            new HorizontalFlipModifier(),
+            new VerticalFlipModifier()
         ];
     }
 
