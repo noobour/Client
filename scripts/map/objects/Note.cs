@@ -17,6 +17,7 @@ public partial class Note : IHitObject, IAnimatableObject<NoteAnimation>, ICompa
     public Tween CurrentTween { get; set; }
     public List<NoteAnimation> AnimationObjects { get; set; }
     public float Opacity { get; set; } = 1;
+    public Transform3D Transform = Transform3D.Identity;
 
     public Note(int index, int millisecond, float x, float y)
     {

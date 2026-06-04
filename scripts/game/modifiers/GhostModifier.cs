@@ -15,10 +15,10 @@ public class GhostModifier : Modifier, IObjectRenderModifier<Note>
         attempt.UseFadeOut = false;
     }
 
-    public void ModifyRenderObject(Note note, float depth, Attempt attempt)
+    public void ModifyRenderObject(Note note, Attempt attempt)
     {
         float ad = (float)attempt.Settings.ApproachDistance;
 
-        note.Opacity -= Mathf.Min(1, (ad - depth) / (ad / 2));
+        note.Opacity -= Mathf.Min(1, (ad + note.Transform.Origin.Z) / (ad / 2));
     }
 }
