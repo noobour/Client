@@ -14,9 +14,13 @@ public partial class Rhythia : Node
     public static Rhythia Instance;
     public static bool Quitting { get; private set; } = false;
 
+    // Updates once on startup
+    public static CameraMode[] CameraModes = [];
+    public static Modifier[] Modifiers = [];
+
     // For Temporary Maps
-    public List<Modifier> TempMods = [new NoFailModifier()];
-    public CameraMode TempCam = new CameraLock();
+    public static List<Modifier> TempMods = [new NoFailModifier()];
+    public static CameraMode TempCam = new CameraLock();
 
     public static bool TempMode = false;
     public static string TextFilePath = null;
@@ -99,6 +103,9 @@ public partial class Rhythia : Node
             Game.Play(tempMap, 1.0, 0.0, TempCam, TempMods);
         }
 
+        RegisterCameraModes();
+        RegisterModifiers();
+
         GetViewport().Connect("files_dropped", Callable.From((string[] files) =>
         {
             EmitSignal(SignalName.FilesDropped, files);
@@ -162,17 +169,17 @@ public partial class Rhythia : Node
         loaded = true;
     }
 
-    public static CameraMode[] RegisterCameraModes()
+    public static void RegisterCameraModes()
     {
-        return [
+        CameraModes = [
             new CameraLock(),
             new CameraSpin()
         ];
     }
 
-    public static Modifier[] RegisterModifiers()
+    public static void RegisterModifiers()
     {
-        return [
+        Modifiers = [
             new NoFailModifier(),
             new GhostModifier(),
             new StrobeModifier(),

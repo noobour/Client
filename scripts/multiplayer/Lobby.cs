@@ -140,7 +140,7 @@ public partial class Lobby : Node
         }
         else
         {
-            Modifiers.Remove(mod);
+            Modifiers.Remove(Modifiers.Find(x => x.Name == mod.Name));
         }
 
         Instance.EmitSignal(SignalName.ModifiersChanged, Modifiers.Select(mod => mod.Name).ToArray());

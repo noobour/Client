@@ -33,7 +33,7 @@ public partial class Modifiers : Panel
             child.QueueFree();
         }
 
-        foreach (var mod in Rhythia.RegisterModifiers())
+        foreach (var mod in Rhythia.Modifiers)
         {
             var button = templateButton.Duplicate() as Button;
 
@@ -43,7 +43,7 @@ public partial class Modifiers : Panel
 
             button.Pressed += () =>
             {
-                Lobby.SetModifier(mod, !Lobby.Modifiers.Contains(mod));
+                Lobby.SetModifier(mod, !Lobby.Modifiers.Select(mod => mod.Name).Contains(mod.Name));
             };
 
             container.AddChild(button);
