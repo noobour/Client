@@ -31,7 +31,7 @@ public partial class CameraModes : Panel
             child.QueueFree();
         }
 
-        foreach (var mode in Rhythia.RegisterCameraModes())
+        foreach (var mode in Rhythia.CameraModes)
         {
             var button = templateButton.Duplicate() as Button;
 
@@ -40,7 +40,14 @@ public partial class CameraModes : Panel
 
             button.Pressed += () =>
             {
-                Lobby.SetCameraMode(mode);
+                if (Lobby.CameraMode.Name != mode.Name)
+                {
+                    Lobby.SetCameraMode(mode);
+                }
+                else
+                {
+                    updateButtons(Lobby.CameraMode.Name);
+                }
             };
 
             container.AddChild(button);
@@ -55,6 +62,7 @@ public partial class CameraModes : Panel
         foreach (var button in buttons)
         {
             button.ButtonPressed = button.Name == mode;
+            // GD.PrintT(button.Name, mode, button.ButtonPressed);
         }
     }
 }
