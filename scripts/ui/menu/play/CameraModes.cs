@@ -62,7 +62,6 @@ public partial class CameraModes : Panel
         foreach (var button in buttons)
         {
             button.ButtonPressed = button.Name == mode;
-            // GD.PrintT(button.Name, mode, button.ButtonPressed);
         }
     }
 }
