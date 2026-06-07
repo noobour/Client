@@ -17,8 +17,8 @@ public class ChaosModifier : Modifier, IObjectRenderModifier<Note>
 
         if (depth > 0)
         {
-            float n = noise.GetNoise3D(note.X * 2, note.Y * 2, note.Index + (float)(attempt.Progress / attempt.Speed / 100));
-            var dir = Vector3.Up.Rotated(Vector3.Back, n * Mathf.Pi * 2);
+            float n = noise.GetNoise3D(note.X * 2, note.Y * 2, note.Index + (float)(attempt.Progress / attempt.Speed / 400));
+            var dir = Vector3.Up.Rotated(Vector3.Back, n * Mathf.Pi * 4);
             float offset = depth / (float)attempt.Settings.ApproachDistance;
             offset = (float)Math.Pow(offset, 2);
 
