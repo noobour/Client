@@ -43,7 +43,7 @@ public partial class PlaytestOverlay : Panel
 
         var holder = GetNode("VB");
 
-        Rhythia.Instance.TempCam = holder.GetNode<CheckButton>("SpinCheck").ButtonPressed ? new CameraSpin() : new CameraLock();
+        Rhythia.TempCam = holder.GetNode<CheckButton>("SpinCheck").ButtonPressed ? new CameraSpin() : new CameraLock();
 
         var startFromEdit = holder.GetNode<LineEdit>("StartFrom/LineEdit");
         var speedEdit = holder.GetNode<LineEdit>("Speed/LineEdit");
@@ -76,7 +76,7 @@ public partial class PlaytestOverlay : Panel
 
             var map = MapParser.Decode(oldAttempt.Map.FilePath, Rhythia.AudioFilePath);
 
-            Game.Attempt = new(map, speedValue, GetStartFrom(startFromEdit) * 1000, Rhythia.Instance.TempCam, Rhythia.Instance.TempMods);
+            Game.Attempt = new(map, speedValue, GetStartFrom(startFromEdit) * 1000, Rhythia.TempCam, Rhythia.TempMods);
             SceneManager.ReloadCurrentScene();
         }
     }
