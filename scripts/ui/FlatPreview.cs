@@ -100,15 +100,28 @@ public partial class FlatPreview : Panel
 
     public void Setup(Map map, bool useSoundManagerStreamPlayer = false)
     {
-        if (Map != null && Map.Name == map.Name) { return; }
+        if (Map != null && Map.Name == map.Name) return;
 
         Map = map;
         UseSoundManagerStreamPlayer = useSoundManagerStreamPlayer;
-        lastPassedNote = 0;
+        lastPassedNote = -1;
     }
 
     public void Seek(double seek)
     {
+        if (Map == null) return;
+
         Time = seek;
+
+        for (int i = 0; i < Map.Notes.Length; i++)
+        {
+            var note = Map.Notes[i];
+
+            if (note.Millisecond > Time)
+            {
+                lastPassedNote = i - 1;
+                break;
+            }
+        }
     }
 }
