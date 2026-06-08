@@ -28,6 +28,6 @@ public partial class SpeedPresetButton : Button
     {
         if (!IsInstanceValid(this)) { return; }
 
-        Disabled = Speed / 100 == speed;
+        ButtonPressed = Speed / 100 == speed;
     }
 }

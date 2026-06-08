@@ -691,7 +691,6 @@ size_flags_horizontal = 0
 
 [node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/Middle" unique_id=1494105151 instance=ExtResource("8_i21mh")]
 layout_mode = 2
-disabled = true
 icon = ExtResource("18_1m5pv")
 
 [node name="Plus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=805702372]
