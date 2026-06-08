@@ -7,9 +7,9 @@ public class Misc
 {
     public static GodotObject OBJParser = (GodotObject)GD.Load<GDScript>("res://scripts/util/OBJParser.gd").New();
 
-    public static ImageTexture GetModIcon(string mod)
+    public static Texture2D GetModIcon(string mod)
     {
-        ImageTexture tex;
+        Texture2D tex;
 
         switch (mod)
         {
@@ -20,7 +20,7 @@ public class Misc
                 tex = SkinManager.Instance.Skin.ModGhostImage;
                 break;
             default:
-                tex = new();
+                tex = new PlaceholderTexture2D() { Size = Vector2.One * 32 };
                 break;
         }
 
