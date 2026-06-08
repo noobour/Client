@@ -416,10 +416,7 @@ public partial class Runner : Node3D
         Playing = false;
         StopQueued = false;
         Attempt.Stopped = true;
-
-        int low = Math.Max(0, (int)Attempt.FirstNote);
-        int high = Math.Clamp((int)(Attempt.FirstNote + Attempt.Sum), low, int.MaxValue);
-        Attempt.HitsInfo = Attempt.HitsInfo[low..high];
+        GD.Print("runner stopped");
 
         if (eventsConnected)
         {
