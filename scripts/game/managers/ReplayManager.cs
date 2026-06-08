@@ -152,7 +152,7 @@ public partial class ReplayManager : Node
         seekerTimeline = ReplayViewer.GetNode<HSlider>("Seek");
         CursorManager ??= GetNode<CursorManager>("CursorManager");
 
-        SeekerPause.Pressed += PauseReplay;
+        SeekerPause.Pressed += TogglePause;
 
         seekerTimeline.ValueChanged += value =>
         {
@@ -187,7 +187,7 @@ public partial class ReplayManager : Node
 
             if (Runner.Attempt.Progress > ReplayLength && Runner.Playing)
             {
-                PauseReplay();
+                TogglePause();
             }
         }
 
@@ -248,7 +248,7 @@ public partial class ReplayManager : Node
         }
     }
 
-    public void PauseReplay()
+    public void TogglePause()
     {
         Runner.Playing = !Runner.Playing;
         SoundManager.Song.PitchScale = (float)Runner.Speed;
@@ -256,7 +256,7 @@ public partial class ReplayManager : Node
 
         if (Runner.Playing)
         {
-            SoundManager.Song.Seek((float)(Runner.Attempt.Progress - Runner.Attempt.Settings.LocalOffset.Value) / 1000);
+            SoundManager.Song.Seek((float)(Runner.Attempt.Progress - Runner.Attempt.Settings.LocalOffset) / 1000);
         }
 
         string texturePath = Runner.Playing
@@ -309,6 +309,11 @@ public partial class ReplayManager : Node
             }
         }
 
+        if (att.Progress > ReplayLength && seekedTime <= ReplayLength && !Runner.Playing)
+        {
+            TogglePause();
+        }
+
         att.Progress = seekedTime;
 
         Runner.EmitSignal(Runner.SignalName.AttemptStatsUpdated, att);
@@ -327,6 +332,6 @@ public partial class ReplayManager : Node
             SoundManager.Song.Play();
         }
 
-        SoundManager.Song.Seek((float)(att.Progress - att.Settings.LocalOffset.Value) / 1000);
+        SoundManager.Song.Seek((float)(att.Progress - att.Settings.LocalOffset) / 1000);
     }
 }
