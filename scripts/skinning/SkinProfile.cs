@@ -1,7 +1,7 @@
 ﻿using Godot;
 
 [GlobalClass]
-public partial class SkinProfile : GodotObject
+public partial class SkinProfile : RefCounted
 {
     public SkinConfig Config { get; set; } = new();
 
