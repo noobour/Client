@@ -201,10 +201,7 @@ public partial class Runner : Node3D
             }
         }
 
-        foreach (var renderer in Renderers)
-        {
-            renderer.Process(delta, Attempt);
-        }
+        Render(delta);
 
         if (StopQueued || Attempt.Progress >= Attempt.MapLength && !Attempt.IsReplay)
         {
@@ -375,7 +372,7 @@ public partial class Runner : Node3D
 
         if (Playing)
         {
-            SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset) / 1000);
+            Seek(Attempt.Progress);
         }
     }
 
@@ -391,21 +388,28 @@ public partial class Runner : Node3D
             }
             else
             {
-                Attempt.Progress = Attempt.Map.Notes[Attempt.PassedNotes].Millisecond - settings.ApproachTime * 1500 * Speed; // turn AT to ms and multiply by 1.5x
-
-                // Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + (Attempt.Map.Length - Attempt.Progress) / 1000 / Speed)));
-
-                if (Attempt.Map.AudioBuffer != null)
-                {
-                    if (!SoundManager.Song.Playing)
-                    {
-                        SoundManager.Song.Play();
-                    }
-
-                    SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset.Value) / 1000);
-                    VideoStreamPlayer.StreamPosition = (float)Attempt.Progress / 1000;
-                }
+                Seek(Attempt.Map.Notes[Attempt.PassedNotes].Millisecond - settings.ApproachTime * 1500 * Speed); // turn AT to ms and multiply by 1.5x)
             }
+        }
+    }
+
+    public void Seek(double ms)
+    {
+        Attempt.Progress = ms;
+
+        Render(0);
+
+        // Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + (Attempt.Map.Length - Attempt.Progress) / 1000 / Speed)));
+
+        if (Attempt.Map.AudioBuffer != null)
+        {
+            if (!SoundManager.Song.Playing && Playing)
+            {
+                SoundManager.Song.Play();
+            }
+
+            SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset) / 1000);
+            VideoStreamPlayer.StreamPosition = (float)Attempt.Progress / 1000;
         }
     }
 
@@ -496,6 +500,14 @@ public partial class Runner : Node3D
         if (results)
         {
             SceneManager.Load("res://scenes/results.tscn");
+        }
+    }
+
+    public void Render(double delta)
+    {
+        foreach (var renderer in Renderers)
+        {
+            renderer.Process(delta, Attempt);
         }
     }
 

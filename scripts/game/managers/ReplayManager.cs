@@ -307,8 +307,7 @@ public partial class ReplayManager : Node
             TogglePause();
         }
 
-        att.Progress = seekedTime;
-
+        Runner.Seek(seekedTime);
         Runner.EmitSignal(Runner.SignalName.AttemptStatsUpdated, att);
 
         for (int i = 0; i < att.Replays[0].Frames.Length; i++)
@@ -319,12 +318,5 @@ public partial class ReplayManager : Node
                 break;
             }
         }
-
-        if (!SoundManager.Song.Playing && Runner.Playing)
-        {
-            SoundManager.Song.Play();
-        }
-
-        SoundManager.Song.Seek((float)(att.Progress - att.Settings.LocalOffset) / 1000);
     }
 }
