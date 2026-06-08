@@ -206,7 +206,7 @@ public partial class Runner : Node3D
             renderer.Process(delta, Attempt);
         }
 
-        if (StopQueued || Attempt.Progress >= Attempt.MapLength)
+        if (StopQueued || Attempt.Progress >= Attempt.MapLength && !Attempt.IsReplay)
         {
             StopQueued = false;
             Stop();
