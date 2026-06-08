@@ -107,9 +107,13 @@ public partial class ReplayManager : Node
         file.Store64(attempt.FirstNote);
         file.Store64(attempt.Sum);
 
-        for (ulong i = 0; i < attempt.Sum; i++)
+        int low = Math.Max(0, (int)attempt.FirstNote);
+        int high = Math.Clamp((int)(attempt.FirstNote + attempt.Sum), low, int.MaxValue);
+        float[] hitsInfo = attempt.HitsInfo[low..high];
+
+        for (int i = 0; i < hitsInfo.Length; i++)
         {
-            file.Store8((byte)(attempt.HitsInfo[i] == -1 ? 255 : Math.Min(254, attempt.HitsInfo[i] * (254 / 55))));
+            file.Store8((byte)(hitsInfo[i] == -1 ? 255 : Math.Min(254, hitsInfo[i] * (254 / 55))));
         }
 
         file.Store64((ulong)attempt.ReplaySkips.Count);

@@ -6,15 +6,16 @@ public partial class Graph : ColorRect
     {
         Color hitColor = new(0x00ff00ff);
         Color missColor = new(0xff000044);
+        Color deathColor = new(0xffff00ff);
 
         var attempt = Game.Attempt;
         float[] hitsInfo = attempt.IsReplay ? attempt.Replays[0].Notes : attempt.HitsInfo;
         float deathTime = (float)(attempt.IsReplay ? attempt.MaxReplayLength : attempt.DeathTime);
 
-        for (ulong i = 0; i < (ulong)hitsInfo.Length; i++)
+        for (ulong i = attempt.FirstNote; i < (ulong)hitsInfo.Length; i++)
         {
             float offset = hitsInfo[i];
-            float ms = attempt.Map.Notes[i + attempt.FirstNote].Millisecond;
+            float ms = attempt.Map.Notes[i].Millisecond;
             float noteProgress = ms / attempt.Map.Length;
 
             if (ms > deathTime)
@@ -36,7 +37,11 @@ public partial class Graph : ColorRect
         if (deathTime >= 0)
         {
             int position = (int)(Size.X * deathTime / attempt.Map.Length);
-            DrawLine(Vector2.Right * position, new(position, Size.Y), new(0xffff00), 3);
+
+            if (position < Size.X)
+            {
+                DrawLine(Vector2.Right * position, new(position, Size.Y), deathColor, 3);
+            }
         }
     }
 }
