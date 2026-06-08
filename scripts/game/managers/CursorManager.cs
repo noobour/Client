@@ -79,7 +79,7 @@ public partial class CursorManager : Node
     {
         if (instant)
         {
-            cursors[cursorIndex].Transparency = 1 - (float)settings.CursorOpacity / 100;
+            cursors[cursorIndex].Transparency = 1 - (float)settings.CursorOpacity;
         }
         else
         {

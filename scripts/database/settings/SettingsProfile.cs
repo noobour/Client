@@ -676,7 +676,7 @@ public partial class SettingsProfile
             }
         };
 
-        CursorOpacity = new(100)
+        CursorOpacity = new(1)
         {
             Id = "CursorOpacity",
             Title = "Cursor Opacity",
@@ -684,9 +684,9 @@ public partial class SettingsProfile
             Section = SettingsSection.Visual,
             Slider = new()
             {
-                Step = 1,
+                Step = 0.05f,
                 MinValue = 0,
-                MaxValue = 100
+                MaxValue = 1
             }
         };
 

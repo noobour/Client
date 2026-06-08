@@ -21,12 +21,12 @@ public partial class Grid : MeshInstance3D, IUIComponent
     public void Init()
     {
         Cursor ??= GetNode<MeshInstance3D>("Cursor");
-        (Cursor.Mesh as QuadMesh).Size = new Vector2((float)(Constants.CURSOR_SIZE * Runner.Attempt.Settings.CursorScale.Value), (float)(Constants.CURSOR_SIZE * Runner.Attempt.Settings.CursorScale.Value));
+        (Cursor.Mesh as QuadMesh).Size = new Vector2((float)(Constants.CURSOR_SIZE * Runner.Attempt.Settings.CursorScale), (float)(Constants.CURSOR_SIZE * Runner.Attempt.Settings.CursorScale));
 
         (Cursor.GetActiveMaterial(0) as StandardMaterial3D).AlbedoTexture = SkinManager.Instance.Skin.CursorImage;
 
         // Cursor Transparency
-        float alpha = Math.Clamp((float)Runner.Attempt.Settings.CursorOpacity.Value / 100, 0, 1);
+        float alpha = Math.Clamp((float)Runner.Attempt.Settings.CursorOpacity, 0, 1);
         Cursor.Transparency = 1f - alpha;
 
         CursorTrail ??= GetNode<MultiMeshInstance3D>("CursorTrail");
