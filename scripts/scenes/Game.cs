@@ -86,7 +86,7 @@ public partial class Game : BaseScene
         {
             if (Attempt.IsReplay)
             {
-                ReplayManager.PauseReplay();
+                ReplayManager.TogglePause();
             }
             else if (PlaytestOverlay.PlaytestInit == false && Rhythia.TempMode)
             {
