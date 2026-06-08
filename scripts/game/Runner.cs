@@ -338,11 +338,7 @@ public partial class Runner : Node3D
         (Renderers[0] as NoteRenderer).NoteMultiMesh.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
 
         SoundManager.BeginGameplayScope(Attempt.Map);
-
-        Playing = true;
-        firstFrame = true;
-
-        Logger.Log($"Playing map {Attempt.Map.Name}");
+        SoundManager.UpdateVolume();
 
         if (Attempt.Map.AudioBuffer != null)
         {
@@ -357,7 +353,18 @@ public partial class Runner : Node3D
 
         Attempt.MapLength += Constants.HIT_WINDOW;
 
-        SoundManager.UpdateVolume();
+        if (Attempt.IsReplay)
+        {
+            for (int i = 0; i < Attempt.Replays.Length; i++)
+            {
+                Attempt.Replays[i].FrameIndex = 0;
+            }
+        }
+
+        Playing = true;
+        firstFrame = true;
+
+        Logger.Log($"Playing map {Attempt.Map.Name}");
     }
 
     // public void Pause()
@@ -416,7 +423,6 @@ public partial class Runner : Node3D
         Playing = false;
         StopQueued = false;
         Attempt.Stopped = true;
-        GD.Print("runner stopped");
 
         if (eventsConnected)
         {
