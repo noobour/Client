@@ -290,7 +290,7 @@ public partial class ReplayManager : Node
             {
                 break;
             }
-            else if (note.Millisecond < seekedTime)
+            else if (note.Millisecond < seekedTime && note.Index >= (int)att.FirstNote)
             {
                 bool missed = att.Replays[0].Notes[i] == -1;
 
