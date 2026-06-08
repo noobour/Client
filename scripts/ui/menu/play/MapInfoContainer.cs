@@ -271,6 +271,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
 
             if (seek && SoundManager.Song.Playing)
             {
+                preview.Seek(Lobby.StartFrom);
                 SoundManager.Song.Seek((float)Lobby.StartFrom / 1000);
             }
         }
