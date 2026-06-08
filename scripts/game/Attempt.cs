@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public partial class Attempt : GodotObject
+public partial class Attempt : RefCounted
 {
     public ulong TimeStarted;
     public double DeathTime = -1;
