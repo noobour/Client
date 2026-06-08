@@ -367,10 +367,17 @@ public partial class Runner : Node3D
         Logger.Log($"Playing map {Attempt.Map.Name}");
     }
 
-    // public void Pause()
-    // {
+    public void Pause(bool? pause = null)
+    {
+        Playing = pause ?? !Playing;
+        SoundManager.Song.PitchScale = (float)Speed;
+        SoundManager.Song.StreamPaused = !Playing;
 
-    // }
+        if (Playing)
+        {
+            SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset) / 1000);
+        }
+    }
 
     public void Skip()
     {

@@ -250,14 +250,7 @@ public partial class ReplayManager : Node
 
     public void TogglePause()
     {
-        Runner.Playing = !Runner.Playing;
-        SoundManager.Song.PitchScale = (float)Runner.Speed;
-        SoundManager.Song.StreamPaused = !Runner.Playing;
-
-        if (Runner.Playing)
-        {
-            SoundManager.Song.Seek((float)(Runner.Attempt.Progress - Runner.Attempt.Settings.LocalOffset) / 1000);
-        }
+        Runner.Pause();
 
         string texturePath = Runner.Playing
             ? "res://textures/ui/pause.png"
