@@ -394,6 +394,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_tkeab")
 
 [node name="News" type="PanelContainer" parent="Menus/Home" unique_id=1879796237]
+visible = false
 material = SubResource("ShaderMaterial_dr6yk")
 layout_mode = 1
 anchors_preset = -1
@@ -1680,7 +1681,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("19_c6nra")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "Rhythia [font_size=12][color=ffffffa0]0.1.2 (early-26apr30)"
+text = "Rhythia [font_size=12][color=ffffffa0]runner-rewrite"
 shortcut_keys_enabled = false
 vertical_alignment = 1
 
