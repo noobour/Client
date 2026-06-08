@@ -24,7 +24,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
             },
             MaterialOverride = new StandardMaterial3D()
             {
-                Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+                Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass,
                 ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
                 SpecularMode = BaseMaterial3D.SpecularModeEnum.Disabled,
                 DisableFog = true,
