@@ -11,7 +11,7 @@ public partial class Attempt : RefCounted
     public Map Map;
     public CameraMode CameraMode { get; set; } = new CameraLock();
     public List<Modifier> Modifiers { get; set; } = [];
-    public Dictionary<Type, IList<ITimelineObject>> Objects { get; set; } = [];
+    public Dictionary<Type, List<ITimelineObject>> Objects { get; set; } = [];
     public SettingsProfile Settings;
     public bool UseFadeOut = true;
     public bool IsReplay = false;
@@ -27,7 +27,6 @@ public partial class Attempt : RefCounted
     public double Speed;
     public double StartFrom;
     public double MapLength;
-    public uint PassedNotes = 0;
 
     public double Accuracy = 100;
     public double Health = 100;
@@ -73,8 +72,9 @@ public partial class Attempt : RefCounted
         Map = map;
         Speed = speed;
         StartFrom = startFrom;
+        MapLength = Math.Max(SoundManager.Song.Stream.GetLength() * 1000, Map.Length + 1000);
         Players = players ?? [];
-        Progress = Speed * -1000 - Settings.ApproachTime.Value * 1000 + StartFrom;
+        Progress = Speed * -1000 - Settings.ApproachTime * 1000 + StartFrom;
         ComboMultiplierIncrement = Math.Max(2, (uint)Map.Notes.Length / 200);
         CameraMode = cameraMode;
         Modifiers = mods;

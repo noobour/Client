@@ -19,4 +19,14 @@ public abstract class AnimationObject : ITimelineObject
     {
         throw new System.NotImplementedException();
     }
+
+    public bool DoProcess(Runner runner)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Process(Runner runner)
+    {
+        throw new System.NotImplementedException();
+    }
 }

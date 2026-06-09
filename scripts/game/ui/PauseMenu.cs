@@ -23,28 +23,7 @@ public partial class PauseMenu : Panel
         {
             SettingsMenu.Instance.ShowMenu();
         };
-        quit.Pressed += () =>
-        {
-            var attempt = runner.Attempt;
-
-            if (attempt.Alive)
-            {
-                SoundManager.FailSound.Play();
-            }
-
-            if (!attempt.IsReplay)
-            {
-                attempt.Alive = false;
-                attempt.Qualifies = false;
-
-                if (attempt.DeathTime == -1)
-                {
-                    attempt.DeathTime = Math.Max(0, attempt.Progress);
-                }
-            }
-
-            runner.Stop();
-        };
+        quit.Pressed += runner.GiveUp;
     }
 
     public void ShowMenu(bool show = true, bool instant = false)
