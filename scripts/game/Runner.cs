@@ -158,7 +158,7 @@ public partial class Runner : Node3D
             // hopefully no more than 2^31
             int startIndex = ObjectIndicesStart[type];
 
-            ObjectIndicesEnd[type] = entry.Value.Count;
+            ObjectIndicesEnd[type] = objects.Count;
 
             for (int i = startIndex; i < objects.Count; i++)
             {
@@ -177,7 +177,7 @@ public partial class Runner : Node3D
                         break;
                     }
 
-                    if (obj.Index == ObjectIndicesStart[type] && (obj.Millisecond < Attempt.Progress || obj.Millisecond < Attempt.StartFrom))
+                    if (obj.Index == ObjectIndicesStart[type] && obj.Millisecond < Math.Max(Attempt.Progress, Attempt.StartFrom))
                     {
                         ObjectIndicesStart[type]++;
                     }
