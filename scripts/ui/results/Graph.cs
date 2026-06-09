@@ -18,7 +18,7 @@ public partial class Graph : ColorRect
             float ms = attempt.Map.Notes[i].Millisecond;
             float noteProgress = ms / attempt.Map.Length;
 
-            if (ms > deathTime && deathTime > 0)
+            if (ms > deathTime && deathTime != -1)
             {
                 break;
             }
