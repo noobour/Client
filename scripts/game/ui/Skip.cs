@@ -31,7 +31,7 @@ public partial class Skip : UIComponent
 
     public void OnSkipAvailable(Attempt attempt)
     {
-        if (attempt.PassedNotes >= attempt.Map.Notes.Length)
+        if (Runner.ObjectIndicesStart[typeof(Note)] >= attempt.Map.Notes.Length)
         {
             label.Text = "Press Space to complete";
         }

@@ -1,5 +1,4 @@
 using System;
-using Godot;
 
 /// <summary>
 /// Base interface for a map object
@@ -12,13 +11,23 @@ public interface ITimelineObject : IComparable<ITimelineObject>
     /// </summary>
     int Id { get; }
 
-    ///// <summary>
-    ///// Index position of the <see cref="ITimelineObject"/>
-    ///// </summary>
-    //public int Index { get; }
+    /// <summary>
+    /// Index position of the <see cref="ITimelineObject"/>
+    /// </summary>
+    int Index { get; }
 
     /// <summary>
     /// Millisecond timing for the <see cref="ITimelineObject"/>
     /// </summary>
     int Millisecond { get; }
+
+    /// <summary>
+    /// Checks if the <see cref="ITimelineObject"/> should be processed by its associated <see cref="Runner"/>
+    /// </summary>
+    bool DoProcess(Runner runner);
+
+    /// <summary>
+    /// Compute game logic on the <see cref="ITimelineObject"/> from its associated <see cref="Runner"/>
+    /// </summary>
+    void Process(Runner runner);
 }

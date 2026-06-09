@@ -1,6 +1,3 @@
-using System;
-using Godot;
-
 /// <summary>
 /// Represents a interactable object inside the map
 /// </summary>
@@ -16,9 +13,9 @@ public interface IHitObject : ITimelineObject
     /// </summary>
     float Y { get; set; }
 
-    ///// <summary>
-    ///// Hit window for the <see cref="IHitObject"/>
-    ///// </summary>
+    /// <summary>
+    /// Hit window for the <see cref="IHitObject"/>
+    /// </summary>
     //int HitWindow { get; }
 
     /// <summary>
@@ -34,9 +31,8 @@ public interface IHitObject : ITimelineObject
     /// <summary>
     /// Check if <see cref="IHitObject"/> is hit based on the given attempt data<see cref="IHitObject"/>
     /// </summary>
-    /// <param name="attempt"><see cref="Attempt"/>/param>
     /// <returns>
-    /// A HitResult enum (None -> not hittable, Hit, Miss)
+    /// A <see cref="HitResult"/> enum (None -> not hittable, Hit, Miss)
     /// </returns>
     HitResult CheckHitResult(Attempt attempt);
 }

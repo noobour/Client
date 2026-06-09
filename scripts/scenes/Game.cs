@@ -58,7 +58,7 @@ public partial class Game : BaseScene
 
         PlayerInputController.OnTogglePaused += () =>
         {
-            if (Attempt.PassedNotes > 0 && Attempt.Progress < Attempt.Map.Notes[^1].Millisecond)
+            if (Runner.ObjectIndicesStart[typeof(Note)] > 0 && Attempt.Progress < Attempt.Map.Notes[^1].Millisecond)
             {
                 Attempt.Qualifies = false;
             }
@@ -185,9 +185,7 @@ public partial class Game : BaseScene
 
     public void Restart()
     {
-        Attempt.Alive = false;
-        Attempt.Qualifies = false;
-
+        Runner.Fail();
         Runner.Stop(false);
 
         var oldAttempt = Attempt;

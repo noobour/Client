@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class NoteRenderer : Renderer, IRenderer<Note>
@@ -120,14 +121,17 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 
     public override void Process(double delta, Attempt attempt)
     {
-        if (!attempt.Objects.ContainsKey(typeof(Note)))
+        var type = typeof(Note);
+
+        if (!attempt.Objects.TryGetValue(type, out var notes))
         {
             return;
         }
 
-        // var notes = (List<Note>)attempt.Objects[typeof(Note)];
-        var notes = runner.ProcessNotes;
+        int start = runner.ObjectIndicesStart[type];
+        int end = runner.ObjectIndicesEnd[type];
+        notes = notes[start..end];
 
-        Render(delta, attempt.Progress, notes);
+        Render(delta, attempt.Progress, [.. notes.Cast<Note>()]);
     }
 }
