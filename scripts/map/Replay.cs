@@ -123,6 +123,7 @@ public struct Replay
 
             foreach (string modName in rawMods)
             {
+                // i hate this
                 switch (modName)
                 {
                     case "NoFail":
@@ -136,6 +137,9 @@ public struct Replay
                         break;
                     case "Earthquake":
                         Modifiers.Add(new EarthquakeModifier());
+                        break;
+                    case "Vortex":
+                        Modifiers.Add(new VortexModifier());
                         break;
                     case "VFlip":
                         Modifiers.Add(new VerticalFlipModifier());
