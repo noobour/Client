@@ -185,6 +185,7 @@ public partial class Rhythia : Node
             new StrobeModifier(),
             new ChaosModifier(),
             new EarthquakeModifier(),
+            new VortexModifier(),
             new HorizontalFlipModifier(),
             new VerticalFlipModifier()
         ];
