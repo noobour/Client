@@ -131,6 +131,18 @@ public struct Replay
                     case "Ghost":
                         Modifiers.Add(new GhostModifier());
                         break;
+                    case "Chaos":
+                        Modifiers.Add(new ChaosModifier());
+                        break;
+                    case "Earthquake":
+                        Modifiers.Add(new EarthquakeModifier());
+                        break;
+                    case "VFlip":
+                        Modifiers.Add(new VerticalFlipModifier());
+                        break;
+                    case "HFlip":
+                        Modifiers.Add(new HorizontalFlipModifier());
+                        break;
                     case "Spin":
                         CameraMode = new CameraSpin();
                         break;
