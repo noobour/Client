@@ -5,6 +5,8 @@ public class ChaosModifier : Modifier, IObjectRenderModifier<Note>
 {
     public override string Name => "Chaos";
 
+    public override Color Color => new(0xff6198ff);
+
     public override bool Rankable => true;
 
     public override double ScoreMultiplier => 1.015;

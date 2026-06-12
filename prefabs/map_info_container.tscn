@@ -618,6 +618,7 @@ size_flags_vertical = 4
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_4d08m")
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 0.6431373)
 theme_override_constants/icon_max_width = 42
 toggle_mode = true
 icon = ExtResource("8_wk5qh")

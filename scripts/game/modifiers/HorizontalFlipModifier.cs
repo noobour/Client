@@ -1,6 +1,10 @@
+using Godot;
+
 public class HorizontalFlipModifier : Modifier, IMapModifier
 {
     public override string Name => "HFlip";
+
+    public override Color Color => new(0xffffffff);
 
     public override bool Rankable => true;
 

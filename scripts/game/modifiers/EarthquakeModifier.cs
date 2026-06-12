@@ -5,6 +5,8 @@ public class EarthquakeModifier : Modifier, IObjectRenderModifier<Note>
 {
     public override string Name => "Earthquake";
 
+    public override Color Color => new(0xff4400ff);
+
     public override bool Rankable => true;
 
     public override double ScoreMultiplier => 1.01;
