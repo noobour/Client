@@ -528,7 +528,7 @@ public partial class Runner : Node3D
     {
         if (Attempt.HasHealthModifier)
         {
-            foreach (var mod in Attempt.Modifiers.Where(mod => mod is IHealthModifier healthMod))
+            foreach (var mod in Attempt.Modifiers.Where(mod => mod is IHealthModifier))
             {
                 Attempt.Health = (mod as IHealthModifier).ApplyHealthResult(hit, Attempt.Health);
 
