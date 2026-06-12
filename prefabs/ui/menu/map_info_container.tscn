@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cgxbwx4f28lt2" path="res://user/skins/default/ui/buttons/copy.png" id="7_oibm8"]
 [ext_resource type="PackedScene" uid="uid://kwoco4d2gdqc" path="res://prefabs/ui/menu/speed_preset_button.tscn" id="8_i21mh"]
 [ext_resource type="Texture2D" uid="uid://xd005fiv7qgg" path="res://user/skins/default/ui/buttons/delete.png" id="8_ssthb"]
-[ext_resource type="Texture2D" uid="uid://6ptjvvnn8jhm" path="res://user/skins/default/modifiers/nofail.png" id="8_wk5qh"]
+[ext_resource type="Texture2D" uid="uid://b0k0ltu15bart" path="res://user/skins/default/modifiers/nofail.png" id="8_wk5qh"]
 [ext_resource type="Texture2D" uid="uid://40acunj8wr8e" path="res://user/skins/default/ui/buttons/speed_minus_minus.png" id="11_1jb84"]
 [ext_resource type="Script" uid="uid://cm7n8tbhupiqu" path="res://scripts/ui/menu/play/CameraModes.cs" id="11_ne4r3"]
 [ext_resource type="Script" uid="uid://3olp17mlwm8c" path="res://scripts/ui/menu/play/Modifiers.cs" id="12_1m5pv"]
