@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Godot;
+using System;
 
 /// <summary>
 /// Base class for modifiers
 /// </summary>
-public abstract class Modifier : IModifier
+public abstract class Modifier
 {
     public abstract string Name { get; }
+
+    public abstract Color Color { get; }
 
     /// <summary>
     /// Determines if the <see cref="Modifier"/> was used

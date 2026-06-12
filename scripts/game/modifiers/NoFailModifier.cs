@@ -1,6 +1,10 @@
-﻿public class NoFailModifier : Modifier, IFailModifier
+﻿using Godot;
+
+public class NoFailModifier : Modifier, IFailModifier
 {
     public override string Name => "NoFail";
+
+    public override Color Color => new(0x20e12cff);
 
     public bool IsFail => false;
 
