@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0k0ltu15bart"
-path="res://.godot/imported/nofail.png-41ae6f785118cf09cdb55eae4ced59b7.ctex"
+uid="uid://dpif45ab0c548"
+path="res://.godot/imported/vortex.png-7059cfe7c23fe3a6802a10066542b058.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://user/skins/default/modifiers/nofail.png"
-dest_files=["res://.godot/imported/nofail.png-41ae6f785118cf09cdb55eae4ced59b7.ctex"]
+source_file="res://user/skins/default/modifiers/vortex.png"
+dest_files=["res://.godot/imported/vortex.png-7059cfe7c23fe3a6802a10066542b058.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0k0ltu15bart"
-path="res://.godot/imported/nofail.png-41ae6f785118cf09cdb55eae4ced59b7.ctex"
+uid="uid://c87cbrqobjokc"
+path="res://.godot/imported/vflip.png-b8598d01dae9d13f4207ae0fb3dc9b19.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://user/skins/default/modifiers/nofail.png"
-dest_files=["res://.godot/imported/nofail.png-41ae6f785118cf09cdb55eae4ced59b7.ctex"]
+source_file="res://user/skins/default/modifiers/vflip.png"
+dest_files=["res://.godot/imported/vflip.png-b8598d01dae9d13f4207ae0fb3dc9b19.ctex"]
 
 [params]
 

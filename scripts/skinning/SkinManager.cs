@@ -118,6 +118,12 @@ public partial class SkinManager : Node
 
         skin.ModNoFailImage = loadTexture("modifiers/nofail.png");
         skin.ModGhostImage = loadTexture("modifiers/ghost.png");
+        skin.ModStrobeImage = loadTexture("modifiers/strobe.png");
+        skin.ModChaosImage = loadTexture("modifiers/chaos.png");
+        skin.ModVortexImage = loadTexture("modifiers/vortex.png");
+        skin.ModEarthquakeImage = loadTexture("modifiers/earthquake.png");
+        skin.ModHFlipImage = loadTexture("modifiers/hflip.png");
+        skin.ModVFlipImage = loadTexture("modifiers/vflip.png");
 
         // Shaders
 

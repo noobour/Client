@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0k0ltu15bart"
-path="res://.godot/imported/nofail.png-41ae6f785118cf09cdb55eae4ced59b7.ctex"
+uid="uid://d0nlxmpnxo04d"
+path="res://.godot/imported/strobe.png-a96f1ff391212c861da8a13b07e7b473.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://user/skins/default/modifiers/nofail.png"
-dest_files=["res://.godot/imported/nofail.png-41ae6f785118cf09cdb55eae4ced59b7.ctex"]
+source_file="res://user/skins/default/modifiers/strobe.png"
+dest_files=["res://.godot/imported/strobe.png-a96f1ff391212c861da8a13b07e7b473.ctex"]
 
 [params]
 

@@ -109,6 +109,18 @@ public partial class SkinProfile : RefCounted
 
     public ImageTexture ModGhostImage { get; set; } = new();
 
+    public ImageTexture ModStrobeImage { get; set; } = new();
+
+    public ImageTexture ModChaosImage { get; set; } = new();
+
+    public ImageTexture ModVortexImage { get; set; } = new();
+
+    public ImageTexture ModEarthquakeImage { get; set; } = new();
+
+    public ImageTexture ModHFlipImage { get; set; } = new();
+
+    public ImageTexture ModVFlipImage { get; set; } = new();
+
     public ImageTexture BackgroundTileImage { get; set; } = new();
 
     public Shader BackgroundTileShader { get; set; } = new();
