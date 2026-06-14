@@ -864,8 +864,7 @@ public partial class SettingsProfile
             Section = SettingsSection.Video,
             UpdateAction = (value, _) =>
             {
-                // TODO: Update this check when new runner is merged
-                if (SceneManager.Scene is not LegacyRunner)
+                if (SceneManager.Scene is not Game)
                 {
                     DisplayServer.WindowSetVsyncMode(value ? DisplayServer.VSyncMode.Adaptive : DisplayServer.VSyncMode.Disabled);
                 }

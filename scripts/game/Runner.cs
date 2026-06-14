@@ -442,8 +442,6 @@ public partial class Runner : Node3D
             Stats.Instance.ForceUpdate();
         }
 
-        DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
-
         if (results)
         {
             SceneManager.Load("res://scenes/results.tscn");

@@ -36,7 +36,7 @@
 [ext_resource type="Script" uid="uid://dhrqgv44b65ls" path="res://scripts/game/ui/Skip.cs" id="25_nepv3"]
 [ext_resource type="Script" uid="uid://ddtnij8m4eipl" path="res://scripts/game/ui/Grid.cs" id="27_js0lu"]
 [ext_resource type="Script" uid="uid://b7jvxorkr4xfi" path="res://scripts/game/ui/Speed.cs" id="28_gxtfn"]
-[ext_resource type="Texture2D" uid="uid://6ptjvvnn8jhm" path="res://user/skins/default/modifiers/nofail.png" id="34_8ool0"]
+[ext_resource type="Texture2D" uid="uid://b0k0ltu15bart" path="res://user/skins/default/modifiers/nofail.png" id="34_8ool0"]
 [ext_resource type="Script" uid="uid://cvaggwr3rrenl" path="res://scripts/game/renderers/NoteRenderer.cs" id="34_pr1ej"]
 [ext_resource type="Script" uid="uid://c8d872aoiqglo" path="res://scripts/PlayerInputController.cs" id="37_02fa5"]
 [ext_resource type="Script" uid="uid://dlxxg2h4cl5hj" path="res://scripts/game/ui/PauseMenu.cs" id="38_8ool0"]
