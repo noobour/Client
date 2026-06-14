@@ -3,7 +3,6 @@
 [ext_resource type="Theme" uid="uid://cghiovcujtcmd" path="res://themes/tools.tres" id="1_8e7i7"]
 [ext_resource type="Script" uid="uid://31ifsk7c81fo" path="res://scripts/scenes/SkinEditor.cs" id="1_rshsi"]
 [ext_resource type="Texture2D" uid="uid://bk7vw0sdy4nko" path="res://textures/ui/tools/return.png" id="3_75xqb"]
-[ext_resource type="PackedScene" uid="uid://vp1nmsiqt5yv" path="res://scenes/game.tscn" id="3_qpw8j"]
 [ext_resource type="Texture2D" uid="uid://men3chmi3esy" path="res://textures/ui/add.png" id="4_8fc04"]
 [ext_resource type="Script" uid="uid://crmeh2sdr5yig" path="res://scripts/ui/skin_editor/SkinExplorer.cs" id="4_kei0g"]
 [ext_resource type="FontFile" uid="uid://cy0j4j61g2dv6" path="res://fonts/Roboto-Regular.ttf" id="4_r1eba"]
@@ -616,9 +615,6 @@ handle_input_locally = false
 gui_disable_input = true
 size = Vector2i(818, 609)
 render_target_update_mode = 4
-
-[node name="SceneGame" parent="Container/Editor/Docks/Preview/MarginContainer/VBoxContainer/Panel/SubViewportContainer/SubViewport" unique_id=909809067 instance=ExtResource("3_qpw8j")]
-script = null
 
 [node name="Selection" type="ColorRect" parent="Container/Editor" unique_id=654134356]
 visible = false

@@ -495,7 +495,7 @@ text = "SETTINGS"
 alignment = 0
 script = ExtResource("8_yxnar")
 
-[node name="Skin Editor" type="Button" parent="Menus/Home/Buttons" unique_id=1576645758]
+[node name="SkinEditor" type="Button" parent="Menus/Home/Buttons" unique_id=1576645758]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
