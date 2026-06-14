@@ -10,6 +10,6 @@ public partial class HUD : SkinCategory
 
     public HUD()
     {
-        Objects = [ Screen, World ];
+        Objects = [Screen, World];
     }
 }

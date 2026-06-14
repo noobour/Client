@@ -6,85 +6,85 @@ using Skinning;
 
 public partial class SkinProperties : Panel
 {
-	/// <summary>
-	/// Currently selected SkinObject to edit properties of.
-	/// </summary>
-	public SkinObject SkinObject;
+    /// <summary>
+    /// Currently selected SkinObject to edit properties of.
+    /// </summary>
+    public SkinObject SkinObject;
 
-	[Export]
-	private VBoxContainer itemContainer;
+    [Export]
+    private VBoxContainer itemContainer;
 
-	private Dictionary<string, Stack<SkinPropertyItem>> itemCache = [];
+    private Dictionary<string, Stack<SkinPropertyItem>> itemCache = [];
 
-	private List<SkinPropertyItem> items = [];
+    private List<SkinPropertyItem> items = [];
 
-	private readonly PackedScene itemTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_property_item.tscn");
+    private readonly PackedScene itemTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_property_item.tscn");
 
-	public override void _Ready()
-	{
+    public override void _Ready()
+    {
 
-	}
+    }
 
     /// <summary>
     /// 
     /// </summary>
 	public void BuildProperties(SkinObject skinObject)
-	{
-		if (SkinObject == skinObject)
-		{
-			return;
-		}
+    {
+        if (SkinObject == skinObject)
+        {
+            return;
+        }
 
-		SkinObject = skinObject;
+        SkinObject = skinObject;
 
-		ClearProperties();
+        ClearProperties();
 
-		if (skinObject != null)
-		{
-			foreach (var p in skinObject.GetProperties())
-			{
-				BuildProperty(p.Name, p.PropertyType.Name, p.GetValue(skinObject));
-			}
-		}
-	}
+        if (skinObject != null)
+        {
+            foreach (var p in skinObject.GetProperties())
+            {
+                BuildProperty(p.Name, p.PropertyType.Name, p.GetValue(skinObject));
+            }
+        }
+    }
 
     /// <summary>
     /// 
     /// </summary>
 	public void ClearProperties(bool cache = true)
-	{
-		foreach(var item in items)
-		{
-			if (cache)
-			{
-				itemCache[item.Type].Push(item);
-				item.GetParent()?.RemoveChild(item);
-			}
-			else
-			{
-				item.QueueFree();
-			}
-		}
+    {
+        foreach (var item in items)
+        {
+            if (cache)
+            {
+                itemCache[item.Type].Push(item);
+                item.GetParent()?.RemoveChild(item);
+            }
+            else
+            {
+                item.QueueFree();
+            }
+        }
 
-		items = [];
-	}
+        items = [];
+    }
 
-	/// <summary>
-	/// 
-	/// </summary>
-	public SkinPropertyItem BuildProperty(string name, string type, object value)
-	{
-		var item = createItem(type);
+    /// <summary>
+    /// 
+    /// </summary>
+    public SkinPropertyItem BuildProperty(string name, string type, object value)
+    {
+        var item = createItem(type);
 
-		item.SetProperty(name, type, value);
-		items.Add(item);
-		itemContainer.AddChild(item);
+        item.SetProperty(name, type, value);
+        items.Add(item);
+        itemContainer.AddChild(item);
 
-		return item;
-	}
+        return item;
+    }
 
-	private SkinPropertyItem createItem(string type)
-	{
+    private SkinPropertyItem createItem(string type)
+    {
         if (!itemCache.TryGetValue(type, out var typeCache))
         {
             typeCache = [];
@@ -92,14 +92,14 @@ public partial class SkinProperties : Panel
         }
 
         if (typeCache.TryPop(out var item))
-		{
-			return item;
-		}
+        {
+            return item;
+        }
 
-		item = itemTemplate.Instantiate<SkinPropertyItem>();
+        item = itemTemplate.Instantiate<SkinPropertyItem>();
 
 
 
-		return item;
-	}
+        return item;
+    }
 }

@@ -3,168 +3,168 @@ using Skinning;
 
 public partial class SkinExplorerItem : HBoxContainer
 {
-	public SkinObject SkinObject;
+    public SkinObject SkinObject;
 
-	public SkinExplorerItem Parent;
+    public SkinExplorerItem Parent;
 
-	public bool Collapsed = false;
+    public bool Collapsed = false;
 
-	[Signal]
-	public delegate void SelectedEventHandler();
+    [Signal]
+    public delegate void SelectedEventHandler();
 
-	[Export]
-	private HBoxContainer infoContainer;
+    [Export]
+    private HBoxContainer infoContainer;
 
-	[Export]
-	private Button select;
+    [Export]
+    private Button select;
 
-	[Export]
-	private Label label;
+    [Export]
+    private Label label;
 
-	[Export]
-	private TextureRect icon;
+    [Export]
+    private TextureRect icon;
 
-	[Export]
-	private Button add;
+    [Export]
+    private Button add;
 
-	[Export]
-	private Button delete;
+    [Export]
+    private Button delete;
 
-	[Export]
-	private VBoxContainer childrenContainer;
+    [Export]
+    private VBoxContainer childrenContainer;
 
-	[Export]
-	private Control hoverHighlight;
+    [Export]
+    private Control hoverHighlight;
 
-	[Export]
-	private Control selectHighlight;
+    [Export]
+    private Control selectHighlight;
 
-	[Export]
-	private Control hierarchyContainer;
+    [Export]
+    private Control hierarchyContainer;
 
-	[Export]
-	private Button collapse;
+    [Export]
+    private Button collapse;
 
-	[Export]
-	private Control lineContainer;
+    [Export]
+    private Control lineContainer;
 
-	[Export]
-	private Control lineVertical;
+    [Export]
+    private Control lineVertical;
 
-	[Export]
-	private Button lineButton;
+    [Export]
+    private Button lineButton;
 
-	[Export]
-	private Texture2D foldIcon;
+    [Export]
+    private Texture2D foldIcon;
 
-	[Export]
-	private Texture2D unfoldIcon;
+    [Export]
+    private Texture2D unfoldIcon;
 
-	private readonly PackedScene propertyTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_property_item.tscn");
+    private readonly PackedScene propertyTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_property_item.tscn");
 
-	public override void _Ready()
-	{
-		infoContainer.MouseEntered += () => updateHover(true);
-		infoContainer.MouseExited += () => updateHover(false);
+    public override void _Ready()
+    {
+        infoContainer.MouseEntered += () => updateHover(true);
+        infoContainer.MouseExited += () => updateHover(false);
 
-		select.Pressed += () => EmitSignal(SignalName.Selected);
+        select.Pressed += () => EmitSignal(SignalName.Selected);
 
-		void setupCollapseButton(Button button)
-		{
-			button.MouseEntered += () => { hierarchyContainer.Modulate = new(0xffffffff); };
-			button.MouseExited += () => { hierarchyContainer.Modulate = new(0xffffff40); };
-			button.Pressed += () => CollapseChildren(!Collapsed);
-		}
+        void setupCollapseButton(Button button)
+        {
+            button.MouseEntered += () => { hierarchyContainer.Modulate = new(0xffffffff); };
+            button.MouseExited += () => { hierarchyContainer.Modulate = new(0xffffff40); };
+            button.Pressed += () => CollapseChildren(!Collapsed);
+        }
 
-		setupCollapseButton(collapse);
-		setupCollapseButton(lineButton);
+        setupCollapseButton(collapse);
+        setupCollapseButton(lineButton);
 
-		// Add.Pressed += 
-		// Delete.Pressed +=
-	}
+        // Add.Pressed += 
+        // Delete.Pressed +=
+    }
 
-	public void SetObject(SkinObject skinObject)
-	{
-		SkinObject = skinObject;
-		
-		Name = skinObject.GUID.ToString();
-		label.Text = skinObject.Name;
-		icon.Texture = skinObject.Icon;
-		add.Visible = skinObject.Decorability != SkinObject.DecorabilityType.None;
-		delete.Visible = !skinObject.Persistent;
+    public void SetObject(SkinObject skinObject)
+    {
+        SkinObject = skinObject;
 
-		UpdateHierarchy();
-	}
+        Name = skinObject.GUID.ToString();
+        label.Text = skinObject.Name;
+        icon.Texture = skinObject.Icon;
+        add.Visible = skinObject.Decorability != SkinObject.DecorabilityType.None;
+        delete.Visible = !skinObject.Persistent;
 
-	public void AddChildItem(SkinExplorerItem item)
-	{
-		childrenContainer.AddChild(item);
-		item.Parent = this;
+        UpdateHierarchy();
+    }
 
-		CollapseChildren(false);
-		CallDeferred("UpdateHierarchy");
-	}
+    public void AddChildItem(SkinExplorerItem item)
+    {
+        childrenContainer.AddChild(item);
+        item.Parent = this;
 
-	public void RemoveChildItem(SkinExplorerItem item)
-	{
-		childrenContainer.RemoveChild(item);
-		item.Parent = null;
+        CollapseChildren(false);
+        CallDeferred("UpdateHierarchy");
+    }
 
-		UpdateHierarchy();
-	}
+    public void RemoveChildItem(SkinExplorerItem item)
+    {
+        childrenContainer.RemoveChild(item);
+        item.Parent = null;
 
-	public async void CollapseChildren(bool toggle)
-	{
-		Collapsed = toggle;
+        UpdateHierarchy();
+    }
 
-		childrenContainer.Visible = !toggle;
-		lineContainer.Visible = !toggle;
-		collapse.Icon = toggle ? unfoldIcon : foldIcon;
+    public async void CollapseChildren(bool toggle)
+    {
+        Collapsed = toggle;
 
-		if (Parent != null)
-		{
-			// bruh
-			await ToSignal(Rhythia.Instance.GetTree(), SceneTree.SignalName.ProcessFrame);
+        childrenContainer.Visible = !toggle;
+        lineContainer.Visible = !toggle;
+        collapse.Icon = toggle ? unfoldIcon : foldIcon;
 
-			Parent.UpdateHierarchy();
-		}
-	}
+        if (Parent != null)
+        {
+            // bruh
+            await ToSignal(Rhythia.Instance.GetTree(), SceneTree.SignalName.ProcessFrame);
 
-	public void UpdateHierarchy()
-	{
-		var children = childrenContainer.GetChildren();
-		bool isEmpty = children.Count == 0;
+            Parent.UpdateHierarchy();
+        }
+    }
 
-		collapse.Disabled = isEmpty;
-		collapse.SelfModulate = new(isEmpty ? 0xffffff00 : 0xffffffff);
-		collapse.MouseDefaultCursorShape = isEmpty ? CursorShape.Arrow : CursorShape.PointingHand;
-		lineButton.Disabled = isEmpty;
-		lineButton.MouseDefaultCursorShape = collapse.MouseDefaultCursorShape;
-		
-		if (!isEmpty)
-		{
-			var last = (Control)children[^1];
+    public void UpdateHierarchy()
+    {
+        var children = childrenContainer.GetChildren();
+        bool isEmpty = children.Count == 0;
 
-			lineVertical.CustomMinimumSize = new(0, last.Position.Y + CustomMinimumSize.Y / 2);
-		}
-		else
-		{
-			CollapseChildren(true);
-		}
-	}
+        collapse.Disabled = isEmpty;
+        collapse.SelfModulate = new(isEmpty ? 0xffffff00 : 0xffffffff);
+        collapse.MouseDefaultCursorShape = isEmpty ? CursorShape.Arrow : CursorShape.PointingHand;
+        lineButton.Disabled = isEmpty;
+        lineButton.MouseDefaultCursorShape = collapse.MouseDefaultCursorShape;
 
-	public void Select(bool selected = true)
-	{
-		selectHighlight.Visible = selected;
-	}
+        if (!isEmpty)
+        {
+            var last = (Control)children[^1];
 
-	public void Deselect()
-	{
-		Select(false);
-	}
+            lineVertical.CustomMinimumSize = new(0, last.Position.Y + CustomMinimumSize.Y / 2);
+        }
+        else
+        {
+            CollapseChildren(true);
+        }
+    }
 
-	private void updateHover(bool toggle)
-	{
-		hoverHighlight.Visible = toggle;
-	}
+    public void Select(bool selected = true)
+    {
+        selectHighlight.Visible = selected;
+    }
+
+    public void Deselect()
+    {
+        Select(false);
+    }
+
+    private void updateHover(bool toggle)
+    {
+        hoverHighlight.Visible = toggle;
+    }
 }

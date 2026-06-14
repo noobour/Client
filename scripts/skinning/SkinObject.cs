@@ -1,9 +1,9 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Godot;
 
 namespace Skinning;
 
@@ -46,7 +46,8 @@ public abstract partial class SkinObject : RefCounted
     /// <summary>
     /// 
     /// </summary>
-    public DecorabilityType Decorability {
+    public DecorabilityType Decorability
+    {
         get;
         protected set { field = value; Shadeable = value == DecorabilityType.Flat || value == DecorabilityType.All; }
     } = DecorabilityType.None;
@@ -125,7 +126,7 @@ public abstract partial class SkinObject : RefCounted
     public void Rename(string name)
     {
         Regex nameRegex = new("[^a-zA-Z0-9()-]");
-        
+
         Name = nameRegex.Replace(name, "_");
     }
 

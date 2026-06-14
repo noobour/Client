@@ -13,6 +13,6 @@ public partial class World : SkinObject
         Persistent = true;
         Decorability = DecorabilityType.Spatial;
 
-        AddChildren([ Grid, Notes, Cursor ]);
+        AddChildren([Grid, Notes, Cursor]);
     }
 }

@@ -15,5 +15,5 @@ public class SkinObjectProperty<[MustBeVariant] T>
     }
 
     public static implicit operator T(SkinObjectProperty<T> x) => x.Value.As<T>();
-    public override string ToString() => (string)this.Value;
+    public override string ToString() => (string)Value;
 }
