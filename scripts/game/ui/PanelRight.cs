@@ -4,11 +4,11 @@ using Godot;
 public partial class PanelRight : UIComponent
 {
     private SubViewport viewport;
-    private Label Accuracy, Hits, Misses, SimpleMisses, Sum;
+    private Label accuracy, hits, misses, simpleMisses, sum;
     private Tween hitTween;
     private Tween missTween;
-    private float _hitOpacity = 0.62f;
-    private float _missOpacity = 0.62f;
+    private float hitOpacity = 0.62f;
+    private float missOpacity = 0.62f;
 
     public override void _ExitTree()
     {
@@ -24,11 +24,11 @@ public partial class PanelRight : UIComponent
         viewport.GetNode<TextureRect>("HitsIcon").Texture = SkinManager.Instance.Skin.HitsImage;
         viewport.GetNode<TextureRect>("MissesIcon").Texture = SkinManager.Instance.Skin.MissesImage;
 
-        Accuracy = viewport.GetNode<Label>("Accuracy");
-        Hits = viewport.GetNode<Label>("Hits");
-        Misses = viewport.GetNode<Label>("Misses");
-        SimpleMisses = viewport.GetNode<Label>("SimpleMisses");
-        Sum = viewport.GetNode<Label>("Sum");
+        accuracy = viewport.GetNode<Label>("Accuracy");
+        hits = viewport.GetNode<Label>("Hits");
+        misses = viewport.GetNode<Label>("Misses");
+        simpleMisses = viewport.GetNode<Label>("SimpleMisses");
+        sum = viewport.GetNode<Label>("Sum");
 
         // Hits.LabelSettings.FontColor = Color.Color8(255, 255, 255, 140);
         // Misses.LabelSettings.FontColor = Color.Color8(255, 255, 255, 140);
@@ -41,22 +41,22 @@ public partial class PanelRight : UIComponent
             Godot.Collections.Array<Node> widgets = viewport.GetChildren();
             foreach (Node widget in widgets)
                 (widget as CanvasItem).Visible = false;
-            SimpleMisses.Visible = true;
+            simpleMisses.Visible = true;
         }
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_hitOpacity > 0.62f)
+        if (hitOpacity > 0.62f)
         {
-            _hitOpacity = Mathf.MoveToward(_hitOpacity, 0.62f, (float)delta * 1.5f);
-            Hits.Modulate = new Color(1, 1, 1, _hitOpacity);
+            hitOpacity = Mathf.MoveToward(hitOpacity, 0.62f, (float)delta * 1.5f);
+            hits.Modulate = new Color(1, 1, 1, hitOpacity);
         }
 
-        if (_missOpacity > 0.62f)
+        if (missOpacity > 0.62f)
         {
-            _missOpacity = Mathf.MoveToward(_missOpacity, 0.62f, (float)delta * 1.5f);
-            Misses.Modulate = new Color(1, 1, 1, _missOpacity);
+            missOpacity = Mathf.MoveToward(missOpacity, 0.62f, (float)delta * 1.5f);
+            misses.Modulate = new Color(1, 1, 1, missOpacity);
         }
     }
 
@@ -65,22 +65,22 @@ public partial class PanelRight : UIComponent
         switch (result)
         {
             case HitResult.Miss:
-                _missOpacity = 1.0f;
-                Misses.Modulate = new Color(1, 1, 1, 1.0f);
+                missOpacity = 1.0f;
+                misses.Modulate = new Color(1, 1, 1, 1.0f);
                 break;
             case HitResult.Hit:
-                _hitOpacity = 1.0f;
-                Hits.Modulate = new Color(1, 1, 1, 1.0f);
+                hitOpacity = 1.0f;
+                hits.Modulate = new Color(1, 1, 1, 1.0f);
                 break;
         }
     }
 
     public void OnStatsUpdated(Attempt attempt)
     {
-        Accuracy.Text = $"{(attempt.Hits + attempt.Misses == 0 ? "100.00" : $"{attempt.Accuracy:F2}")}%";
-        Hits.Text = $"{attempt.Hits}";
-        Misses.Text = $"{attempt.Misses}";
-        SimpleMisses.Text = $"{attempt.Misses}";
-        Sum.Text = Util.String.PadMagnitude(attempt.Sum.ToString());
+        accuracy.Text = $"{(attempt.Hits + attempt.Misses == 0 ? "100.00" : $"{attempt.Accuracy:F2}")}%";
+        hits.Text = $"{attempt.Hits}";
+        misses.Text = $"{attempt.Misses}";
+        simpleMisses.Text = $"{attempt.Misses}";
+        sum.Text = Util.String.PadMagnitude(attempt.Sum.ToString());
     }
 }
