@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Godot;
 
@@ -248,6 +249,12 @@ public partial class SettingsProfile
     /// </summary>
     [Order]
     public SettingsItem<int> FPS { get; private set; }
+
+    /// <summary>
+    /// Toggles V-Sync when in menus
+    /// </summary>
+    [Order]
+    public SettingsItem<bool> VSyncMenus { get; private set; }
 
     #endregion
 
@@ -644,7 +651,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "squircle", "square"]
+                Values = getAvailableMeshes()
             }
         };
 
@@ -847,6 +854,22 @@ public partial class SettingsProfile
                 MaxValue = 540,
             },
             UpdateAction = (value, _) => Engine.MaxFps = LockFPS.Value ? value : 0
+        };
+
+        VSyncMenus = new(true)
+        {
+            Id = "VSyncMenus",
+            Title = "V-Sync in Menus",
+            Description = "Toggles V-Sync when in menus",
+            Section = SettingsSection.Video,
+            UpdateAction = (value, _) =>
+            {
+                // TODO: Update this check when new runner is merged
+                if (SceneManager.Scene is not LegacyRunner)
+                {
+                    DisplayServer.WindowSetVsyncMode(value ? DisplayServer.VSyncMode.Adaptive : DisplayServer.VSyncMode.Disabled);
+                }
+            }
         };
 
         #endregion
@@ -1108,5 +1131,22 @@ public partial class SettingsProfile
     private void updateApproachTime()
     {
         ApproachTime.Value = ApproachDistance / ApproachRate;
+    }
+
+    private static List<string> getAvailableMeshes()
+    {
+        List<string> meshes = ["skin"];
+        string meshDir = $"{Constants.USER_FOLDER}/meshes";
+
+        if (Directory.Exists(meshDir))
+        {
+            string[] objFiles = Directory.GetFiles(meshDir, "*.obj");
+            foreach (string file in objFiles)
+            {
+                meshes.Add(Path.GetFileNameWithoutExtension(file));
+            }
+        }
+
+        return meshes;
     }
 }
