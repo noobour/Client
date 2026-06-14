@@ -861,9 +861,13 @@ public partial class SettingsProfile
             Title = "V-Sync in Menus",
             Description = "Toggles V-Sync when in menus",
             Section = SettingsSection.Video,
-            UpdateAction = (value, _) => DisplayServer.WindowSetVsyncMode(
-                value ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled
-            )
+            UpdateAction = (value, _) =>
+            {
+                if (SceneManager.Scene is not Game)
+                {
+                    DisplayServer.WindowSetVsyncMode(value ? DisplayServer.VSyncMode.Adaptive : DisplayServer.VSyncMode.Disabled);
+                }
+            }
         };
 
         #endregion
