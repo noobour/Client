@@ -28,15 +28,5 @@ public partial class Constants : Node
 
     public static readonly string[] DIFFICULTIES = ["N/A", "Easy", "Medium", "Hard", "Insane", "Illogical"];
 
-    public static readonly Color[] DIFFICULTY_COLORS = [Color.FromHtml("ffffff"), Color.FromHtml("77f379"), Color.FromHtml("fff832"), Color.FromHtml("e24479"), Color.FromHtml("9d6eff"), Color.FromHtml("0094fc")];
-
-    public static readonly Godot.Collections.Dictionary<string, double> MODS_MULTIPLIER_INCREMENT = new()
-    {
-        ["NoFail"] = 0,
-        ["Ghost"] = 0.0675,
-        // ["Spin"] = 0.18,
-        // ["Flashlight"] = 0.1,
-        // ["Chaos"] = 0.07,
-        // ["HardRock"] = 0.08
-    };
+    public static readonly Color[] DIFFICULTY_COLORS = [new(0xffffffff), new(0x77f379ff), new(0xfff832ff), new(0xe24479ff), new(0x9d6effff), new(0x0094fcff)];
 }

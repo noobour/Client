@@ -2,29 +2,21 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-public class Note : IHitObject, IAnimatableObject<NoteAnimation>, IComparable<Note>
+public partial class Note : IHitObject, IAnimatableObject<NoteAnimation>, IComparable<Note>
 {
     public int Id => (int)ObjectType.Note;
-
-    public int ObjectID { get; } = 0;     // map object type id
-
-    public int Index;                  // note index within the map
-
+    public int Index { get; set; } = -1;
     public int Millisecond { get; set; }
 
-    public Tween CurrentTween { get; set; }
-
-    public List<NoteAnimation> AnimationObjects { get; set; }
-
     public float X { get; set; }
-
     public float Y { get; set; }
-
-    public float Transparency { get; set; } = 1;
-
-    public bool Hit { get; set; } = false;
-
     public bool Hittable { get; set; } = false;
+    public HitResult LastResult { get; set; } = HitResult.None;
+
+    public Tween CurrentTween { get; set; }
+    public List<NoteAnimation> AnimationObjects { get; set; }
+    public float Opacity { get; set; } = 1;
+    public Transform3D Transform = Transform3D.Identity;
 
     public Note(int index, int millisecond, float x, float y)
     {
@@ -34,13 +26,81 @@ public class Note : IHitObject, IAnimatableObject<NoteAnimation>, IComparable<No
         Y = y;
     }
 
+    public void Hit(Runner runner, bool playSound = true)
+    {
+        if (LastResult != HitResult.None) return;
+
+        LastResult = HitResult.Hit;
+        runner.EmitSignal(Runner.SignalName.HitResultChanged, Index, (int)LastResult);
+
+        if (playSound) SoundManager.PlayHitSound();
+    }
+
+    public void Miss(Runner runner, bool playSound = true)
+    {
+        if (LastResult != HitResult.None) return;
+
+        LastResult = HitResult.Miss;
+        runner.EmitSignal(Runner.SignalName.HitResultChanged, Index, (int)LastResult);
+
+        if (playSound) SoundManager.PlayMissSound();
+    }
+
+    public bool DoProcess(Runner runner)
+    {
+        var attempt = runner.Attempt;
+
+        return Millisecond >= attempt.StartFrom
+            && Millisecond - attempt.Progress <= 0
+            && LastResult == HitResult.None;
+    }
+
+    public void Process(Runner runner)
+    {
+        var attempt = runner.Attempt;
+
+        if (!Hittable)
+        {
+            Hittable = true;
+
+            if (attempt.Settings.AlwaysPlayHitSound)
+            {
+                SoundManager.PlayHitSound();
+            }
+        }
+
+        // too late
+        if (Millisecond < attempt.Progress - Constants.HIT_WINDOW * runner.Speed
+            && (!attempt.IsReplay || attempt.Replays.Length == 1 && attempt.Replays[0].Notes[Index] == -1))
+        {
+            Miss(runner);
+        }
+        else if (CheckHitResult(attempt) == HitResult.Hit)
+        {
+            Hit(runner);
+        }
+    }
+
+    public HitResult CheckHitResult(Attempt attempt)
+    {
+        if (attempt.CursorPosition.X + Constants.HIT_BOX_SIZE >= X - 0.5f
+            && attempt.CursorPosition.X - Constants.HIT_BOX_SIZE <= X + 0.5f
+            && attempt.CursorPosition.Y + Constants.HIT_BOX_SIZE >= Y - 0.5f
+            && attempt.CursorPosition.Y - Constants.HIT_BOX_SIZE <= Y + 0.5f)
+        {
+            return HitResult.Hit;
+        }
+
+        return HitResult.Miss;
+    }
+
     public int CompareTo(Note other)
     {
         return Millisecond.CompareTo(other.Millisecond);
     }
 
-    int IComparable<ITimelineObject>.CompareTo(ITimelineObject other)
+    public int CompareTo(ITimelineObject other)
     {
-        return Millisecond.CompareTo(other.Millisecond);
+        throw new NotImplementedException();
     }
 }

@@ -7,20 +7,39 @@ public class Misc
 {
     public static GodotObject OBJParser = (GodotObject)GD.Load<GDScript>("res://scripts/util/OBJParser.gd").New();
 
-    public static ImageTexture GetModIcon(string mod)
+    public static Texture2D GetModIcon(string mod)
     {
-        ImageTexture tex;
+        var skin = SkinManager.Instance.Skin;
+        Texture2D tex;
 
         switch (mod)
         {
             case "NoFail":
-                tex = SkinManager.Instance.Skin.ModNoFailImage;
+                tex = skin.ModNoFailImage;
                 break;
             case "Ghost":
-                tex = SkinManager.Instance.Skin.ModGhostImage;
+                tex = skin.ModGhostImage;
+                break;
+            case "Strobe":
+                tex = skin.ModStrobeImage;
+                break;
+            case "Chaos":
+                tex = skin.ModChaosImage;
+                break;
+            case "Vortex":
+                tex = skin.ModVortexImage;
+                break;
+            case "Earthquake":
+                tex = skin.ModEarthquakeImage;
+                break;
+            case "HFlip":
+                tex = skin.ModHFlipImage;
+                break;
+            case "VFlip":
+                tex = skin.ModVFlipImage;
                 break;
             default:
-                tex = new();
+                tex = new PlaceholderTexture2D() { Size = Vector2.One * 32 };
                 break;
         }
 
@@ -84,6 +103,12 @@ public class Misc
         {
             return img;
         }
+
+        Logger.Log($"""
+        Couldn't load image from buffer
+            Type: {(isPng ? "PNG" : isJpeg ? "JPG" : isBmp ? "BMP" : isWebp ? "WEBP" : "Unknown")};
+            Size: {buffer.Length}
+        """);
 
         return null;
     }

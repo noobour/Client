@@ -271,6 +271,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
 
             if (seek && SoundManager.Song.Playing)
             {
+                preview.Seek(Lobby.StartFrom);
                 SoundManager.Song.Seek((float)Lobby.StartFrom / 1000);
             }
         }
@@ -290,7 +291,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
 
         startButton.Pressed += () =>
         {
-            LegacyRunner.Play(Map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
+            Game.Play(Map, Lobby.Speed, Lobby.StartFrom, Lobby.CameraMode, Lobby.Modifiers);
         };
 
         // Leaderboard

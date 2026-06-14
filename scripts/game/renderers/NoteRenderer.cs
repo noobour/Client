@@ -1,104 +1,137 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class NoteRenderer : Renderer, IRenderer<Note>
 {
-    private MultiMeshInstance3D noteMesh { get; set; }
+    [Export] private Runner runner;
 
-    private Color transparent = new Color(0x00000000);
+    public MultiMeshInstance3D NoteMultiMesh { get; set; }
 
-    private Color white = new Color(0xffffffff);
+    private Color transparent = new(0xffffff00);
 
     public override void _Ready()
     {
-        noteMesh = new()
+        runner ??= GetParent().GetParent<Runner>();
+
+        NoteMultiMesh = new()
         {
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
             Multimesh = new()
             {
                 UseColors = true,
-                Mesh = new QuadMesh()
+                TransformFormat = MultiMesh.TransformFormatEnum.Transform3D
+            },
+            MaterialOverride = new StandardMaterial3D()
+            {
+                Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass,
+                ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+                SpecularMode = BaseMaterial3D.SpecularModeEnum.Disabled,
+                DisableFog = true,
+                VertexColorUseAsAlbedo = true,
+                VertexColorIsSrgb = true
             }
         };
-        AddChild(noteMesh);
+
+        AddChild(NoteMultiMesh);
     }
 
-    private bool doProcess(Note note, float time, float approachTime)
+    public override void Setup(SettingsProfile settings, SkinProfile skin)
     {
-        return note.Millisecond - time >= 0 && note.Millisecond - time <= approachTime * 1000;
+        base.Setup(settings, skin);
+
+        NoteMultiMesh.Multimesh.InstanceCount = 0;
+        NoteMultiMesh.Multimesh.VisibleInstanceCount = -1;
+    }
+
+    private bool doRender(Note note, float time, float approachTime, float speed)
+    {
+        return note.Millisecond - time >= (Settings.Pushback ? -Constants.HIT_WINDOW * speed : 0) && note.Millisecond - time <= approachTime * 1000 * speed;
     }
 
     public void Render(double delta, double time, IList<Note> notes)
     {
-        //float ar = (float)Settings.ApproachRate;
-        //float ad = (float)Settings.ApproachDistance;
-        //float at = (float)Settings.ApproachTime;
-        //float noteSize = (float)Settings.NoteSize;
-        //float fadeIn = (float)Settings.FadeIn;
-        //bool pushback = Settings.Pushback;
-        //var transform = new Transform3D(new Vector3(noteSize / 2, 0, 0), new Vector3(0, noteSize / 2, 0), new Vector3(0, 0, noteSize / 2), Vector3.Zero);
+        var attempt = runner.Attempt;
+        float ar = (float)Settings.ApproachRate;
+        float ad = (float)Settings.ApproachDistance;
+        float at = (float)Settings.ApproachTime;
+        float noteSize = (float)Settings.NoteSize;
+        float fadeIn = (float)Settings.FadeIn / 100;
+        float fadeOut = (float)Settings.FadeOut / 100;
+        float noteOpacity = (float)Settings.NoteOpacity;
+        float noteOpacityExponent = Math.Max(Mathf.Epsilon, (float)Settings.NoteOpacityExponent);
+        bool pushback = Settings.Pushback;
+        float hitWindowDepth = pushback ? (float)Constants.HIT_WINDOW * ar / 1000 : 0;
+        var transform = new Transform3D(new(noteSize / 2, 0, 0), new(0, noteSize / 2, 0), new(0, 0, noteSize / 2), Vector3.Zero);
 
-        //if (notes.Count > noteMesh.Multimesh.InstanceCount)
-        //{
-        //    noteMesh.Multimesh.InstanceCount = notes.Count;
-        //}
-        //else
-        //{
-        //    noteMesh.Multimesh.VisibleInstanceCount = notes.Count;
-        //}
+        if (notes.Count > NoteMultiMesh.Multimesh.InstanceCount)
+        {
+            NoteMultiMesh.Multimesh.InstanceCount = notes.Count;
+            NoteMultiMesh.Multimesh.VisibleInstanceCount = NoteMultiMesh.Multimesh.InstanceCount;
+        }
+        else
+        {
+            NoteMultiMesh.Multimesh.VisibleInstanceCount = notes.Count;
+        }
 
-        //for (int i = 0; i < notes.Count; i++)
-        //{
-        //    var note = notes[i];
+        for (int i = 0; i < notes.Count; i++)
+        {
+            var note = notes[i];
 
-        //    if (!doProcess(note, (float)time, at) || note.Hit)
-        //    {
-        //        noteMesh.Multimesh.SetInstanceColor(i, transparent);
-        //        continue;
-        //    }
+            if (!doRender(note, (float)time, at, (float)attempt.Speed) || note.LastResult == HitResult.Hit)
+            {
+                NoteMultiMesh.Multimesh.SetInstanceColor(i, transparent);
+                continue;
+            }
 
-        //    // TODO: Change this to user note color
-        //    var color = white;
+            float depth = (note.Millisecond - (float)attempt.Progress) / (1000 * at) * ad / (float)attempt.Speed;
+            float progress = 1 - Math.Max(0, (depth + hitWindowDepth) / (ad + hitWindowDepth));
 
-        //    float depth = (note.Millisecond - (float)time) / (1000 * at) / ad / CurrentAttempt.Speed;
-        //    note.Transparency = Math.Clamp((1 - depth / ad) / (fadeIn / 2), 0, 1);
+            note.Opacity = 1;
+            note.Transform = transform;
 
-        //    if (!pushback && note.Millisecond - attempt.Progress <= 0)
-        //    {
-        //        note.Transparency = 0;
-        //    }
-        //    else
-        //    {
-        //        if (Settings.FadeOut)
-        //        {
-        //            note.Transparency -= (ad - depth) / (ad + (float)Constants.HIT_WINDOW * ar / 1000);
-        //        }
+            if (fadeIn > 0)
+            {
+                note.Opacity = Math.Min(1, progress / fadeIn);
+            }
 
-        //        foreach (Mod mod in attempt.Mods)
-        //        {
-        //            if (mod is IObjectRenderModifier<Note> modifier)
-        //            {
-        //                modifier.ModifyRenderObject(note, depth, attempt);
-        //            }
-        //        }
-        //    }
+            if (fadeOut > 0 && attempt.UseFadeOut)
+            {
+                note.Opacity -= 1 - Math.Min(1, (1 - progress) / fadeOut);
+            }
 
-        //    color.A = note.Transparency;
+            note.Transform.Origin = new(note.X, note.Y, -depth);
 
-        //    transform.Origin = new Vector3(note.X, note.Y, -depth);
+            foreach (var mod in attempt.Modifiers)
+            {
+                if (mod is IObjectRenderModifier<Note> modifier)
+                {
+                    modifier.ModifyRenderObject(note, attempt);
+                }
+            }
 
-        //    noteMesh.Multimesh.SetInstanceTransform(i, transform);
-        //    noteMesh.Multimesh.SetInstanceColor(i, color);
-        //}
+            var color = SkinManager.Instance.Skin.NoteColors[note.Index % SkinManager.Instance.Skin.NoteColors.Length];
+
+            color.A = Math.Clamp((float)Math.Pow(Math.Max(0, note.Opacity * noteOpacity), noteOpacityExponent), 0, 1);
+            NoteMultiMesh.Multimesh.SetInstanceTransform(i, note.Transform);
+            NoteMultiMesh.Multimesh.SetInstanceColor(i, color);
+        }
     }
 
     public override void Process(double delta, Attempt attempt)
     {
-        if (!attempt.Objects.ContainsKey(typeof(Note)))
+        var type = typeof(Note);
+
+        if (!attempt.Objects.TryGetValue(type, out var notes))
         {
             return;
         }
 
-        _ = (List<Note>)attempt.Objects[typeof(Note)];
+        int start = runner.ObjectIndicesStart[type];
+        int end = runner.ObjectIndicesEnd[type];
+        notes = notes[start..end];
+
+        Render(delta, attempt.Progress, [.. notes.Cast<Note>()]);
     }
 }

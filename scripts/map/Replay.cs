@@ -12,7 +12,9 @@ public struct Replay
     public string MapFilePath;
     public ulong ReplayNoteCount;
     public string Player;
+
     public FileParser FileBuffer;
+    public SettingsProfile Settings;
     public bool Valid;
     public float Length;
     public string Status;
@@ -20,7 +22,8 @@ public struct Replay
     public double Speed;
     public double StartFrom;
     public ulong FirstNote;
-    public Dictionary<string, bool> Modifiers;
+    public CameraMode CameraMode;
+    public List<Modifier> Modifiers;
     public double ApproachRate;
     public double ApproachDistance;
     public double ApproachTime;
@@ -58,13 +61,16 @@ public struct Replay
         LastNote = 0;
         LastFrame = 0;
 
+        // Get the replay's hash
         byte[] bytes = FileBuffer.Get((int)FileBuffer.Length - 32);
+        string ReplaySHA256 = FileBuffer.Get(32).Stringify();
 
-        if (SHA256.HashData(bytes).Stringify() != FileBuffer.Get(32).Stringify())
+        // crc32 is faster, will change later -fog
+        if (SHA256.HashData(bytes).Stringify() != ReplaySHA256)
         {
             Valid = false;
             ToastNotification.Notify("Replay file corrupted", 2);
-            Logger.Error($"Replay file corrupted; invalid hash");
+            Logger.Error($"Replay file corrupted; invalid SHA256 hash");
             return;
         }
 
@@ -96,22 +102,71 @@ public struct Replay
             NoteSize = FileBuffer.GetDouble();
             Sensitivity = FileBuffer.GetDouble();
 
+            Settings = new();
+            Settings.ApproachRate.Value = ApproachRate;
+            Settings.ApproachDistance.Value = ApproachDistance;
+            Settings.ApproachTime.Value = ApproachTime;
+            Settings.FadeIn.Value = FadeIn;
+            Settings.FadeOut.Value = FadeOut ? 100 : 0;
+            Settings.Pushback.Value = Pushback;
+            Settings.FoV.Value = FoV;
+            Settings.NoteSize.Value = NoteSize;
+            Settings.Sensitivity.Value = Sensitivity;
+
             ushort status = FileBuffer.GetUInt8();
             Status = status == 0 ? "PASSED" : status == 1 ? "DISQUALIFIED" : "FAILED";
 
             List<string> rawMods = [.. FileBuffer.GetString((int)FileBuffer.GetUInt32()).Split("_")];
 
-            Modifiers = new()
+            Modifiers = [];
+            CameraMode = new CameraLock();
+
+            foreach (string modName in rawMods)
             {
-                ["NoFail"] = rawMods.Contains("NoFail"),
-                ["Ghost"] = rawMods.Contains("Ghost"),
-                ["Spin"] = rawMods.Contains("Spin"),
-                ["Flashlight"] = rawMods.Contains("Flashlight"),
-                ["Chaos"] = rawMods.Contains("Chaos"),
-                ["HardRock"] = rawMods.Contains("HardRock")
-            };
+                // i hate this
+                switch (modName)
+                {
+                    case "NoFail":
+                        Modifiers.Add(new NoFailModifier());
+                        break;
+                    case "Ghost":
+                        Modifiers.Add(new GhostModifier());
+                        break;
+                    case "Chaos":
+                        Modifiers.Add(new ChaosModifier());
+                        break;
+                    case "Earthquake":
+                        Modifiers.Add(new EarthquakeModifier());
+                        break;
+                    case "Vortex":
+                        Modifiers.Add(new VortexModifier());
+                        break;
+                    case "VFlip":
+                        Modifiers.Add(new VerticalFlipModifier());
+                        break;
+                    case "HFlip":
+                        Modifiers.Add(new HorizontalFlipModifier());
+                        break;
+                    case "Spin":
+                        CameraMode = new CameraSpin();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // Modifiers = new()
+            // {
+            //     ["NoFail"] = rawMods.Contains("NoFail"),
+            //     ["Ghost"] = rawMods.Contains("Ghost"),
+            //     ["Spin"] = rawMods.Contains("Spin"),
+            //     ["Flashlight"] = rawMods.Contains("Flashlight"),
+            //     ["Chaos"] = rawMods.Contains("Chaos"),
+            //     ["HardRock"] = rawMods.Contains("HardRock")
+            // };
 
             MapID = FileBuffer.GetString((int)FileBuffer.GetUInt32());
+
             MapNoteCount = FileBuffer.GetUInt64();
             MapFilePath = $"{Constants.USER_FOLDER}/maps/default/{MapID}.phxm";
 
@@ -119,7 +174,7 @@ public struct Replay
             {
                 Valid = false;
                 ToastNotification.Notify("Replay map not found", 2);
-                Logger.Log($"Replay map not found; map ID {MapID}");
+                Logger.Log($"Replay map not found, path: {MapFilePath}.phxm");
                 return;
             }
 

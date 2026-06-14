@@ -4,28 +4,44 @@ public partial class Graph : ColorRect
 {
     public override void _Draw()
     {
-        Color hitColor = Color.FromHtml("00ff00ff");
-        Color missColor = Color.FromHtml("ff000044");
+        Color hitColor = new(0x00ff00ff);
+        Color missColor = new(0xff000044);
+        Color deathColor = new(0xffff00ff);
 
-        for (ulong i = LegacyRunner.CurrentAttempt.FirstNote; i < (ulong)LegacyRunner.CurrentAttempt.HitsInfo.Length; i++)
+        var attempt = Game.Attempt;
+        float[] hitsInfo = attempt.IsReplay ? attempt.Replays[0].Notes : attempt.HitsInfo;
+        float deathTime = (float)(attempt.IsReplay ? attempt.MaxReplayLength : attempt.DeathTime);
+
+        for (ulong i = attempt.FirstNote; i < (ulong)hitsInfo.Length; i++)
         {
-            float offset = LegacyRunner.CurrentAttempt.HitsInfo[i];
+            float offset = hitsInfo[i];
+            float ms = attempt.Map.Notes[i].Millisecond;
+            float noteProgress = ms / attempt.Map.Length;
+
+            if (ms > deathTime && deathTime != -1)
+            {
+                break;
+            }
 
             if (offset < 0)
             {
-                int position = (int)(Size.X * LegacyRunner.CurrentAttempt.Map.Notes[i].Millisecond / LegacyRunner.CurrentAttempt.Map.Length);
+                int position = (int)(Size.X * noteProgress);
                 DrawLine(Vector2.Right * position, new(position, Size.Y), missColor, 1);
             }
             else
             {
-                DrawRect(new(Size.X * (LegacyRunner.CurrentAttempt.Map.Notes[i].Millisecond / (float)LegacyRunner.CurrentAttempt.Map.Length), Size.Y * (offset / 55), Vector2.One), hitColor);
+                DrawRect(new(Size.X * noteProgress, Size.Y * (offset / 55), Vector2.One), hitColor);
             }
         }
 
-        if (LegacyRunner.CurrentAttempt.DeathTime >= 0)
+        if (deathTime >= 0)
         {
-            int position = (int)(Size.X * LegacyRunner.CurrentAttempt.DeathTime / LegacyRunner.CurrentAttempt.Map.Length);
-            DrawLine(Vector2.Right * position, new(position, Size.Y), Color.Color8(255, 255, 0), 3);
+            int position = (int)(Size.X * deathTime / attempt.Map.Length);
+
+            if (position < Size.X)
+            {
+                DrawLine(Vector2.Right * position, new(position, Size.Y), deathColor, 3);
+            }
         }
     }
 }

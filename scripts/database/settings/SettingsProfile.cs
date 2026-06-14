@@ -15,6 +15,12 @@ public partial class SettingsProfile
     public SettingsItem<double> Sensitivity { get; private set; }
 
     /// <summary>
+    /// Adjusts cursor sensitivity
+    /// </summary>
+    [Order]
+    public SettingsItem<double> AbsoluteSensitivity { get; private set; }
+
+    /// <summary>
     /// Toggles absolute input
     /// </summary>
     [Order]
@@ -74,11 +80,11 @@ public partial class SettingsProfile
     [Order]
     public SettingsItem<double> HUDParallax { get; private set; }
 
-    /// <summary>
-    /// space to pause toggle
-    /// </summary>
-    [Order]
-    public SettingsItem<bool> SpaceToPause { get; private set; }
+    // /// <summary>
+    // /// space to pause toggle
+    // /// </summary>
+    // [Order]
+    // public SettingsItem<bool> SpaceToPause { get; private set; }
 
     /// <summary>
     /// Adjusts the Field of View
@@ -350,6 +356,12 @@ public partial class SettingsProfile
 
     [Order]
     /// <summary>
+    /// When using external editors (for example SSQE), "Start From" and "Speed" will be used from the editor
+    /// </summary>
+    public SettingsItem<bool> OptionalPlaytestParameters { get; private set; }
+
+    [Order]
+    /// <summary>
     /// Restarts settings to the game's defaults
     /// </summary>
     public SettingsItem<Variant> ResetToDefaults { get; private set; }
@@ -375,6 +387,20 @@ public partial class SettingsProfile
                 Step = 0.01f,
                 MinValue = 0.01f,
                 MaxValue = 2.5f
+            },
+        };
+
+        AbsoluteSensitivity = new(1.0f)
+        {
+            Id = "AbsoluteSensitivity",
+            Title = "Absolute Sensitivity",
+            Description = "Adjusts absolute area scale",
+            Section = SettingsSection.Gameplay,
+            Slider = new()
+            {
+                Step = 0.01f,
+                MinValue = 0.01f,
+                MaxValue = 4.0f
             },
         };
 
@@ -498,13 +524,13 @@ public partial class SettingsProfile
             }
         };
 
-        SpaceToPause = new(false)
-        {
-            Id = "SpaceToPause",
-            Title = "Space to Pause",
-            Description = "Toggles space to pause during gameplay",
-            Section = SettingsSection.Gameplay,
-        };
+        // SpaceToPause = new(false)
+        // {
+        //     Id = "SpaceToPause",
+        //     Title = "Space to Pause",
+        //     Description = "Toggles space to pause during gameplay",
+        //     Section = SettingsSection.Gameplay,
+        // };
 
         FoV = new(70)
         {
@@ -657,7 +683,7 @@ public partial class SettingsProfile
             }
         };
 
-        CursorOpacity = new(100)
+        CursorOpacity = new(1)
         {
             Id = "CursorOpacity",
             Title = "Cursor Opacity",
@@ -665,9 +691,9 @@ public partial class SettingsProfile
             Section = SettingsSection.Visual,
             Slider = new()
             {
-                Step = 1,
+                Step = 0.05f,
                 MinValue = 0,
-                MaxValue = 100
+                MaxValue = 1
             }
         };
 
@@ -838,8 +864,7 @@ public partial class SettingsProfile
             Section = SettingsSection.Video,
             UpdateAction = (value, _) =>
             {
-                // TODO: Update this check when new runner is merged
-                if (SceneManager.Scene is not LegacyRunner)
+                if (SceneManager.Scene is not Game)
                 {
                     DisplayServer.WindowSetVsyncMode(value ? DisplayServer.VSyncMode.Adaptive : DisplayServer.VSyncMode.Disabled);
                 }
@@ -1031,6 +1056,14 @@ public partial class SettingsProfile
             Id = "RecordReplays",
             Title = "Record Replays",
             Description = "Toggles recording for replays",
+            Section = SettingsSection.Other
+        };
+
+        OptionalPlaytestParameters = new(true)
+        {
+            Id = "OptionalPlaytestParameters",
+            Title = "Use Editor Playtest Settings",
+            Description = "Takes \"Start From\" and \"Speed\" from external editors like the SSQE when using the \"Playtest\" button",
             Section = SettingsSection.Other
         };
 

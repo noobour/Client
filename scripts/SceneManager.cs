@@ -33,7 +33,10 @@ public partial class SceneManager : Node
         backgroundContainer = GetNode<SubViewportContainer>("Background");
         backgroundViewport = backgroundContainer.GetNode<SubViewport>("SubViewport");
 
-        Load("res://scenes/loading.tscn");
+        if (!Rhythia.TempMode)
+        {
+            Load("res://scenes/loading.tscn");
+        }
     }
 
     public static void ReloadCurrentScene()
@@ -44,15 +47,15 @@ public partial class SceneManager : Node
     public static void Load(string path, bool skipTransition = false)
     {
         bool isSceneLoaded = Scenes.TryGetValue(path, out BaseScene loadedScene);
-        BaseScene newScene = isSceneLoaded ? loadedScene : (BaseScene)ResourceLoader.Load<PackedScene>(path).Instantiate();
+        var newScene = isSceneLoaded ? loadedScene : (BaseScene)ResourceLoader.Load<PackedScene>(path).Instantiate();
 
-        //                  temp solution until these scenes are non-static
-        if (!isSceneLoaded && newScene.Name != "SceneGame" && newScene.Name != "SceneResults")
+        //         temp solution until these scenes are non-static
+        if (!isSceneLoaded && newScene.Name != "SceneResults")
         {
             Scenes[path] = newScene;
         }
 
-        Tween outTween = Instance.CreateTween().SetTrans(Tween.TransitionType.Quad);
+        var outTween = Instance.CreateTween().SetTrans(Tween.TransitionType.Quad);
 
         if (Scene != null)
         {
@@ -94,7 +97,7 @@ public partial class SceneManager : Node
         Instance.RemoveChild(scene);
 
         // also temp
-        if (scene.Name == "SceneGame" || scene.Name == "SceneResults")
+        if (scene.Name == "SceneResults")
         {
             scene.QueueFree();
         }
@@ -120,7 +123,6 @@ public partial class SceneManager : Node
         }
 
         backgroundContainer.Visible = !addToScene;
-
         Space = space;
     }
 

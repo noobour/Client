@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class Lobby : Node
@@ -21,30 +22,21 @@ public partial class Lobby : Node
     /// </summary>
     public static double StartFrom = 0;
 
-    public static Dictionary<string, bool> Modifiers = new()
-    {
-        ["NoFail"] = false,
-        ["Ghost"] = false,
-        ["Spin"] = false,
-        ["Flashlight"] = false,
-        ["Chaos"] = false,
-        ["HardRock"] = false
-    };
+    public static CameraMode CameraMode = new CameraLock();
 
-    [Signal]
-    public delegate void AllReadyEventHandler();
+    public static List<Modifier> Modifiers = [];
 
-    [Signal]
-    public delegate void MapChangedEventHandler(Map map);
+    [Signal] public delegate void AllReadyEventHandler();
 
-    [Signal]
-    public delegate void SpeedChangedEventHandler(double speed);
+    [Signal] public delegate void MapChangedEventHandler(Map map);
 
-    [Signal]
-    public delegate void StartFromChangedEventHandler(double startFrom);
+    [Signal] public delegate void SpeedChangedEventHandler(double speed);
 
-    [Signal]
-    public delegate void ModifiersChangedEventHandler(Godot.Collections.Dictionary<string, bool> mods);
+    [Signal] public delegate void StartFromChangedEventHandler(double startFrom);
+
+    [Signal] public delegate void CameraModeChangedEventHandler(string cameraMode);
+
+    [Signal] public delegate void ModifiersChangedEventHandler(string[] mods);
 
     public override void _Ready()
     {
@@ -129,14 +121,28 @@ public partial class Lobby : Node
         Instance.EmitSignal(SignalName.StartFromChanged, StartFrom);
     }
 
-    public static void SetModifier(string mod, bool active)
+    public static void SetCameraMode(CameraMode camMode)
     {
-        if (!Modifiers.ContainsKey(mod)) { return; }
+        if (CameraMode.Name == camMode.Name) return;
 
-        Modifiers[mod] = active;
+        CameraMode = camMode;
 
-        Godot.Collections.Dictionary<string, bool> mods = new(Modifiers);
+        Instance.EmitSignal(SignalName.CameraModeChanged, CameraMode.Name);
+    }
 
-        Instance.EmitSignal(SignalName.ModifiersChanged, mods);
+    public static void SetModifier(Modifier mod, bool active)
+    {
+        if (active == Modifiers.Select(mod => mod.Name).Contains(mod.Name)) return;
+
+        if (active)
+        {
+            Modifiers.Add(mod);
+        }
+        else
+        {
+            Modifiers.Remove(Modifiers.Find(x => x.Name == mod.Name));
+        }
+
+        Instance.EmitSignal(SignalName.ModifiersChanged, Modifiers.Select(mod => mod.Name).ToArray());
     }
 }

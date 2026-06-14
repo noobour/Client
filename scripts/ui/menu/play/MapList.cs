@@ -350,7 +350,10 @@ public partial class MapList : Panel, ISkinnable
 
                     if (Lobby.Map != null && IsVisibleInTree() && focused is not LineEdit)
                     {
-                        LegacyRunner.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
+                        Game.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.CameraMode, Lobby.Modifiers);
+                        //                     if (Lobby.Map != null && IsVisibleInTree() && focused is not LineEdit)
+                        //                     {
+                        //                         LegacyRunner.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
                     }
                     break;
             }
@@ -373,22 +376,22 @@ public partial class MapList : Panel, ISkinnable
 
     public bool Select(Map map, bool playIfPreSelected = true)
     {
-        if (map == null)
-        {
-            return false;
-        }
+        // if (map == null)
+        // {
+        //     return false;
+        // }
 
-        if (selectedMapID == map.Name)
-        {
-            if (playIfPreSelected)
-            {
-                LegacyRunner.Play(map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
-            }
+        // if (selectedMapID == map.Name)
+        // {
+        //     if (playIfPreSelected)
+        //     {
+        //         LegacyRunner.Play(map, Lobby.Speed, Lobby.StartFrom, Lobby.Modifiers);
+        //     }
 
-            Focus(map);
-            SceneManager.Space?.UpdateMap(map);
-            return false;
-        }
+        //     Focus(map);
+        //     SceneManager.Space?.UpdateMap(map);
+        //     return false;
+        // }
 
         if (selectedMapID != null && selectedMapID != map.Name && mapButtons.TryGetValue(selectedMapID, out MapButton value))
         {
@@ -398,6 +401,11 @@ public partial class MapList : Panel, ISkinnable
 
         MapManager.Select(map);
 
+        // this was also in a merge conflict
+        if (selectedMapID == map.Name && playIfPreSelected)
+        {
+            Game.Play(Lobby.Map, Lobby.Speed, Lobby.StartFrom, Lobby.CameraMode, Lobby.Modifiers);
+        }
 
         selectedMapID = map.Name;
 
