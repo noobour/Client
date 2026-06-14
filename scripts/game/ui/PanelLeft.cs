@@ -5,13 +5,13 @@ public partial class PanelLeft : UIComponent
 {
     private SubViewport viewport;
     private ShaderMaterial multiplierProgressMaterial;
-    private float _currentProgress = 0;
-    private Color _currentColor = new Color(1, 1, 1, 1);
+    private float currentProgress = 0;
+    private Color currentColor = new Color(1, 1, 1, 1);
     private Color targetMultiplierColour = new Color(1, 1, 1, 1);
     private float targetMultiplierProgress = 0;
     private Tween multiplierTween;
 
-    private Label Score, Multiplier;
+    private Label score, multiplier;
 
     public override void _ExitTree()
     {
@@ -23,8 +23,8 @@ public partial class PanelLeft : UIComponent
     {
         viewport = GetNode<SubViewport>("PanelLeftViewport");
         viewport.GetNode<TextureRect>("Background").Texture = SkinManager.Instance.Skin.PanelLeftBackgroundImage;
-        Score = viewport.GetNode<Label>("Score");
-        Multiplier = viewport.GetNode<Label>("Multiplier");
+        score = viewport.GetNode<Label>("Score");
+        multiplier = viewport.GetNode<Label>("Multiplier");
 
         multiplierProgressMaterial = viewport.GetNode<Panel>("MultiplierProgress").Material as ShaderMaterial;
         multiplierProgressMaterial.SetShaderParameter("progress", targetMultiplierProgress);
@@ -43,16 +43,16 @@ public partial class PanelLeft : UIComponent
 
     public override void _PhysicsProcess(double delta)
     {
-        _currentProgress = Mathf.Lerp(_currentProgress, targetMultiplierProgress, Math.Min(1, (float)delta * 16));
-        _currentColor = _currentColor.Lerp(targetMultiplierColour, (float)delta * 2);
-        multiplierProgressMaterial.SetShaderParameter("progress", _currentProgress);
-        multiplierProgressMaterial.SetShaderParameter("colour", _currentColor);
+        currentProgress = Mathf.Lerp(currentProgress, targetMultiplierProgress, Math.Min(1, (float)delta * 16));
+        currentColor = currentColor.Lerp(targetMultiplierColour, (float)delta * 2);
+        multiplierProgressMaterial.SetShaderParameter("progress", currentProgress);
+        multiplierProgressMaterial.SetShaderParameter("colour", currentColor);
     }
 
     public void OnStatsUpdated(Attempt attempt)
     {
-        Score.Text = Util.String.PadMagnitude(attempt.Score.ToString());
-        Multiplier.Text = $"{attempt.ComboMultiplier}x";
+        score.Text = Util.String.PadMagnitude(attempt.Score.ToString());
+        multiplier.Text = $"{attempt.ComboMultiplier}x";
 
         targetMultiplierProgress = (float)attempt.ComboMultiplierProgress / attempt.ComboMultiplierIncrement;
 
