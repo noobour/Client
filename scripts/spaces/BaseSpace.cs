@@ -8,7 +8,7 @@ public partial class BaseSpace : Node3D
     public Camera3D Camera;
     public WorldEnvironment WorldEnvironment;
     public ImageTexture Cover;
-    public Color NoteHitColor = new Color(1, 1, 1, 1);
+    public Color NoteHitColor = new(0xffffffff);
 
     public override void _Ready()
     {
@@ -36,6 +36,13 @@ public partial class BaseSpace : Node3D
                 NoteHitColor = NoteHitColor.Lerp(Game.Attempt.LastHitColour, Math.Min(1, (float)delta * 8));
             }
         }
+    }
+
+    public virtual void Load()
+    {
+        var skin = SkinManager.Instance.Skin;
+
+        NoteHitColor = skin.NoteColors[^1];
     }
 
     public virtual void UpdateMap(Map map)
