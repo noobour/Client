@@ -681,7 +681,7 @@ public partial class MapParser : Node
             else if (split.Length > 1)
             {
                 artist = split[0];
-                title = split[1 .. split.Length].Join(" - ");
+                title = split[1..split.Length].Join(" - ");
             }
 
             string[] mappers = (string[])mapData["Mappers"];
