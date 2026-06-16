@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://rtjc1qqejweq"]
 
-[ext_resource type="Script" uid="uid://favqe4rxd6ab" path="res://scripts/spaces/tritunnel.cs" id="1_rc2qo"]
+[ext_resource type="Script" uid="uid://favqe4rxd6ab" path="res://scripts/spaces/TriTunnel.cs" id="1_rc2qo"]
 [ext_resource type="ArrayMesh" uid="uid://ciinqk13a1vmt" path="res://meshes/tunnel.obj" id="2_mwi80"]
 
 [sub_resource type="Environment" id="2"]
