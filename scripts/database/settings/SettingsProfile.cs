@@ -109,9 +109,9 @@ public partial class SettingsProfile
     public SettingsItem<string> MenuSpace { get; private set; }
 
     /// <summary>
-    /// Overrides the skin's background space for the game
-    /// </summary>
-    [Order]
+	/// Overrides the skin's background space for the game
+	/// </summary>
+	[Order]
     public SettingsItem<string> GameSpace { get; private set; }
 
     /// <summary>
@@ -139,9 +139,9 @@ public partial class SettingsProfile
     public SettingsItem<double> NoteOpacityExponent { get; private set; }
 
     /// <summary>
-    /// Overrides the skin's note mesh
-    /// </summary>
-    [Order]
+	/// Overrides the skin's note mesh
+	/// </summary>
+	[Order]
     public SettingsItem<string> NoteMesh { get; private set; }
 
     /// <summary>
@@ -362,9 +362,9 @@ public partial class SettingsProfile
 
     [Order]
     /// <summary>
-    /// Restarts settings to the game's defaults
-    /// </summary>
-    public SettingsItem<Variant> ResetToDefaults { get; private set; }
+	/// Restarts settings to the game's defaults
+	/// </summary>
+	public SettingsItem<Variant> ResetToDefaults { get; private set; }
 
     #endregion
 
@@ -576,7 +576,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "vortex", "solid", "relic"]
+                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic"]
             }
         };
 
@@ -589,7 +589,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "vortex", "solid", "relic"]
+                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic"]
             }
         };
 
