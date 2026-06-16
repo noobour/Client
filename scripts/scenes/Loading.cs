@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using Godot;
 using Updatum;
 
@@ -9,24 +8,20 @@ public partial class Loading : BaseScene
     private Color opaque = new(1, 1, 1, 1);
     private Color transparent = new(1, 1, 1, 0);
 
-    private ColorRect background;
-    private TextureRect splash;
-    private TextureRect splashShift;
-    private Label progressLabel;
-    private Panel progressBar;
-    private Panel progressBarFill;
+    [Export] private ColorRect background;
+    [Export] private TextureRect splash;
+    [Export] private Label progressLabel;
+    [Export] private Panel progressBar;
+    [Export] private Panel progressBarFill;
+
+    private ShaderMaterial splashMaterial;
 
     public override async void _Ready()
     {
         base._Ready();
 
-
-        background = GetNode<ColorRect>("Background");
-        splash = GetNode<TextureRect>("Splash");
-        splashShift = GetNode<TextureRect>("SplashShift");
-        progressLabel = GetNode<Label>("ProgressLabel");
-        progressBar = GetNode<Panel>("ProgressBar");
-        progressBarFill = progressBar.GetNode<Panel>("Fill");
+        splashMaterial = splash.Material as ShaderMaterial;
+        splashMaterial.SetShaderParameter("shift", 0);
 
         progressLabel.Modulate = transparent;
         progressBar.Modulate = transparent;
@@ -44,6 +39,7 @@ public partial class Loading : BaseScene
         if (updateFound)
         {
             var popup = new OptionPopup("Update Found", "Would you like to download the new version?");
+
             popup.AddOption("Update", Callable.From(updateStep));
             popup.AddOption("Cancel", Callable.From(mapInitializeStep));
 
@@ -57,19 +53,42 @@ public partial class Loading : BaseScene
         }
     }
 
-    private void updateStep()
+    public void UpdateProgressBar(float progress)
     {
-        Tween inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
+        progressBarFill.AnchorRight = progress;
+    }
+
+    public void UpdateProgressLabel(string label)
+    {
+        progressLabel.Text = label;
+    }
+
+    private Tween enter()
+    {
+        var inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
         inTween.TweenProperty(background, "color", Color.FromHtml("#060509"), 1);
-        inTween.TweenProperty(splash, "modulate", opaque, 0.5);
-        inTween.TweenProperty(splashShift, "modulate", opaque, 0.25);
         inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
         inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
+        inTween.SetTrans(Tween.TransitionType.Quint)
+            .SetEase(Tween.EaseType.Out)
+            .TweenMethod(Callable.From((float shift) =>
+            {
+                splashMaterial.SetShaderParameter("shift", shift);
+            }), 0.2, 1.0, 2.5);
 
-        inTween.SetParallel(false);
+        return inTween;
+    }
 
-        inTween.SetTrans(Tween.TransitionType.Sine);
-        inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
+    private void exit()
+    {
+        var outTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
+        outTween.TweenProperty(background, "color", Color.Color8(0, 0, 0), 0.5);
+        outTween.Chain().TweenCallback(Callable.From(() => { SceneManager.Load("res://scenes/main_menu.tscn"); }));
+    }
+
+    private void updateStep()
+    {
+        enter();
 
         progressLabel.Text = $"Downloading {Releases.MANAGER.DownloadedPercentage} %";
 
@@ -115,17 +134,9 @@ public partial class Loading : BaseScene
             };
         }
 
-        Tween inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        inTween.TweenProperty(background, "color", Color.FromHtml("#060509"), 1);
-        inTween.TweenProperty(splash, "modulate", opaque, 0.5);
-        inTween.TweenProperty(splashShift, "modulate", opaque, 0.25);
-        inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
-        inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
+        var inTween = enter();
 
-        inTween.SetParallel(false);
-
-        inTween.SetTrans(Tween.TransitionType.Sine);
-        inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
+        inTween.Chain();
 
         inTween.TweenCallback(Callable.From(() =>
         {
@@ -148,23 +159,5 @@ public partial class Loading : BaseScene
             float progress = (float)Releases.MANAGER.DownloadedPercentage / 100;
             CallDeferred("UpdateProgressBar", progress);
         }
-    }
-
-    public void UpdateProgressBar(float progress)
-    {
-        progressBarFill.AnchorRight = progress;
-    }
-
-    public void UpdateProgressLabel(string label)
-    {
-        progressLabel.Text = label;
-    }
-
-    private void exit()
-    {
-        Tween outTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        outTween.TweenProperty(background, "color", Color.Color8(0, 0, 0), 0.5);
-        outTween.TweenProperty(splash, "modulate", Color.Color8(0, 0, 0), 0.5);
-        outTween.Chain().TweenCallback(Callable.From(() => { SceneManager.Load("res://scenes/main_menu.tscn"); }));
     }
 }
