@@ -4,17 +4,11 @@ uniform float split : hint_range(0.0, 1.0) = 0.5;
 uniform float shift : hint_range(0.0, 1.0) = 0.0;
 uniform float angle : hint_range(0.0, 360.0) = 0.0;
 
-varying vec2 position;
-
 vec2 rotate(vec2 v, float rad) {
 	float x = v.x * cos(rad) - v.y * sin(rad);
 	float y = v.x * sin(rad) + v.y * cos(rad);
 	
 	return vec2(x, y);
-}
-
-void vertex() {
-	position = VERTEX;
 }
 
 void fragment() {
