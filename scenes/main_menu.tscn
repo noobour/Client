@@ -1725,10 +1725,13 @@ fit_content = true
 horizontal_alignment = 1
 
 [node name="noobour" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1684835200]
+modulate = Color(0.13673356, 0.65034556, 0.9016358, 1)
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=20]noobour
 [color=0f81b7][font_size=16]Contributor"
+fit_content = true
+horizontal_alignment = 1
 
 [node name="Outline" type="Panel" parent="Menus/Extras/Credits" unique_id=239136532]
 material = SubResource("ShaderMaterial_yxnar")
