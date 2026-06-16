@@ -122,6 +122,8 @@ public partial class SceneManager : Node
             backgroundViewport.AddChild(space);
         }
 
+        space.Load();
+
         backgroundContainer.Visible = !addToScene;
         Space = space;
     }
