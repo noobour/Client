@@ -5,9 +5,10 @@ using Godot;
 // this isn't actually a renderer
 public partial class TrailRenderer : Node
 {
-    [Export] private MeshInstance3D cursor;
-    [Export] private MultiMeshInstance3D cursorTrail;
     [Export] private Runner runner;
+
+    private MeshInstance3D cursor;
+    private MultiMeshInstance3D cursorTrail;
 
     private const float trail_spawn_rate = 240;
     private const float trail_min_detail = 0;
@@ -15,6 +16,12 @@ public partial class TrailRenderer : Node
 
     private List<CursorTrailData> activeTrailsData = [];
     private double deltaAccumulator;
+
+    public override void _Ready()
+    {
+        cursor = runner.Cursor;
+        cursorTrail = runner.CursorTrail;
+    }
 
     public override void _ExitTree()
     {

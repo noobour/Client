@@ -132,6 +132,7 @@ public partial class Game : BaseScene
         Input.UseAccumulatedInput = false;
 
         Runner.Attempt = Attempt;
+        Runner.Skin = new("DEBUG");
         ReplayManager.InitReplayLength();
         ReplayManager.ShowReplayViewer(Runner.Attempt, Runner.Attempt.IsReplay);
 

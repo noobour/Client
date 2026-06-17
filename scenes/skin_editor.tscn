@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://ixkg51q7326u" path="res://scripts/ui/skin_editor/SkinProperties.cs" id="5_r1eba"]
 [ext_resource type="Texture2D" uid="uid://d1ogjbi2xrgc4" path="res://textures/ui/tools/save.png" id="6_0s4m7"]
 [ext_resource type="Texture2D" uid="uid://bh7iv447kko3p" path="res://textures/ui/tools/share.png" id="7_2d5bn"]
+[ext_resource type="PackedScene" uid="uid://csilsdj7ga7ee" path="res://prefabs/runner.tscn" id="11_75xqb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fc04"]
 bg_color = Color(0.0806, 0.08471666, 0.13, 1)
@@ -615,6 +616,8 @@ handle_input_locally = false
 gui_disable_input = true
 size = Vector2i(818, 609)
 render_target_update_mode = 4
+
+[node name="Runner" parent="Container/Editor/Docks/Preview/MarginContainer/VBoxContainer/Panel/SubViewportContainer/SubViewport" unique_id=1897681565 instance=ExtResource("11_75xqb")]
 
 [node name="Selection" type="ColorRect" parent="Container/Editor" unique_id=654134356]
 visible = false

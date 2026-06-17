@@ -3,13 +3,13 @@ using System.Collections.Generic;
 namespace Skinning;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public abstract class SkinCategory
 {
-    public string Name = "SkinCategory";
+    public virtual string Name { get; protected set; } = "SkinCategory";
 
-    public List<SkinObject> Objects = [];
+    public virtual List<SkinObject> Objects { get; protected set; } = [];
 
     public SkinCategory()
     {

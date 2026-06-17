@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Skinning.Objects;
 
 namespace Skinning.Categories;
@@ -8,8 +9,5 @@ public partial class HUD : SkinCategory
 
     public World World { get; private set; } = new();
 
-    public HUD()
-    {
-        Objects = [Screen, World];
-    }
+    public override List<SkinObject> Objects => [Screen, World];
 }

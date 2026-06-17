@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://csilsdj7ga7ee"]
+
+[ext_resource type="Script" uid="uid://dp8nga2aot1n2" path="res://scripts/game/Runner.cs" id="1_nfqgj"]
+[ext_resource type="Script" uid="uid://n6n303pw3qbd" path="res://scripts/game/managers/HUDManager.cs" id="2_hmi7f"]
+[ext_resource type="Texture2D" uid="uid://b3g4aw54n6bow" path="res://user/skins/default/game/grid.png" id="3_uxe16"]
+[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/default/game/cursor.png" id="5_oi84u"]
+[ext_resource type="Texture2D" uid="uid://dw2gxd3m24h4m" path="res://user/skins/default/game/hits.png" id="6_mj186"]
+[ext_resource type="Script" uid="uid://cvaggwr3rrenl" path="res://scripts/game/renderers/NoteRenderer.cs" id="30_mv2fj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpdal"]
+resource_name = "Material"
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("3_uxe16")
+texture_repeat = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_aih2q"]
+material = SubResource("StandardMaterial3D_kpdal")
+size = Vector2(4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aocpy"]
+transparency = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+albedo_texture = ExtResource("5_oi84u")
+texture_filter = 5
+texture_repeat = false
+distance_fade_min_distance = 1076.07
+
+[sub_resource type="QuadMesh" id="QuadMesh_xij4d"]
+material = SubResource("StandardMaterial3D_aocpy")
+size = Vector2(0.263, 0.263)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssr8x"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+disable_fog = true
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_texture = ExtResource("6_mj186")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ixueg"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_e28va"]
+transform_format = 1
+use_colors = true
+mesh = SubResource("QuadMesh_ixueg")
+
+[node name="Runner" type="Node3D" unique_id=1897681565 node_paths=PackedStringArray("HUDManager", "Camera", "Renderers", "Grid", "Cursor", "CursorTrail")]
+script = ExtResource("1_nfqgj")
+HUDManager = NodePath("HUD")
+Camera = NodePath("Camera3D")
+Renderers = [NodePath("Renderers/Notes")]
+Grid = NodePath("HUD/Grid")
+Cursor = NodePath("HUD/Cursor")
+CursorTrail = NodePath("HUD/CursorTrail")
+
+[node name="HUD" type="Node3D" parent="." unique_id=1519867369 node_paths=PackedStringArray("Runner")]
+script = ExtResource("2_hmi7f")
+Runner = NodePath("..")
+
+[node name="Grid" type="MeshInstance3D" parent="HUD" unique_id=1020629604]
+mesh = SubResource("QuadMesh_aih2q")
+skeleton = NodePath("../../..")
+
+[node name="Cursor" type="MeshInstance3D" parent="HUD" unique_id=537835734]
+mesh = SubResource("QuadMesh_xij4d")
+skeleton = NodePath("../../..")
+
+[node name="CursorTrail" type="MultiMeshInstance3D" parent="HUD" unique_id=694565697]
+material_override = SubResource("StandardMaterial3D_ssr8x")
+multimesh = SubResource("MultiMesh_e28va")
+
+[node name="Renderers" type="Node3D" parent="." unique_id=1266479885]
+
+[node name="Notes" type="Node3D" parent="Renderers" unique_id=1171057206 node_paths=PackedStringArray("runner")]
+script = ExtResource("30_mv2fj")
+runner = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1866991051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.75)
+current = true
+fov = 70.0
+size = 5.0

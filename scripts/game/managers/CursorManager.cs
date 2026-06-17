@@ -10,8 +10,6 @@ public partial class CursorManager : Node
     [Export] private Runner runner;
     [Export] private PlayerInputController playerInputController;
     [Export] private ReplayManager replayManager;
-    [Export] private MeshInstance3D cursorMesh;
-    [Export] private Camera3D camera;
 
     private SettingsProfile settings;
     private float sensitivity;
@@ -25,9 +23,9 @@ public partial class CursorManager : Node
 
     public override void _Ready()
     {
-        defaultCameraTransform = camera.Transform;
+        defaultCameraTransform = runner.Camera.Transform;
 
-        cursorMesh ??= GetNode<MeshInstance3D>("Cursor");
+        runner.Cursor ??= GetNode<MeshInstance3D>("Cursor");
         playerInputController ??= GetNode<PlayerInputController>("/PlayerInputController");
         replayManager ??= GetNode<ReplayManager>("ReplayManager");
     }
@@ -35,21 +33,21 @@ public partial class CursorManager : Node
     public override void _EnterTree()
     {
         settings = Game.Attempt.IsReplay ? Game.Attempt.Replays[0].Settings : Game.Attempt.Settings;
-        cursorMesh.Transform = Transform3D.Identity;
-        cursors = [cursorMesh];
+        runner.Cursor.Transform = Transform3D.Identity;
+        cursors = [runner.Cursor];
 
         if (defaultCameraTransform != Transform3D.Identity)
         {
-            camera.Transform = defaultCameraTransform;
+            runner.Camera.Transform = defaultCameraTransform;
         }
 
-        var parent = cursorMesh.GetParent();
+        var parent = runner.Cursor.GetParent();
 
         if (Game.Attempt.IsReplay)
         {
             for (int i = 1; i < Game.Attempt.Replays.Length; i++)
             {
-                cursors.Add(cursorMesh.Duplicate() as MeshInstance3D);
+                cursors.Add(runner.Cursor.Duplicate() as MeshInstance3D);
                 parent.AddChild(cursors[i]);
             }
         }
@@ -112,16 +110,16 @@ public partial class CursorManager : Node
 
         var attempt = runner.Attempt;
 
-        attempt.CameraMode.Process(attempt, replayManager, camera, cursors[cursorIndex], inputDelta, sensitivity);
+        attempt.CameraMode.Process(attempt, replayManager, runner.Camera, cursors[cursorIndex], inputDelta, sensitivity);
     }
 
     // Reset everything to zero so it doesn't have infinite sensitivity
     private void repositionAbsolute()
     {
-        camera.Rotation = Vector3.Zero;
+        runner.Camera.Rotation = Vector3.Zero;
         runner.Attempt.RawCursorPosition = Vector2.Zero;
         runner.Attempt.CursorPosition = Vector2.Zero;
     }
 
-    private void updateCursorRotation(double delta) => cursorMesh.RotationDegrees += Vector3.Back * (float)settings.CursorRotation * (float)delta;
+    private void updateCursorRotation(double delta) => runner.Cursor.RotationDegrees += Vector3.Back * (float)settings.CursorRotation * (float)delta;
 }

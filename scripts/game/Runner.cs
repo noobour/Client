@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using Godot;
+using Skinning;
 
 public partial class Runner : Node3D
 {
@@ -11,9 +12,11 @@ public partial class Runner : Node3D
     [Signal] public delegate void SkipAvailableEventHandler(Attempt attempt);
     [Signal] public delegate void HitResultChangedEventHandler(int noteIndex, HitResult hitResult);
 
-    [Export] public HudManager HudManager;
+    [Export] public HUDManager HUDManager;
 
     public Attempt Attempt;
+    public SkinProfileNew Skin;
+
     public Dictionary<Type, int> ObjectIndicesStart = [];
     public Dictionary<Type, int> ObjectIndicesEnd = [];
 
@@ -36,17 +39,18 @@ public partial class Runner : Node3D
     [Export] public Godot.Collections.Array<Renderer> Renderers;
     [Export] public MeshInstance3D Grid;
     [Export] public MeshInstance3D Cursor;
-    [Export] public VideoStreamPlayer VideoStreamPlayer;
+    [Export] public MultiMeshInstance3D CursorTrail;
+    // [Export] public VideoStreamPlayer VideoStreamPlayer;
 
     public override void _Ready()
     {
         base._Ready();
 
-        HudManager ??= GetNode<HudManager>("HUD");
+        HUDManager ??= GetNode<HUDManager>("HUD");
         Camera ??= GetNode<Camera3D>("Camera3D");
-        Grid ??= HudManager.GetNode<MeshInstance3D>("Grid");
+        Grid ??= HUDManager.GetNode<MeshInstance3D>("Grid");
         Cursor ??= GetNode<MeshInstance3D>("Cursor");
-        VideoStreamPlayer ??= GetNode<VideoStreamPlayer>("Video/VideoViewport/VideoStreamPlayer");
+        // VideoStreamPlayer ??= GetNode<VideoStreamPlayer>("Video/VideoViewport/VideoStreamPlayer");
     }
 
     public override void _Process(double delta)
@@ -212,7 +216,7 @@ public partial class Runner : Node3D
 
         if (!NotesOnly)
         {
-            HudManager.Init();
+            HUDManager.Init(Skin);
             Attempt.TimeStarted = Time.GetTicksUsec();
 
             if (!eventsConnected)
@@ -231,7 +235,7 @@ public partial class Runner : Node3D
             if (mod is IMapModifier || mod is IObjectRenderModifier<Note>)
             {
                 mod.Activate(Attempt);
-                HudManager.DisplayModifier(mod);
+                HUDManager.DisplayModifier(mod);
 
                 if (mod is IMapModifier mapMod)
                 {
@@ -328,7 +332,7 @@ public partial class Runner : Node3D
             }
 
             SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset) / 1000);
-            VideoStreamPlayer.StreamPosition = (float)Attempt.Progress / 1000;
+            // VideoStreamPlayer.StreamPosition = (float)Attempt.Progress / 1000;
         }
     }
 
@@ -533,7 +537,7 @@ public partial class Runner : Node3D
                 if (!mod.Active)
                 {
                     mod.Activate(Attempt);
-                    HudManager.DisplayModifier(mod);
+                    HUDManager.DisplayModifier(mod);
                 }
             }
         }
@@ -566,7 +570,7 @@ public partial class Runner : Node3D
                 if (fail != defaultFail && !mod.Active)
                 {
                     mod.Activate(Attempt);
-                    HudManager.DisplayModifier(mod);
+                    HUDManager.DisplayModifier(mod);
                 }
 
                 if (fail == true)
