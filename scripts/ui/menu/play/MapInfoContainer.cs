@@ -18,7 +18,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
     [ExportCategory("Info")]
 
     [Export]
-    private Panel info;
+    private Control info;
 
     [Export]
     private ColorRect dim;
@@ -30,7 +30,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
     private TextureRect cover;
 
     [Export]
-    private Panel infoSubholder;
+    private Control infoSubholder;
 
     [Export]
     private RichTextLabel mainLabel;
@@ -67,7 +67,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
     [ExportCategory("Actions")]
 
     [Export]
-    private Panel actions;
+    private Control actions;
 
     [Export]
     private FlatPreview preview;
@@ -82,13 +82,13 @@ public partial class MapInfoContainer : Panel, ISkinnable
     // private Panel modifiersHolder;
 
     [Export]
-    private Panel speedHolder;
+    private Control speedHolder;
 
     [Export]
     private HBoxContainer speedPresets;
 
     [Export]
-    private Panel playHolder;
+    private Control playHolder;
 
     [Export]
     private Button startButton;
@@ -98,7 +98,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
     [ExportCategory("Leaderboards")]
 
     [Export]
-    private Panel leaderboard;
+    private Control leaderboard;
 
     [Export]
     private ScrollContainer lbScrollContainer;
