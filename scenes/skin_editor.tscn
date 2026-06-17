@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://d1ogjbi2xrgc4" path="res://textures/ui/tools/save.png" id="6_0s4m7"]
 [ext_resource type="Texture2D" uid="uid://bh7iv447kko3p" path="res://textures/ui/tools/share.png" id="7_2d5bn"]
 [ext_resource type="PackedScene" uid="uid://csilsdj7ga7ee" path="res://prefabs/runner.tscn" id="11_75xqb"]
+[ext_resource type="Script" uid="uid://3qofdwgiye6b" path="res://scripts/ui/skin_editor/SkinPreview.cs" id="11_76cbd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fc04"]
 bg_color = Color(0.0806, 0.08471666, 0.13, 1)
@@ -36,10 +37,11 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 corner_detail = 4
 
-[node name="SceneSkinEditor" type="Node" unique_id=1136685041 node_paths=PackedStringArray("Explorer", "Properties", "backButton", "importAsset", "selectButton", "saveButton", "shareButton", "skinPath", "skinName", "categories", "selectionHolder", "selectionNewButton", "selectionImportButton", "importDialog", "selectionSkins", "dockSplit", "objectsSplit")]
+[node name="SceneSkinEditor" type="Node" unique_id=1136685041 node_paths=PackedStringArray("Explorer", "Properties", "Preview", "backButton", "importAsset", "selectButton", "saveButton", "shareButton", "skinPath", "skinName", "categories", "selectionHolder", "selectionNewButton", "selectionImportButton", "importDialog", "selectionSkins", "dockSplit", "objectsSplit")]
 script = ExtResource("1_rshsi")
 Explorer = NodePath("Container/Editor/Docks/Objects/Explorer")
 Properties = NodePath("Container/Editor/Docks/Objects/Properties")
+Preview = NodePath("Container/Editor/Docks/Preview")
 backButton = NodePath("Container/Header/Back")
 importAsset = NodePath("Container/Header/ImportAsset")
 selectButton = NodePath("Container/Header/Select")
@@ -571,9 +573,11 @@ theme = ExtResource("1_8e7i7")
 text = "Color"
 color = Color(1, 1, 1, 1)
 
-[node name="Preview" type="Panel" parent="Container/Editor/Docks" unique_id=630671082]
+[node name="Preview" type="Panel" parent="Container/Editor/Docks" unique_id=630671082 node_paths=PackedStringArray("Runner")]
 layout_mode = 2
 theme = ExtResource("1_8e7i7")
+script = ExtResource("11_76cbd")
+Runner = NodePath("MarginContainer/VBoxContainer/Panel/SubViewportContainer/SubViewport/Runner")
 
 [node name="MarginContainer" type="MarginContainer" parent="Container/Editor/Docks/Preview" unique_id=534381434]
 layout_mode = 1

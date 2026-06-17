@@ -21,12 +21,12 @@ public partial class Cursor : SkinNode<MeshInstance3D>
         Persistent = true;
     }
 
-    public override void InitNode()
+    public override void SyncNode()
     {
         (Node.GetActiveMaterial(0) as StandardMaterial3D).AlbedoTexture = Image;
     }
 
-    public override void UpdateNode(double delta = 0)
+    public override void ProcessNode(double delta, Attempt attempt)
     {
         Node.RotationDegrees += Vector3.Back * (float)Rotation * (float)delta;
     }

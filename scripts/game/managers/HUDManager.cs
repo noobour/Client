@@ -6,21 +6,28 @@ public partial class HUDManager : Node
 {
     [Export] public Runner Runner;
 
+    public SkinProfileNew Skin;
+
     // private List<IUIComponent> components = [];
 
     public void Init(SkinProfileNew skin)
     {
+        Skin = skin;
         Runner ??= GetParent<Runner>();
 
-        GD.Print(skin.Name);
+        Skin.HUD.World.Grid.InitNode(Runner.Grid);
+        Skin.HUD.World.Cursor.InitNode(Runner.Cursor);
+        Skin.HUD.World.Notes.InitNode(Runner.GetRenderer<NoteRenderer>().NoteMultiMesh);
 
-        // components = findAllComponents(this);
+        foreach (var skinObject in Skin.HUD.Objects)
+        {
+            if (skinObject.Persistent) continue;
 
-        // foreach (var component in components)
-        // {
-        //     component.Runner = Runner;
-        //     component.Init();
-        // }
+            if (skinObject is ISkinNode skinNode)
+            {
+                AddChild(skinNode.InitNode());
+            }
+        }
     }
 
     public void DisplayModifier(Modifier mod)
@@ -33,10 +40,13 @@ public partial class HUDManager : Node
     {
         if (Runner?.Attempt == null) return;
 
-        // foreach (var component in components)
-        // {
-        //     component.Process(delta, Runner.Attempt);
-        // }
+        foreach (var skinObject in Skin.HUD.Objects)
+        {
+            if (skinObject is ISkinNode skinNode)
+            {
+                skinNode.ProcessNode(delta, Runner.Attempt);
+            }
+        }
     }
 
     // private List<IUIComponent> findAllComponents(Node root)

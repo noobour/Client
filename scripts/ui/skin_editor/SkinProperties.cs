@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Godot;
 using Skinning;
 
@@ -26,9 +24,9 @@ public partial class SkinProperties : Panel
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-	public void BuildProperties(SkinObject skinObject)
+	public void Build(SkinObject skinObject)
     {
         if (SkinObject == skinObject)
         {
@@ -37,21 +35,21 @@ public partial class SkinProperties : Panel
 
         SkinObject = skinObject;
 
-        ClearProperties();
+        Clear();
 
         if (skinObject != null)
         {
             foreach (var p in skinObject.GetProperties())
             {
-                BuildProperty(p.Name, p.PropertyType.Name, p.GetValue(skinObject));
+                buildProperty(p.Name, p.PropertyType.Name, p.GetValue(skinObject));
             }
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-	public void ClearProperties(bool cache = true)
+	public void Clear(bool cache = true)
     {
         foreach (var item in items)
         {
@@ -69,10 +67,7 @@ public partial class SkinProperties : Panel
         items = [];
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public SkinPropertyItem BuildProperty(string name, string type, object value)
+    private SkinPropertyItem buildProperty(string name, string type, object value)
     {
         var item = createItem(type);
 

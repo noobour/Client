@@ -8,63 +8,43 @@ public partial class SkinEditor : BaseScene
 {
     public static SkinEditor Instance;
 
+    // UI template scenes
+    private readonly PackedScene skinSelectTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_select.tscn");
+
     /// <summary>
-    /// Currently selected skin for editing.
+    /// Currently selected <see cref="SkinProfileNew"/> for editing.
     /// </summary>
     public SkinProfileNew Skin;
 
     [ExportGroup("Panels")]
 
-    [Export]
-    public SkinExplorer Explorer;
-
-    [Export]
-    public SkinProperties Properties;
-
-    // UI template scenes
-    private readonly PackedScene skinSelectTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_select.tscn");
+    [Export] public SkinExplorer Explorer;
+    [Export] public SkinProperties Properties;
+    [Export] public SkinPreview Preview;
 
     [ExportGroup("Header")]
 
-    // Header
-    [Export]
-    private Button backButton;
-    [Export]
-    private MenuButton importAsset;
-    [Export]
-    private Button selectButton;
-    [Export]
-    private Button saveButton;
-    [Export]
-    private Button shareButton;
-    [Export]
-    private Label skinPath;
-    [Export]
-    private LineEdit skinName;
-    [Export]
-    private HBoxContainer categories;
+    [Export] private Button backButton;
+    [Export] private MenuButton importAsset;
+    [Export] private Button selectButton;
+    [Export] private Button saveButton;
+    [Export] private Button shareButton;
+    [Export] private Label skinPath;
+    [Export] private LineEdit skinName;
+    [Export] private HBoxContainer categories;
 
     [ExportGroup("Selection")]
 
-    // Skin selection
-    [Export]
-    private ColorRect selectionHolder;
-    [Export]
-    private Button selectionNewButton;
-    [Export]
-    private Button selectionImportButton;
-    [Export]
-    private FileDialog importDialog;
-    [Export]
-    private VBoxContainer selectionSkins;
+    [Export] private ColorRect selectionHolder;
+    [Export] private Button selectionNewButton;
+    [Export] private Button selectionImportButton;
+    [Export] private FileDialog importDialog;
+    [Export] private VBoxContainer selectionSkins;
 
     [ExportGroup("Docks")]
 
-    // Docks
-    [Export]
-    private HSplitContainer dockSplit;
-    [Export]
-    private VSplitContainer objectsSplit;
+    [Export] private HSplitContainer dockSplit;
+    [Export] private VSplitContainer objectsSplit;
 
     public override void _Ready()
     {
@@ -72,7 +52,7 @@ public partial class SkinEditor : BaseScene
 
         Instance = this;
 
-        backButton.Pressed += () => exit();
+        backButton.Pressed += exit;
 
         var importAssetPopup = importAsset.GetPopup();
 
@@ -123,6 +103,19 @@ public partial class SkinEditor : BaseScene
         // importDialog.FileSelected += file => {  };
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey && eventKey.Pressed)
+        {
+            switch (eventKey.Keycode)
+            {
+                case Key.Escape:
+                    exit();
+                    break;
+            }
+        }
+    }
+
     public override void Load()
     {
         skinPath.Text = $"{Constants.USER_FOLDER}/skins/";
@@ -161,8 +154,9 @@ public partial class SkinEditor : BaseScene
 
         if (Skin != null)
         {
-            Explorer.BuildCategory(Skin.HUD);
-            Properties.ClearProperties();
+            Explorer.Build(Skin.HUD);
+            Preview.Build(Skin.HUD);
+            Properties.Clear();
         }
     }
 
@@ -178,8 +172,8 @@ public partial class SkinEditor : BaseScene
 
     private void exit()
     {
-        Explorer.ClearCategory(false);
-        Properties.ClearProperties(false);
+        Explorer.Clear(false);
+        Properties.Clear(false);
 
         // TODO: Check and prompt unsaved changes
         SceneManager.Load("res://scenes/main_menu.tscn");

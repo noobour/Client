@@ -24,29 +24,29 @@ public partial class SkinExplorer : Panel
     private readonly PackedScene itemTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_explorer_item.tscn");
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-	public void BuildCategory(SkinCategory skinCategory)
+	public void Build(SkinCategory skinCategory)
     {
         if (Category == skinCategory)
         {
             return;
         }
 
-        ClearCategory();
+        Clear();
 
         Category = skinCategory;
 
         foreach (var skinObject in skinCategory.Objects)
         {
-            BuildObject(skinObject);
+            buildObject(skinObject);
         }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-	public void ClearCategory(bool cache = true)
+	public void Clear(bool cache = true)
     {
         SelectedItem = null;
 
@@ -66,10 +66,7 @@ public partial class SkinExplorer : Panel
         items = [];
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-	public SkinExplorerItem BuildObject(SkinObject skinObject, SkinExplorerItem parent = null)
+	private SkinExplorerItem buildObject(SkinObject skinObject, SkinExplorerItem parent = null)
     {
         var item = createItem();
 
@@ -87,7 +84,7 @@ public partial class SkinExplorer : Panel
 
         foreach (var child in skinObject.Children)
         {
-            BuildObject(child, item);
+            buildObject(child, item);
         }
 
         return item;
@@ -106,7 +103,7 @@ public partial class SkinExplorer : Panel
                 SelectedItem = item;
                 item.Select();
 
-                SkinEditor.Instance.Properties.BuildProperties(item.SkinObject);
+                SkinEditor.Instance.Properties.Build(item.SkinObject);
             };
         }
 

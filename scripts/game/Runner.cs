@@ -252,9 +252,6 @@ public partial class Runner : Node3D
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;
         Camera.Fov = (float)settings.FoV;
 
-        // temp until skinning support
-        (Renderers[0] as NoteRenderer).NoteMultiMesh.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
-
         SoundManager.BeginGameplayScope(Attempt.Map);
         SoundManager.UpdateVolume();
 
@@ -450,6 +447,19 @@ public partial class Runner : Node3D
         {
             SceneManager.Load("res://scenes/results.tscn");
         }
+    }
+
+    public T GetRenderer<T>() where T : Renderer
+    {
+        foreach (var renderer in Renderers)
+        {
+            if (renderer is T)
+            {
+                return renderer as T;
+            }
+        }
+
+        return null;
     }
 
     private void onHitResultChanged(int noteIndex, HitResult hitResult)
