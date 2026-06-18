@@ -49,9 +49,9 @@ public abstract partial class SkinNode<T> : SkinObject, ISkinNode
 
     public virtual Node BuildNode() => new T();
 
-    public virtual Node InitNode(Node node = null) => InitNode(node as T);
+    public Node InitNode(Node node = null) => InitNode(node as T);
 
-    public virtual T InitNode(T node = null)
+    public T InitNode(T node = null)
     {
         if (Persistent && node == null) return null;
 
