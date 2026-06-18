@@ -5,7 +5,7 @@ namespace Skinning.Objects;
 public partial class Notes : SkinNode<MultiMeshInstance3D>
 {
     [Skinnable]
-    public double Size { get; set; } = 7/8;
+    public double Size { get; set; } = 7 / 8;
 
     [Skinnable]
     public ArrayMesh Mesh { get; set; } = new();

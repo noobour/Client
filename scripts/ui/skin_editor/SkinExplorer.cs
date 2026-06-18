@@ -66,7 +66,7 @@ public partial class SkinExplorer : Panel
         items = [];
     }
 
-	private SkinExplorerItem buildObject(SkinObject skinObject, SkinExplorerItem parent = null)
+    private SkinExplorerItem buildObject(SkinObject skinObject, SkinExplorerItem parent = null)
     {
         var item = createItem();
 
