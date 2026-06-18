@@ -5,7 +5,7 @@ using Skinning;
 public partial class SkinProperties : Panel
 {
     /// <summary>
-    /// Currently selected SkinObject to edit properties of.
+    /// Currently selected <see cref="Skinning.SkinObject"/> to edit properties of.
     /// </summary>
     public SkinObject SkinObject;
 
@@ -24,7 +24,7 @@ public partial class SkinProperties : Panel
     }
 
     /// <summary>
-    ///
+    /// Builds and displays the <see cref="Skinning.SkinObject"/>'s properties which have <see cref="Skinning.SkinObject.SkinnableAttribute"/>.
     /// </summary>
 	public void Build(SkinObject skinObject)
     {
@@ -47,7 +47,7 @@ public partial class SkinProperties : Panel
     }
 
     /// <summary>
-    ///
+    /// Clears the displayed <see cref="Skinning.SkinObject"/>'s properties.
     /// </summary>
 	public void Clear(bool cache = true)
     {

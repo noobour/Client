@@ -5,12 +5,12 @@ using Skinning;
 public partial class SkinExplorer : Panel
 {
     /// <summary>
-    /// Currently selected category.
+    /// Currently selected <see cref="SkinCategory"/>.
     /// </summary>
     public SkinCategory Category;
 
     /// <summary>
-    /// Currently selected SkinExplorerItem.
+    /// Currently selected <see cref="SkinExplorerItem"/>.
     /// </summary>
     public SkinExplorerItem SelectedItem;
 
@@ -24,7 +24,7 @@ public partial class SkinExplorer : Panel
     private readonly PackedScene itemTemplate = ResourceLoader.Load<PackedScene>("res://prefabs/ui/skin_editor/skin_explorer_item.tscn");
 
     /// <summary>
-    ///
+    /// Builds and displays the <see cref="SkinObject"/> hierarchy tree from <see cref="SkinCategory.Objects"/>.
     /// </summary>
 	public void Build(SkinCategory skinCategory)
     {
@@ -44,7 +44,7 @@ public partial class SkinExplorer : Panel
     }
 
     /// <summary>
-    ///
+    /// Clears the displayed <see cref="SkinObject"/> hierarchy tree.
     /// </summary>
 	public void Clear(bool cache = true)
     {

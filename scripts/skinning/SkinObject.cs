@@ -8,7 +8,7 @@ using Godot;
 namespace Skinning;
 
 /// <summary>
-///
+/// Hierarchical data container which holds standard logic for the <see cref="SkinEditor"/>.
 /// </summary>
 public partial class SkinObject : RefCounted
 {
@@ -24,27 +24,29 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Unique identifier for the <see cref="SkinObject"/> to be used during serialization.
     /// </summary>
     public Guid GUID { get; private set; } = Guid.NewGuid();
 
     /// <summary>
-    ///
+    /// Name of the <see cref="SkinObject"/> to be displayed by the <see cref="SkinExplorer"/>.
     /// </summary>
     public virtual string Name { get; set; } = "Object";
 
     /// <summary>
-    ///
+    /// 24x24 icon of the <see cref="SkinObject"/> to be displayed by the <see cref="SkinExplorer"/>.
     /// </summary>
     public virtual Texture2D Icon { get; protected set; } = new();
 
     /// <summary>
-    ///
+    /// Whether or not the <see cref="SkinObject"/> is always present in a <see cref="SkinProfileNew"/>.
+    /// Persistent objects cannot be renamed or deleted.
     /// </summary>
     public virtual bool Persistent { get; protected set; } = false;
 
     /// <summary>
-    ///
+    /// Whether or not other <see cref="SkinObject"/>s can be added as children under the <see cref="SkinObject"/>.
+    /// Supports either 2D, 3D, both or none, as per <see cref="DecorabilityType"/>.
     /// </summary>
     public virtual DecorabilityType Decorability
     {
@@ -53,17 +55,17 @@ public partial class SkinObject : RefCounted
     } = DecorabilityType.None;
 
     /// <summary>
-    ///
+    /// Whether or not shaders may be applied to the <see cref="SkinObject"/>.
     /// </summary>
     public bool Shadeable { get; private set; } = false;
 
     /// <summary>
-    ///
+    /// <see cref="SkinObject"/> directly above the <see cref="SkinObject"/> in the <see cref="SkinCategory"/> hierarchy.
     /// </summary>
     public SkinObject Parent { get; set; }
 
     /// <summary>
-    ///
+    /// <see cref="SkinObject"/>s directly under the <see cref="SkinObject"/> in the <see cref="SkinCategory"/> hierarchy.
     /// </summary>
     public List<SkinObject> Children { get; set; } = [];
 
@@ -80,7 +82,7 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Adds a child <see cref="SkinObject"/> to <see cref="Children"/>.
     /// </summary>
     public void AddChild(SkinObject child)
     {
@@ -94,7 +96,7 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Adds multiple <see cref="SkinObject"/>s to <see cref="Children"/>.
     /// </summary>
     public void AddChildren(IEnumerable<SkinObject> children)
     {
@@ -105,7 +107,7 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Removes a child <see cref="SkinObject"/> from <see cref="Children"/>.
     /// </summary>
     public void RemoveChild(SkinObject child)
     {
@@ -121,7 +123,7 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Safely updates the <see cref="SkinObject"/>'s <see cref="Name"/>.
     /// </summary>
     public void Rename(string name)
     {
@@ -136,7 +138,7 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Disposes the <see cref="SkinObject"/> if not <see cref="Persistent"/>.
     /// </summary>
     public void Delete()
     {
@@ -149,7 +151,7 @@ public partial class SkinObject : RefCounted
     }
 
     /// <summary>
-    ///
+    /// Retrieves <see cref="SkinnableAttribute"/> properties of the <see cref="SkinObject"/>.
     /// </summary>
     public IEnumerable<PropertyInfo> GetProperties()
     {

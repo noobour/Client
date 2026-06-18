@@ -5,7 +5,8 @@ using Skinning.Categories;
 namespace Skinning;
 
 /// <summary>
-///
+/// Serializable data-focused class holding various assets and <see cref="SkinObject"/>s separated by <see cref="SkinCategory"/>.
+/// Includes visual logic for <see cref="Node"/>s through <see cref="SkinNode{T}"/> objects.
 /// </summary>
 public partial class SkinProfileNew : RefCounted
 {
