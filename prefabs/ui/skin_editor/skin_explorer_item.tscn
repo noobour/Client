@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://cgcvmujpoinsq" path="res://scripts/ui/skin_editor/SkinExplorerItem.cs" id="2_d8ve5"]
 [ext_resource type="FontFile" uid="uid://cy0j4j61g2dv6" path="res://fonts/Roboto-Regular.ttf" id="3_d8ve5"]
 [ext_resource type="Texture2D" uid="uid://bwygmhmegsm4f" path="res://textures/icon.svg" id="3_db86q"]
+[ext_resource type="Texture2D" uid="uid://b2q5d11bvjwr1" path="res://textures/ui/tools/fold.png" id="3_iqtdp"]
 [ext_resource type="Texture2D" uid="uid://b5t5r8pdjwuiw" path="res://textures/ui/tools/unfold.png" id="3_xnqu4"]
 [ext_resource type="Texture2D" uid="uid://men3chmi3esy" path="res://textures/ui/add.png" id="4_db86q"]
-[ext_resource type="Texture2D" uid="uid://0evhxpwd1bqb" path="res://textures/ui/tools/unfold3.png" id="4_iqtdp"]
 [ext_resource type="Texture2D" uid="uid://v455lni8hoj4" path="res://textures/ui/tools/trash.png" id="7_db86q"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kdftc"]
@@ -67,8 +67,8 @@ collapse = NodePath("Hierarchy/Collapse")
 lineContainer = NodePath("Hierarchy/LineContainer")
 lineVertical = NodePath("Hierarchy/LineContainer/VBoxContainer/Vertical")
 lineButton = NodePath("Hierarchy/LineContainer/VBoxContainer/Vertical/Button")
-foldIcon = ExtResource("3_xnqu4")
-unfoldIcon = ExtResource("4_iqtdp")
+foldIcon = ExtResource("3_iqtdp")
+unfoldIcon = ExtResource("3_xnqu4")
 
 [node name="Hierarchy" type="VBoxContainer" parent="." unique_id=1446644727]
 modulate = Color(1, 1, 1, 0.2509804)
@@ -84,7 +84,6 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_c8wqq")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0n3pe")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_0k66o")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_sxrwm")
-icon = ExtResource("4_iqtdp")
 flat = true
 
 [node name="LineContainer" type="MarginContainer" parent="Hierarchy" unique_id=1203710032]

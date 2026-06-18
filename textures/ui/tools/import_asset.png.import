@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvweygsgm8hhk"
-path="res://.godot/imported/unfold4.png-c5febe0ce6ca878efbb9e699804df584.ctex"
+uid="uid://cppnnr2preulq"
+path="res://.godot/imported/import_asset.png-8ee85ede642e7fe981439829154c2482.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/ui/tools/unfold4.png"
-dest_files=["res://.godot/imported/unfold4.png-c5febe0ce6ca878efbb9e699804df584.ctex"]
+source_file="res://textures/ui/tools/import_asset.png"
+dest_files=["res://.godot/imported/import_asset.png-8ee85ede642e7fe981439829154c2482.ctex"]
 
 [params]
 

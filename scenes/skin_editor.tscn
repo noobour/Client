@@ -3,12 +3,13 @@
 [ext_resource type="Theme" uid="uid://cghiovcujtcmd" path="res://themes/tools.tres" id="1_8e7i7"]
 [ext_resource type="Script" uid="uid://31ifsk7c81fo" path="res://scripts/scenes/SkinEditor.cs" id="1_rshsi"]
 [ext_resource type="Texture2D" uid="uid://bk7vw0sdy4nko" path="res://textures/ui/tools/return.png" id="3_75xqb"]
+[ext_resource type="Texture2D" uid="uid://cppnnr2preulq" path="res://textures/ui/tools/import_asset.png" id="4_0s4m7"]
 [ext_resource type="Texture2D" uid="uid://men3chmi3esy" path="res://textures/ui/add.png" id="4_8fc04"]
 [ext_resource type="Script" uid="uid://crmeh2sdr5yig" path="res://scripts/ui/skin_editor/SkinExplorer.cs" id="4_kei0g"]
 [ext_resource type="FontFile" uid="uid://cy0j4j61g2dv6" path="res://fonts/Roboto-Regular.ttf" id="4_r1eba"]
-[ext_resource type="Texture2D" uid="uid://ba2dtsddix6s0" path="res://textures/ui/tools/select.png" id="5_76cbd"]
 [ext_resource type="Script" uid="uid://ixkg51q7326u" path="res://scripts/ui/skin_editor/SkinProperties.cs" id="5_r1eba"]
 [ext_resource type="Texture2D" uid="uid://d1ogjbi2xrgc4" path="res://textures/ui/tools/save.png" id="6_0s4m7"]
+[ext_resource type="Texture2D" uid="uid://sftlkaxmy7gs" path="res://textures/ui/tools/select_skin.png" id="6_2d5bn"]
 [ext_resource type="Texture2D" uid="uid://bh7iv447kko3p" path="res://textures/ui/tools/share.png" id="7_2d5bn"]
 [ext_resource type="PackedScene" uid="uid://csilsdj7ga7ee" path="res://prefabs/runner.tscn" id="11_75xqb"]
 [ext_resource type="Script" uid="uid://3qofdwgiye6b" path="res://scripts/ui/skin_editor/SkinPreview.cs" id="11_76cbd"]
@@ -111,7 +112,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("1_8e7i7")
 text = "Import Asset"
-icon = ExtResource("4_8fc04")
+icon = ExtResource("4_0s4m7")
 flat = false
 item_count = 3
 popup/item_0/text = "Image"
@@ -130,7 +131,7 @@ mouse_default_cursor_shape = 2
 theme = ExtResource("1_8e7i7")
 theme_override_font_sizes/font_size = 14
 text = "Select Skin"
-icon = ExtResource("5_76cbd")
+icon = ExtResource("6_2d5bn")
 
 [node name="Save" type="Button" parent="Container/Header" unique_id=202139637]
 layout_mode = 2
@@ -619,7 +620,6 @@ own_world_3d = true
 handle_input_locally = false
 gui_disable_input = true
 size = Vector2i(818, 609)
-render_target_update_mode = 4
 
 [node name="Runner" parent="Container/Editor/Docks/Preview/MarginContainer/VBoxContainer/Panel/SubViewportContainer/SubViewport" unique_id=1897681565 instance=ExtResource("11_75xqb")]
 
