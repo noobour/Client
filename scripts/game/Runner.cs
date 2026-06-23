@@ -282,7 +282,7 @@ public partial class Runner : Node3D
 
         if (Playing)
         {
-            Seek(Attempt.Progress);
+            syncSongPosition();
         }
     }
 
@@ -318,18 +318,9 @@ public partial class Runner : Node3D
         ProcessObjects();
         RenderObjects(0);
 
+        syncSongPosition();
+
         // Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + (Attempt.Map.Length - Attempt.Progress) / 1000 / Speed)));
-
-        if (Attempt.Map.AudioBuffer != null)
-        {
-            if (!SoundManager.Song.Playing && Playing)
-            {
-                SoundManager.Song.Play();
-            }
-
-            SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset) / 1000);
-            VideoStreamPlayer.StreamPosition = (float)Attempt.Progress / 1000;
-        }
     }
 
     public void Fail()
@@ -577,5 +568,19 @@ public partial class Runner : Node3D
         }
 
         return fail ?? defaultFail;
+    }
+
+    private void syncSongPosition()
+    {
+        if (Attempt.Map.AudioBuffer != null)
+        {
+            if (!SoundManager.Song.Playing && Playing)
+            {
+                SoundManager.Song.Play();
+            }
+
+            SoundManager.Song.Seek((float)(Attempt.Progress - Attempt.Settings.LocalOffset) / 1000);
+            VideoStreamPlayer.StreamPosition = (float)Attempt.Progress / 1000;
+        }
     }
 }
