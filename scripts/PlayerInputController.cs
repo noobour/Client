@@ -41,7 +41,7 @@ public partial class PlayerInputController : Node
                 handleMouseInput(@event);
                 break;
             case InputEventKey { PhysicalKeycode: Key.Escape }:
-            case InputEventKey { PhysicalKeycode: Key.F1 }:
+            case InputEventKey { PhysicalKeycode: Key.F2 }:
             case InputEventKey { PhysicalKeycode: Key.Space }:
             case InputEventKey { PhysicalKeycode: Key.F }:
             case InputEventKey { PhysicalKeycode: Key.P }:
