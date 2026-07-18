@@ -1132,6 +1132,8 @@ public partial class SettingsProfile
             [
                 new() { Title = "Import Nightly Meshes", Description = "Imports meshes from the nightly folder", OnPressed = () => {
                     ImportMeshesFromNightly();
+                    SettingsManager.Instance.Settings.NoteMesh.List.Values = getAvailableMeshes();
+                    SettingsMenu.Instance.RefreshList(SettingsManager.Instance.Settings.NoteMesh);
                 }}
             ]
         };
@@ -1146,6 +1148,8 @@ public partial class SettingsProfile
             [
                 new() { Title = "Import Nightly Colorsets", Description = "Imports colorsets from the nightly folder", OnPressed = () => {
                     ImportColorsetsFromNightly();
+                    SettingsManager.Load();
+                    SettingsMenu.Instance.RefreshList(SettingsManager.Instance.Settings.NoteColors);
                 }}
             ]
         };
