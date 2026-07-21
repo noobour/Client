@@ -366,7 +366,7 @@ public partial class SettingsProfile
     /// <summary>
     /// Import settings from previous (nightly) version
     /// </summary>
-    public SettingsItem<Variant> RhythiaImport { get; private set; }
+    public SettingsItem<Variant> ImportNightlyProfile { get; private set; }
 
     [Order]
     /// <summary>
@@ -378,13 +378,13 @@ public partial class SettingsProfile
     /// <summary>
     /// Imports meshes from the nightly folder
     /// </summary>
-    public SettingsItem<Variant> ImportMeshesNightly { get; private set; }
+    public SettingsItem<Variant> ImportNightlyMeshes { get; private set; }
 
     [Order]
     /// <summary>
     /// Imports colorsets from the nightly folder
     /// </summary>
-    public SettingsItem<Variant> ImportColorsetsNightly { get; private set; }
+    public SettingsItem<Variant> ImportNightlyColorsets { get; private set; }
 
     [Order]
     /// <summary>
@@ -1089,9 +1089,9 @@ public partial class SettingsProfile
 
         #region Other
 
-        RhythiaImport = new(default)
+        ImportNightlyProfile = new(default)
         {
-            Id = "RhythiaImport",
+            Id = "ImportNightlyProfile",
             Title = "Import Nightly Settings",
             Description = "Imports settings from the nightly client",
             Section = SettingsSection.Other,
@@ -1121,9 +1121,9 @@ public partial class SettingsProfile
             ]
         };
 
-        ImportMeshesNightly = new(default)
+        ImportNightlyMeshes = new(default)
         {
-            Id = "ImportMeshesNightly",
+            Id = "ImportNightlyMeshes",
             Title = "Import Nightly Meshes",
             Description = "Imports meshes from the nightly folder",
             Section = SettingsSection.Other,
@@ -1137,9 +1137,9 @@ public partial class SettingsProfile
             ]
         };
 
-        ImportColorsetsNightly = new(default)
+        ImportNightlyColorsets = new(default)
         {
-            Id = "ImportColorsetsNightly",
+            Id = "ImportNightlyColorsets",
             Title = "Import Nightly Colorsets",
             Description = "Imports colorsets from the nightly folder",
             Section = SettingsSection.Other,
