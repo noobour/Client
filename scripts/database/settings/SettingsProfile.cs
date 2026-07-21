@@ -1130,7 +1130,7 @@ public partial class SettingsProfile
             Buttons =
             [
                 new() { Title = "Import Nightly Meshes", Description = "Imports meshes from the nightly folder", OnPressed = () => {
-                    ImportMeshesFromNightly();
+                    importMeshesFromNightly();
                     SettingsManager.Instance.Settings.NoteMesh.List.Values = getAvailableMeshes();
                     SettingsMenu.Instance.RefreshList(SettingsManager.Instance.Settings.NoteMesh);
                 }}
@@ -1146,7 +1146,7 @@ public partial class SettingsProfile
             Buttons =
             [
                 new() { Title = "Import Nightly Colorsets", Description = "Imports colorsets from the nightly folder", OnPressed = () => {
-                    ImportColorsetsFromNightly();
+                    importColorsetsFromNightly();
                     SettingsManager.Load();
                     SettingsMenu.Instance.RefreshList(SettingsManager.Instance.Settings.NoteColors);
                 }}
@@ -1395,7 +1395,7 @@ public partial class SettingsProfile
         ToastNotification.Notify($"Created profile '{profileName}'");
     }
 
-    public static void ImportColorsetsFromNightly()
+    private static void importColorsetsFromNightly()
     {
         string nightlyColorsetsDir = $"{Constants.NIGHTLY_FOLDER}/colorsets";
         string colorsetsDir = $"{Constants.USER_FOLDER}/colorsets";
@@ -1424,7 +1424,7 @@ public partial class SettingsProfile
         ToastNotification.Notify($"Imported {importedCount} colorsets from nightly");
     }
 
-    public static void ImportMeshesFromNightly()
+    private static void importMeshesFromNightly()
     {
         string nightlyMeshesDir = $"{Constants.NIGHTLY_FOLDER}/meshes";
         string meshesDir = $"{Constants.USER_FOLDER}/meshes";
