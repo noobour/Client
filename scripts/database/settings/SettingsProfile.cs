@@ -1296,6 +1296,7 @@ public partial class SettingsProfile
             {
                 return element.GetString();
             }
+
             return null;
         }
 
