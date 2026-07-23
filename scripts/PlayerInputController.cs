@@ -98,7 +98,7 @@ public partial class PlayerInputController : Node
             case { PhysicalKeycode: Key.Quoteleft }:
                 OnRestartPressed?.Invoke();
                 break;
-            case { PhysicalKeycode: Key.F1 }:
+            case { PhysicalKeycode: Key.F2 }:
                 OnToggleReplayViewerVisibility?.Invoke();
                 break;
             case { PhysicalKeycode: Key.F }:
