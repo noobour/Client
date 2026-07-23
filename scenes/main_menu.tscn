@@ -2142,7 +2142,6 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sgh51")
 
 [node name="Transition" type="ColorRect" parent="." unique_id=86050768]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 z_index = 2
 anchors_preset = 15
