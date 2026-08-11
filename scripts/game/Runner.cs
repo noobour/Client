@@ -240,16 +240,16 @@ public partial class Runner : Node3D
             }
         }
 
-        foreach (var renderer in Renderers)
-        {
-            renderer.Setup(Attempt.Settings, SkinManager.Instance.Skin);
-        }
-
         settings = Attempt.IsReplay ? Attempt.Replays[0].Settings : SettingsManager.Instance.Settings;
         Camera.Fov = (float)settings.FoV;
 
         // temp until skinning support
         (Renderers[0] as NoteRenderer).NoteMultiMesh.Multimesh.Mesh = SkinManager.Instance.Skin.NoteMesh;
+
+        foreach (var renderer in Renderers)
+        {
+            renderer.Setup(Attempt.Settings, SkinManager.Instance.Skin);
+        }
 
         SoundManager.BeginGameplayScope(Attempt.Map);
         SoundManager.UpdateVolume();

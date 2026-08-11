@@ -100,13 +100,18 @@ static func _create_mtl(obj: String, textures: Dictionary) -> Dictionary:
 					prints("Adding new material", parts[1])
 				currentMat = StandardMaterial3D.new()
 				mats[parts[1]] = currentMat
+			"d":
+				currentMat.albedo_color.a = parts[1].to_float()
+				if currentMat.albedo_color.a < 1:
+					currentMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+				pass
 			"Ka":
 				# Ambient color
-				#currentMat.albedo_color = Color(float(parts[1]), float(parts[2]), float(parts[3]))
+				currentMat.albedo_color = Color(float(parts[1]), float(parts[2]), float(parts[3]), currentMat.albedo_color.a)
 				pass
 			"Kd":
 				# Diffuse color
-				currentMat.albedo_color = Color(parts[1].to_float(), parts[2].to_float(), parts[3].to_float())
+				currentMat.albedo_color = Color(parts[1].to_float(), parts[2].to_float(), parts[3].to_float(), currentMat.albedo_color.a)
 				if debug:
 					prints("Setting material color", str(currentMat.albedo_color))
 				pass
