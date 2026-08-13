@@ -134,10 +134,9 @@ public partial class MapList : Panel, ISkinnable
             }
         };
         MapManager.MapsInitialized += _ => UpdateMaps();
-        MapManager.MapUpdated += map =>
-        {
-            UpdateMaps();
-        };
+
+        MapManager.MapUpdated += map => UpdateMaps();
+
         MapManager.MapDeleted += map =>
         {
             if (selectedMapID == map.Name)
@@ -475,6 +474,7 @@ public partial class MapList : Panel, ISkinnable
             Maps.Add(map);
         }
 
+        Sort();
         clear();
     }
 
