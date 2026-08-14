@@ -231,6 +231,12 @@ public partial class SettingsProfile
     public SettingsItem<bool> SuperSimpleHUD { get; private set; }
 
     /// <summary>
+    /// Moves the Combo Counter to the HUD
+    /// </summary>
+    [Order]
+    public SettingsItem<bool> AltComboCounter { get; private set; }
+
+    /// <summary>
     /// Toggles a popup on a hit
     /// </summary>
     [Order]
@@ -614,7 +620,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic"]
+                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic", "conspiracy"]
             }
         };
 
@@ -627,7 +633,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic"]
+                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic", "conspiracy"]
             }
         };
 
@@ -854,6 +860,14 @@ public partial class SettingsProfile
             Id = "SuperSimpleHUD",
             Title = "Super Simple HUD",
             Description = "Hides health bar, song duration, and song name",
+            Section = SettingsSection.Visual,
+        };
+
+        AltComboCounter = new(false)
+        {
+            Id = "AltComboCounter",
+            Title = "Alt. Combo Counter",
+            Description = "Moves the Combo Counter to the HUD",
             Section = SettingsSection.Visual,
         };
 
