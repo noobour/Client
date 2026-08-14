@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://dotb3skhwouha" path="res://fonts/Roboto-Bold.ttf" id="5_hl5e0"]
 [ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="6_engjn"]
 [ext_resource type="FontFile" uid="uid://bopde8iqsld1o" path="res://fonts/Ubuntu-Regular.ttf" id="7_6h3lr"]
+[ext_resource type="Script" uid="uid://bkdcrkq1x7sig" path="res://scripts/ui/menu/ReleaseNotesButton.cs" id="8_akqfu"]
 [ext_resource type="Script" uid="uid://bnead3awk7yr4" path="res://scripts/ui/menu/SettingsMenuButton.cs" id="8_yxnar"]
 [ext_resource type="Script" uid="uid://byighsqkmf2c4" path="res://scripts/ui/menu/QuitButton.cs" id="9_yxnar"]
 [ext_resource type="Script" uid="uid://cqprxe41p0qov" path="res://scripts/ui/menu/Background.cs" id="10_eku7s"]
@@ -471,22 +472,30 @@ offset_right = 400.0
 offset_bottom = -80.0
 alignment = 1
 
-[node name="Play" type="Button" parent="Menus/Home/Buttons" unique_id=621731251]
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Home/Buttons" unique_id=1192566578]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="Menus/Home/Buttons/MarginContainer" unique_id=621731251]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_m671i")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
 text = "PLAY"
 alignment = 0
 
-[node name="Settings" type="Button" parent="Menus/Home/Buttons" unique_id=1066091631]
+[node name="MarginContainer2" type="MarginContainer" parent="Menus/Home/Buttons" unique_id=677178319]
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="Menus/Home/Buttons/MarginContainer2" unique_id=1066091631]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_m671i")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
@@ -494,22 +503,50 @@ text = "SETTINGS"
 alignment = 0
 script = ExtResource("8_yxnar")
 
-[node name="Extras" type="Button" parent="Menus/Home/Buttons" unique_id=728550159]
+[node name="MarginContainer3" type="MarginContainer" parent="Menus/Home/Buttons" unique_id=348929571]
+layout_mode = 2
+theme_override_constants/margin_right = 100
+
+[node name="Extras" type="Button" parent="Menus/Home/Buttons/MarginContainer3" unique_id=728550159]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_m671i")
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
 text = "EXTRAS"
 alignment = 0
 
-[node name="Quit" type="Button" parent="Menus/Home/Buttons" unique_id=87671349]
+[node name="MarginContainer4" type="MarginContainer" parent="Menus/Home/Buttons" unique_id=559769508]
+layout_mode = 2
+theme_override_constants/margin_right = 100
+
+[node name="ReleaseNotes" type="Button" parent="Menus/Home/Buttons/MarginContainer4" unique_id=645519198]
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_m671i")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
+text = "RELEASE NOTES"
+alignment = 0
+script = ExtResource("8_akqfu")
+Link = "https://github.com/Rhythia/Client/releases/tag/{0}"
+
+[node name="MarginContainer5" type="MarginContainer" parent="Menus/Home/Buttons" unique_id=2078578335]
+layout_mode = 2
+theme_override_constants/margin_right = 100
+
+[node name="Quit" type="Button" parent="Menus/Home/Buttons/MarginContainer5" unique_id=87671349]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_m671i")
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
