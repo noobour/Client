@@ -42,7 +42,11 @@ public partial class MainMenu : BaseScene
 
         foreach (var container in HomeMenu.GetNode("Buttons").GetChildren())
         {
-            var button = container.GetChild<Button>(0);
+            menuButtons.Add(container.GetChild<Button>(0));
+        }
+
+        foreach (Button button in menuButtons)
+        {
             var menu = (Panel)menuHolder.FindChild(button.Name, false);
 
             if (menu != null)
