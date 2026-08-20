@@ -1709,26 +1709,6 @@ text = "[font_size=20]nyuwaea
 fit_content = true
 horizontal_alignment = 1
 
-[node name="lulusuki" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1649530311]
-modulate = Color(1, 0.7411765, 1, 1)
-layout_mode = 2
-mouse_filter = 1
-bbcode_enabled = true
-text = "[font_size=20]lulusuki
-[color=ffffffbb][font_size=16]Developer"
-fit_content = true
-horizontal_alignment = 1
-
-[node name="kiwie" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=699076624]
-modulate = Color(1, 0.8156863, 0.53333336, 1)
-layout_mode = 2
-mouse_filter = 1
-bbcode_enabled = true
-text = "[font_size=20]kiwie
-[color=ffffffbb][font_size=16]Developer"
-fit_content = true
-horizontal_alignment = 1
-
 [node name="fog" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=670577229]
 modulate = Color(0.73922217, 0.46258998, 0.9705774, 1)
 layout_mode = 2
@@ -1739,32 +1719,32 @@ text = "[font_size=20]fog
 fit_content = true
 horizontal_alignment = 1
 
+[node name="xwalfie" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=427847284]
+modulate = Color(0.2627451, 1, 0.9529412, 1)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "[font_size=20]xwalfie
+[color=ffffffbb][font_size=16]Contributor"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="lulusuki" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1649530311]
+modulate = Color(1, 0.7411765, 1, 1)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "[font_size=20]lulusuki
+[color=ffffffbb][font_size=16]Contributor"
+fit_content = true
+horizontal_alignment = 1
+
 [node name="cake" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1336553338]
 modulate = Color(0.49546552, 0.9457299, 0.77711904, 1)
 layout_mode = 2
 mouse_filter = 1
 bbcode_enabled = true
 text = "[font_size=20]cake
-[color=ffffffbb][font_size=16]Contributor"
-fit_content = true
-horizontal_alignment = 1
-
-[node name="snuz" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1573219614]
-modulate = Color(0.59607846, 0.9843137, 0.59607846, 1)
-layout_mode = 2
-mouse_filter = 1
-bbcode_enabled = true
-text = "[font_size=20]snuz
-[color=ffffffbb][font_size=16]Contributor"
-fit_content = true
-horizontal_alignment = 1
-
-[node name="allusionist" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=2118833467]
-modulate = Color(0.9814784, 0.7174443, 0.6400969, 1)
-layout_mode = 2
-mouse_filter = 1
-bbcode_enabled = true
-text = "[font_size=20]allusionist
 [color=ffffffbb][font_size=16]Contributor"
 fit_content = true
 horizontal_alignment = 1
@@ -1779,12 +1759,32 @@ text = "[font_size=20]noobour
 fit_content = true
 horizontal_alignment = 1
 
-[node name="xwalfie" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=427847284]
-modulate = Color(0.2627451, 1, 0.9529412, 1)
+[node name="allusionist" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=2118833467]
+modulate = Color(0.9814784, 0.7174443, 0.6400969, 1)
 layout_mode = 2
 mouse_filter = 1
 bbcode_enabled = true
-text = "[font_size=20]xwalfie
+text = "[font_size=20]allusionist
+[color=ffffffbb][font_size=16]Contributor"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="kiwie" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=699076624]
+modulate = Color(1, 0.8156863, 0.53333336, 1)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "[font_size=20]kiwie
+[color=ffffffbb][font_size=16]Contributor"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="snuz" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1573219614]
+modulate = Color(0.59607846, 0.9843137, 0.59607846, 1)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "[font_size=20]snuz
 [color=ffffffbb][font_size=16]Contributor"
 fit_content = true
 horizontal_alignment = 1
@@ -1866,7 +1866,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("19_c6nra")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "Rhythia [font_size=12][color=ffffffa0]0.2"
+text = "Rhythia [font_size=12][color=ffffffa0]0.2-rc1"
 shortcut_keys_enabled = false
 vertical_alignment = 1
 
