@@ -620,7 +620,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic", "conspiracy"]
+                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "circulartunnel", "tritunnel", "vortex", "solid", "relic", "conspiracy"]
             }
         };
 
@@ -633,7 +633,7 @@ public partial class SettingsProfile
             UpdateAction = (_, init) => { if (!init) { SkinManager.Load(); } },
             List = new("skin")
             {
-                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "tritunnel", "vortex", "solid", "relic", "conspiracy"]
+                Values = ["skin", "void", "grid", "squircles", "waves", "galaxy", "tunnel", "circulartunnel", "tritunnel", "vortex", "solid", "relic", "conspiracy"]
             }
         };
 
