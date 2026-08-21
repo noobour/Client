@@ -382,6 +382,7 @@ icon = ExtResource("5_1m5pv")
 icon_alignment = 1
 
 [node name="Video" type="Button" parent="Info/ScrollContainer/HBoxContainer/Subholder/Buttons" unique_id=1985048325]
+visible = false
 layout_mode = 2
 tooltip_text = "Add Video"
 focus_mode = 0
