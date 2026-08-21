@@ -2,11 +2,11 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Compression;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
+using Util;
 
 public partial class MapParser : Node
 {
@@ -27,7 +27,7 @@ public partial class MapParser : Node
     {
         if (files.Length == 0 || files == null) return;
 
-        if (notify) ToastNotification.Notify($"Importing {files.Length} map(s)");
+        if (notify) _ = ToastNotification.Notify($"Importing {files.Length} map(s)");
 
         await Task.Run(() =>
         {
@@ -64,40 +64,38 @@ public partial class MapParser : Node
         });
 
         SoundManager.UpdateJukeboxQueue();
-        if (notify) ToastNotification.Notify($"Finished importing {files.Length} map(s)");
+        if (notify) _ = ToastNotification.Notify($"Finished importing {files.Length} map(s)");
     }
 
-    public static void Encode(Map map, bool logBenchmark = false)
+    public static void ExportEncode(Map map)
     {
-        double start = Time.GetTicksUsec();
-
-        map.Collection = $"default";
-
-        string mapDirectory = $"{Constants.USER_FOLDER}/maps/{map.Collection}";
-        string mapFilePath = Path.Combine(mapDirectory, $"{map.Name}.{Constants.DEFAULT_MAP_EXT}");
-
-        if (!Directory.Exists(mapDirectory)) Directory.CreateDirectory(mapDirectory);
-
         /*
-			uint32; ms
-			1 byte; quantum
-			1 byte OR int32; x
-			1 byte OR int32; y
-		*/
+        The reason we re-decode it is because the cut down map cache's map list does not
+        have the buffers to save time and memory. So if we decode it, we can get the
+        buffers without having to deal with other annoying shit
+
+            -fog
+        */
+        Map decodedMap = Decode(map.FolderPath);
+
+        string exportPath = $"{Constants.USER_FOLDER}/export/";
+        string exportFilePath = Path.Combine(exportPath, $"{decodedMap.Name}.phxm");
+
+        if (!Directory.Exists(exportPath)) Directory.CreateDirectory(exportPath);
 
         using var ms = new MemoryStream();
         using (var archive = new ZipArchive(ms, ZipArchiveMode.Create))
         {
             var metadata = archive.CreateEntry("metadata.json", CompressionLevel.NoCompression);
             using (var writer = new StreamWriter(metadata.Open()))
-                writer.Write(map.EncodeMeta());
+                writer.Write(decodedMap.EncodeMeta());
             var objects = archive.CreateEntry("objects.phxmo", CompressionLevel.NoCompression);
             using (var objs = objects.Open())
             {
                 using BinaryWriter bw = new BinaryWriter(objs);
                 bw.Write((uint)12);
-                bw.Write((uint)map.Notes.Length);
-                foreach (var note in map.Notes)
+                bw.Write((uint)decodedMap.Notes.Length);
+                foreach (var note in decodedMap.Notes)
                 {
                     bool quantum = (int)note.X != note.X || (int)note.Y != note.Y || note.X < -1 || note.X > 1 || note.Y < -1 || note.Y > 1;
                     bw.Write((uint)note.Millisecond);
@@ -133,14 +131,96 @@ public partial class MapParser : Node
                 stream.Write(buffer, 0, buffer.Length);
             }
 
-            if (map.AudioBuffer != null) addAsset($"audio.{map.AudioExt}", map.AudioBuffer);
-            if (map.CoverBuffer != null) addAsset($"cover.png", map.CoverBuffer);
-            if (map.VideoBuffer != null) addAsset($"video.mp4", map.VideoBuffer);
+            if (decodedMap.AudioBuffer != null) addAsset($"audio.{decodedMap.AudioExt}", decodedMap.AudioBuffer);
+            if (decodedMap.CoverBuffer != null) addAsset($"cover.png", decodedMap.CoverBuffer);
+            if (decodedMap.VideoBuffer != null) addAsset($"video.mp4", decodedMap.VideoBuffer);
         }
 
-        map.Hash = Convert.ToHexString(MD5.HashData(ms.ToArray())).ToLower();
-        File.WriteAllBytes(mapFilePath, ms.ToArray());
-        map.FilePath = mapFilePath;
+        File.WriteAllBytes(exportFilePath, ms.ToArray());
+    }
+
+    public static void Encode(Map map, bool logBenchmark = false)
+    {
+        double start = Time.GetTicksUsec();
+
+        string mapDirectory = $"{Constants.USER_FOLDER}/maps";
+        string mapFolderPath = Path.Combine(mapDirectory, $"{map.Name}");
+        // string mapFilePath = Path.Combine(mapDirectory, $"{map.Name}.{Constants.DEFAULT_MAP_EXT}");
+
+        if (!Directory.Exists(mapDirectory)) Directory.CreateDirectory(mapDirectory);
+        if (!Directory.Exists(mapFolderPath)) Directory.CreateDirectory(mapFolderPath);
+
+        /*
+			uint32; ms
+			1 byte; quantum
+			1 byte OR int32; x
+			1 byte OR int32; y
+		*/
+
+        File.WriteAllText(Path.Combine(mapFolderPath, "metadata.json"), map.EncodeMeta());
+
+        using var stream = File.Create(Path.Combine(mapFolderPath, "objects.phxmo"));
+        // using BinaryWriter bw = new BinaryWriter(stream);
+        using (var bw = new BinaryWriter(stream))
+        {
+            bw.Write((uint)12);
+            bw.Write((uint)map.Notes.Length);
+            foreach (var note in map.Notes)
+            {
+                bool quantum = (int)note.X != note.X || (int)note.Y != note.Y || note.X < -1 || note.X > 1 || note.Y < -1 || note.Y > 1;
+                bw.Write((uint)note.Millisecond);
+                bw.Write(Convert.ToByte(quantum));
+                if (quantum)
+                {
+                    bw.Write((float)note.X);
+                    bw.Write((float)note.Y);
+                }
+                else
+                {
+                    bw.Write((byte)(note.X + 1));
+                    bw.Write((byte)(note.Y + 1));
+                }
+            }
+
+            bw.Write(0); // timing point count
+            bw.Write(0); // brightness count
+            bw.Write(0); // contrast count
+            bw.Write(0); // saturation count
+            bw.Write(0); // blur count
+            bw.Write(0); // fov count
+            bw.Write(0); // tint count
+            bw.Write(0); // position count
+            bw.Write(0); // rotation count
+            bw.Write(0); // ar factor count
+            bw.Write(0); // text count
+        }
+
+        void addAsset(string name, byte[] buffer)
+        {
+            // var asset = archive.CreateEntry(name, CompressionLevel.NoCompression);
+            // using var stream = asset.Open();
+            // stream.Write(buffer, 0, buffer.Length);
+
+            string assetPath = Path.Combine(mapFolderPath, name);
+            File.WriteAllBytes(assetPath, buffer);
+        }
+
+        if (map.AudioBuffer != null) addAsset($"audio.{map.AudioExt}", map.AudioBuffer);
+        if (map.CoverBuffer != null) addAsset($"cover.png", map.CoverBuffer);
+        if (map.VideoBuffer != null) addAsset($"video.mp4", map.VideoBuffer);
+
+        byte[] hash = Misc.HashFiles([Path.Combine(mapFolderPath, "metadata.json"), Path.Combine(mapFolderPath, "objects.phxmo")]);
+
+        map.MetadataObjectHash = BitConverter.ToString(hash).Replace("-", "").ToLower();
+
+
+        DateTime metadataModified = File.GetLastWriteTime(Path.Combine(mapFolderPath, "metadata.json"));
+        DateTime objectsModified = File.GetLastWriteTime(Path.Combine(mapFolderPath, "objects.phxmo"));
+        map.LastModifiedMetadata = metadataModified.ToString();
+        map.LastModifiedNotes = objectsModified.ToString();
+
+        map.FolderPath = mapFolderPath;
+
         MapCache.InsertMap(map);
 
         if (logBenchmark)
@@ -151,34 +231,47 @@ public partial class MapParser : Node
 
     public static Map Decode(string path, string audio = null, bool logBenchmark = false, bool save = false)
     {
-        if (!File.Exists(path))
+        // if (!File.Exists(path))
+        // {
+        //     ToastNotification.Notify($"Invalid file path", 2);
+        //     throw Logger.Error($"Invalid file path ({path})");
+        // }
+
+        // Extract any .phxm files or encode other formats if needed
+        if (File.Exists(path))
         {
-            ToastNotification.Notify($"Invalid file path", 2);
-            throw Logger.Error($"Invalid file path ({path})");
+            string ext = path.GetExtension();
+            double start = Time.GetTicksUsec();
+
+            if (!IsValidExt(ext))
+            {
+                _ = ToastNotification.Notify("Unsupported file format", 1);
+                throw Logger.Error($"Unsupported file format ({ext})");
+            }
+
+            Map map = ext switch
+            {
+                "phxm" => PHXM(path),
+                "sspm" => SSPM(path),
+                "txt" => SSMapV1(path, audio),
+                "rhm" => RHM(path),
+                _ => new()
+            };
+
+            if (logBenchmark) Logger.Log($"DECODING {ext.ToUpper()}: {(Time.GetTicksUsec() - start) / 1000}ms");
+            if (save) Encode(map);
+
+            return map;
         }
-
-        string ext = path.GetExtension();
-        double start = Time.GetTicksUsec();
-
-        if (!IsValidExt(ext))
+        else if (Directory.Exists(path))
         {
-            ToastNotification.Notify("Unsupported file format", 1);
-            throw Logger.Error($"Unsupported file format ({ext})");
+            return PHXMFolder(path);
         }
-
-        Map map = ext switch
+        else
         {
-            "phxm" => PHXM(path),
-            "sspm" => SSPM(path),
-            "txt" => SSMapV1(path, audio),
-            "rhm" => RHM(path),
-            _ => new()
-        };
-
-        if (logBenchmark) Logger.Log($"DECODING {ext.ToUpper()}: {(Time.GetTicksUsec() - start) / 1000}ms");
-        if (save) Encode(map);
-
-        return map;
+            _ = ToastNotification.Notify($"Invalid map path", 2);
+            throw Logger.Error($"Invalid map path ({path})");
+        }
     }
     public static Map SSMapV1(string path, string audioPath = null)
     {
@@ -252,7 +345,7 @@ public partial class MapParser : Node
         }
         catch (Exception exception)
         {
-            ToastNotification.Notify($"SSPM file corrupted", 2);
+            _ = ToastNotification.Notify($"SSPM file corrupted", 2);
             Logger.Error(exception);
             throw;
         }
@@ -542,45 +635,54 @@ public partial class MapParser : Node
         return map;
     }
 
-    public static Map PHXM(string path)
+    public static Map PHXMFolder(string path)
     {
+
+        // First check if this is a proper phxm map
+        if (!File.Exists($"{path}/metadata.json") || !File.Exists($"{path}/objects.phxmo"))
+        {
+            return null;
+        }
+
         Map map;
 
         try
         {
-            var file = ZipFile.OpenRead(path);
+            string metadataString = File.ReadAllText($"{path}/metadata.json");
+            var metadata = (Dictionary)Json.ParseString(metadataString);
 
-            byte[] metaBuffer = getZipEntryBuffer(file, "metadata.json");
-            byte[] objectsBuffer = getZipEntryBuffer(file, "objects.phxmo");
+            byte[] objectsBuffer = File.ReadAllBytes($"{path}/objects.phxmo");
+
             byte[] audioBuffer = null;
             byte[] coverBuffer = null;
             byte[] videoBuffer = null;
 
-            var metadata = (Dictionary)Json.ParseString(Encoding.UTF8.GetString(metaBuffer));
-            FileParser objects = new(objectsBuffer);
-
             if ((bool)metadata["HasAudio"])
             {
-                audioBuffer = getZipEntryBuffer(file, $"audio.{metadata["AudioExt"]}");
+                audioBuffer = File.ReadAllBytes($"{path}/audio.{metadata["AudioExt"]}");
             }
 
             if ((bool)metadata["HasCover"])
             {
-                coverBuffer = getZipEntryBuffer(file, "cover.png");
+                coverBuffer = File.ReadAllBytes($"{path}/cover.png");
             }
 
             if ((bool)metadata["HasVideo"])
             {
-                videoBuffer = getZipEntryBuffer(file, "video.mp4");
+                videoBuffer = File.ReadAllBytes($"{path}/video.mp4");
             }
 
             var notes = DecodePHXMO(objectsBuffer);
 
-            file.Dispose();
-
             // temp
             metadata.TryGetValue("ArtistLink", out Variant artistLink);
             metadata.TryGetValue("ArtistPlatform", out Variant artistPlatform);
+
+            byte[] hash = Misc.HashFiles([Path.Combine(path, "metadata.json"), Path.Combine(path, "objects.phxmo")]);
+
+            DateTime metadataModified = File.GetLastWriteTime(Path.Combine(path, "metadata.json"));
+            DateTime objectsModified = File.GetLastWriteTime(Path.Combine(path, "objects.phxmo"));
+
 
             map = new(
                 path,
@@ -599,16 +701,53 @@ public partial class MapParser : Node
                 false,
                 (string)artistLink ?? "",
                 (string)artistPlatform ?? ""
-            );
+            )
+            {
+                MetadataObjectHash = BitConverter.ToString(hash).Replace("-", "").ToLower(),
+                LastModifiedMetadata = metadataModified.ToString(),
+                LastModifiedNotes = objectsModified.ToString()
+            };
+            // map.MetadataObjectHash = BitConverter.ToString(hash).Replace("-", "").ToLower();
+            // map.LastModifiedMetadata = metadataModified.ToString();
+            // map.LastModifiedNotes = objectsModified.ToString();
         }
         catch (Exception exception)
         {
-            ToastNotification.Notify($"PHXM file corrupted", 2);
+            _ = ToastNotification.Notify($"{Path.GetFileNameWithoutExtension(path)} is not the proper format!", 2);
             Logger.Error(exception);
             throw;
         }
 
         return map;
+    }
+
+    public static Map PHXM(string path)
+    {
+
+        string mapDirectory = $"{Constants.USER_FOLDER}/maps";
+
+        string extractedFolderName = Path.GetFileNameWithoutExtension(path);
+        string extractedFolderPath = Path.Combine(mapDirectory, extractedFolderName);
+
+        // If the map you are extacting already exists
+        if (Directory.Exists(extractedFolderPath))
+        {
+            Directory.Delete(extractedFolderPath, true);
+            Map existingMap = DatabaseService.Connection.Table<Map>().FirstOrDefault(x => x.FolderPath == extractedFolderPath);
+            MapCache.RemoveMap(existingMap);
+        }
+
+        ZipFile.ExtractToDirectory(path, extractedFolderPath);
+
+        string fullPath = Path.GetFullPath(path);
+        string fullMapDirectory = Path.GetFullPath(mapDirectory);
+        string relativePath = Path.GetRelativePath(fullMapDirectory, fullPath);
+        if (!relativePath.StartsWith("..") && !Path.IsPathRooted(relativePath))
+        {
+            File.Delete(path);
+        }
+
+        return PHXMFolder(extractedFolderPath);
     }
 
     public static Note[] DecodePHXMO(string path)

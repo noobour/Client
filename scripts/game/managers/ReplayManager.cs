@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using Godot;
@@ -28,7 +29,7 @@ public partial class ReplayManager : Node
     public string ReplayPath;
     public Vector2 CursorPosition { get; private set; }
 
-    private FileAccess file;
+    private Godot.FileAccess file;
     private ulong statusOffset, frameCountOffset;
 
     public void NewReplay(Attempt attempt)
@@ -39,7 +40,7 @@ public partial class ReplayManager : Node
 
         ReplayPath = $"{Constants.USER_FOLDER}/replays/{attempt.ID}.phxr";
 
-        file = FileAccess.Open(ReplayPath, FileAccess.ModeFlags.Write);
+        file = Godot.FileAccess.Open(ReplayPath, Godot.FileAccess.ModeFlags.Write);
 
         file.StoreString("phxr");  // sig
         file.Store8(1);    // replay file version
@@ -69,7 +70,7 @@ public partial class ReplayManager : Node
         }
 
         string serializedMods = string.Join("_", mods);
-        string mapName = attempt.Map.FilePath.GetFile().GetBaseName();
+        string mapName = Path.GetFileName(attempt.Map.FolderPath);
         string player = "You";
 
         void storeSizedString(string data)
@@ -126,7 +127,7 @@ public partial class ReplayManager : Node
         file.Close();
 
         // open replay to store hash
-        file = FileAccess.Open($"{Constants.USER_FOLDER}/replays/{attempt.ID}.phxr", FileAccess.ModeFlags.ReadWrite);
+        file = Godot.FileAccess.Open($"{Constants.USER_FOLDER}/replays/{attempt.ID}.phxr", Godot.FileAccess.ModeFlags.ReadWrite);
         ulong length = file.GetLength();
         byte[] hash = SHA256.HashData(file.GetBuffer((long)length));
         file.StoreBuffer(hash);

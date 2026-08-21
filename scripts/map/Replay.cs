@@ -168,13 +168,19 @@ public struct Replay
             MapID = FileBuffer.GetString((int)FileBuffer.GetUInt32());
 
             MapNoteCount = FileBuffer.GetUInt64();
-            MapFilePath = $"{Constants.USER_FOLDER}/maps/default/{MapID}.phxm";
+            MapFilePath = $"{Constants.USER_FOLDER}/maps/{MapID}";
+            if (Path.GetExtension(MapFilePath).Equals(".phxm", StringComparison.OrdinalIgnoreCase))
+            {
+                Logger.Log($"Legacy Replay detected: {MapFilePath}");
+                MapFilePath = Path.ChangeExtension(MapFilePath, null); // just in case it tries to read a .phxm file
 
-            if (!File.Exists(MapFilePath))
+            }
+
+            if (!Directory.Exists(MapFilePath))
             {
                 Valid = false;
                 ToastNotification.Notify("Replay map not found", 2);
-                Logger.Log($"Replay map not found, path: {MapFilePath}.phxm");
+                Logger.Log($"Replay map not found, path: {MapFilePath}");
                 return;
             }
 

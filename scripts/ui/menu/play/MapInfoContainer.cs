@@ -45,6 +45,9 @@ public partial class MapInfoContainer : Panel, ISkinnable
     private string artistLinkFormat;
 
     [Export]
+    private Button exportButton;
+
+    [Export]
     private Button favoriteButton;
 
     [Export]
@@ -123,6 +126,20 @@ public partial class MapInfoContainer : Panel, ISkinnable
         artistLinkFormat = artistLink.Text;
         outlineMaterial = info.GetNode<Panel>("Outline").Material as ShaderMaterial;
 
+        exportButton.Pressed += () =>
+        {
+            string exportPath = $"{Constants.USER_FOLDER}/export/";
+            string exportFilePath = Path.Combine(exportPath, $"{Map.Name}.phxm");
+
+            _ = ToastNotification.Notify($"Exporting to {exportFilePath}", 1);
+            MapParser.ExportEncode(Map);
+
+            _ = ToastNotification.Notify($"Done! Opening export...", 0);
+
+            OS.ShellShowInFileManager(exportFilePath);
+
+        };
+
         favoriteButton.Pressed += () =>
         {
             Map.Favorite = !Map.Favorite;
@@ -144,17 +161,17 @@ public partial class MapInfoContainer : Panel, ISkinnable
         //    MapManager.InsertVideo(Map, file);
         //};
 
-        copyButton.Pressed += () =>
-        {
-            copyDialog.Popup();
+        // copyButton.Pressed += () =>
+        // {
+        //     copyDialog.Popup();
 
-        };
+        // };
 
-        copyDialog.FileSelected += (path) =>
-        {
-            File.Copy(Map.FilePath, path);
-            _ = ToastNotification.Notify($"Copied to {path}");
-        };
+        // copyDialog.FileSelected += (path) =>
+        // {
+        //     File.Copy(Map.FolderPath, path);
+        //     _ = ToastNotification.Notify($"Copied to {path}");
+        // };
 
         deleteButton.Pressed += () =>
         {
