@@ -137,7 +137,6 @@ public partial class MapInfoContainer : Panel, ISkinnable
             _ = ToastNotification.Notify($"Done! Opening export...", 0);
 
             OS.ShellShowInFileManager(exportFilePath);
-
         };
 
         favoriteButton.Pressed += () =>
@@ -164,7 +163,6 @@ public partial class MapInfoContainer : Panel, ISkinnable
         // copyButton.Pressed += () =>
         // {
         //     copyDialog.Popup();
-
         // };
 
         // copyDialog.FileSelected += (path) =>
