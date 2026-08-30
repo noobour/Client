@@ -70,12 +70,12 @@ public partial class MapParser : Node
     public static void ExportEncode(Map map)
     {
         /*
-        The reason we re-decode it is because the cut down map cache's map list does not
-        have the buffers to save time and memory. So if we decode it, we can get the
-        buffers without having to deal with other annoying shit
+		The reason we re-decode it is because the cut down map cache's map list does not
+		have the buffers to save time and memory. So if we decode it, we can get the
+		buffers without having to deal with other annoying shit
 
-            -fog
-        */
+			-fog
+		*/
         Map decodedMap = Decode(map.FolderPath);
 
         string exportPath = $"{Constants.USER_FOLDER}/export/";
@@ -157,7 +157,6 @@ public partial class MapParser : Node
 			1 byte OR int32; y
 		*/
 
-        File.WriteAllText(Path.Combine(mapFolderPath, "metadata.json"), map.EncodeMeta());
 
         using var stream = File.Create(Path.Combine(mapFolderPath, "objects.phxmo"));
         // using BinaryWriter bw = new BinaryWriter(stream);
@@ -208,6 +207,8 @@ public partial class MapParser : Node
         if (map.AudioBuffer != null) addAsset($"audio.{map.AudioExt}", map.AudioBuffer);
         if (map.CoverBuffer != null) addAsset($"cover.png", map.CoverBuffer);
         if (map.VideoBuffer != null) addAsset($"video.mp4", map.VideoBuffer);
+
+        File.WriteAllText(Path.Combine(mapFolderPath, "metadata.json"), map.EncodeMeta());
 
         byte[] hash = Misc.HashFiles([Path.Combine(mapFolderPath, "metadata.json"), Path.Combine(mapFolderPath, "objects.phxmo")]);
 
