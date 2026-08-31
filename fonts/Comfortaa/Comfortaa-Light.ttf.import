@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://r6mx1fgydn5b"
-path="res://.godot/imported/Roboto-Black.ttf-951a3fed1b144ab3975975177593672b.fontdata"
+uid="uid://oyht87khqs4f"
+path="res://.godot/imported/Comfortaa-Light.ttf-8c3738e78d09b5c36da0b926a62ec6f2.fontdata"
 
 [deps]
 
-source_file="res://fonts/Roboto-Black.ttf"
-dest_files=["res://.godot/imported/Roboto-Black.ttf-951a3fed1b144ab3975975177593672b.fontdata"]
+source_file="res://fonts/Comfortaa/Comfortaa-Light.ttf"
+dest_files=["res://.godot/imported/Comfortaa-Light.ttf-8c3738e78d09b5c36da0b926a62ec6f2.fontdata"]
 
 [params]
 

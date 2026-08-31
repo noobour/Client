@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b6hgjef6s6oly"
-path="res://.godot/imported/Comfortaa-Bold.ttf-711bd3a22ac94916899d65de7620fea4.fontdata"
+uid="uid://yh8w8gl1jfau"
+path="res://.godot/imported/Roboto-MediumItalic.ttf-d097d2e209e8f9efad7c597fdeab4e2c.fontdata"
 
 [deps]
 
-source_file="res://fonts/Comfortaa-Bold.ttf"
-dest_files=["res://.godot/imported/Comfortaa-Bold.ttf-711bd3a22ac94916899d65de7620fea4.fontdata"]
+source_file="res://fonts/Roboto/Roboto-MediumItalic.ttf"
+dest_files=["res://.godot/imported/Roboto-MediumItalic.ttf-d097d2e209e8f9efad7c597fdeab4e2c.fontdata"]
 
 [params]
 

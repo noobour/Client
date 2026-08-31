@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://4bnnn01f4dqr"
-path="res://.godot/imported/Ubuntu-Medium.ttf-22ec0a727a503ce3cff05e3c5547b1aa.fontdata"
+uid="uid://cftyx3vsqawqw"
+path="res://.godot/imported/Comfortaa-SemiBold.ttf-e5995d0d7d92b67d8be2b97719d65c91.fontdata"
 
 [deps]
 
-source_file="res://fonts/Ubuntu-Medium.ttf"
-dest_files=["res://.godot/imported/Ubuntu-Medium.ttf-22ec0a727a503ce3cff05e3c5547b1aa.fontdata"]
+source_file="res://fonts/Comfortaa/Comfortaa-SemiBold.ttf"
+dest_files=["res://.godot/imported/Comfortaa-SemiBold.ttf-e5995d0d7d92b67d8be2b97719d65c91.fontdata"]
 
 [params]
 
