@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
@@ -159,5 +160,26 @@ public class Misc
         }
 
         return fallback;
+    }
+
+    public static int BinarySearch(double[] values, double time)
+    {
+        int left = 0, right = values.Length;
+
+        while (left < right)
+        {
+            int middle = (left + right) / 2;
+
+            if (time < values[middle])
+            {
+                right = middle;
+            }
+            else
+            {
+                left = middle + 1;
+            }
+        }
+
+        return left - 1;
     }
 }
