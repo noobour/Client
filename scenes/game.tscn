@@ -39,6 +39,8 @@
 [ext_resource type="Texture2D" uid="uid://b0k0ltu15bart" path="res://user/skins/default/modifiers/nofail.png" id="34_8ool0"]
 [ext_resource type="Script" uid="uid://cvaggwr3rrenl" path="res://scripts/game/renderers/NoteRenderer.cs" id="34_pr1ej"]
 [ext_resource type="Script" uid="uid://c8d872aoiqglo" path="res://scripts/PlayerInputController.cs" id="37_02fa5"]
+[ext_resource type="Texture2D" uid="uid://dte55kqyqtf12" path="res://user/skins/default/ui/buttons/speed_minus.png" id="37_05nbr"]
+[ext_resource type="Texture2D" uid="uid://r6nsvqtknp20" path="res://user/skins/default/ui/buttons/speed_plus.png" id="38_0sl42"]
 [ext_resource type="Script" uid="uid://dlxxg2h4cl5hj" path="res://scripts/game/ui/PauseMenu.cs" id="38_8ool0"]
 [ext_resource type="Script" uid="uid://c24b7vefbxvbh" path="res://scripts/game/ui/PlaytestOverlay.cs" id="40_m4url"]
 
@@ -779,27 +781,47 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sijr0")
 
-[node name="OrthogonalCamera" type="SubViewportContainer" parent="ReplayViewer" unique_id=468959325]
+[node name="OrthogonalPanel" type="Panel" parent="ReplayViewer" unique_id=816223519]
+light_mask = 512
+visibility_layer = 512
+z_index = -1
+z_as_relative = false
 layout_mode = 1
-anchors_preset = -1
-anchor_top = -0.462
-anchor_bottom = -0.462
-offset_top = -255.976
-offset_right = 256.0
-offset_bottom = 0.024000168
-grow_horizontal = 0
-grow_vertical = 2
+offset_left = -5.0
+offset_top = -283.0
+offset_right = 259.0
+offset_bottom = -19.0
+offset_transform_enabled = true
+offset_transform_pivot_ratio = Vector2(1, 1)
+offset_transform_visual_only = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sijr0")
 
-[node name="SubViewport" type="SubViewport" parent="ReplayViewer/OrthogonalCamera" unique_id=559747074]
+[node name="OrthogonalCamera" type="SubViewportContainer" parent="ReplayViewer/OrthogonalPanel" unique_id=468959325]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="SubViewport" type="SubViewport" parent="ReplayViewer/OrthogonalPanel/OrthogonalCamera" unique_id=559747074]
 transparent_bg = true
 handle_input_locally = false
 scaling_3d_mode = 5
 size = Vector2i(256, 256)
-size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="ReplayViewer/OrthogonalCamera/SubViewport" unique_id=1970241273]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.46093822)
+[node name="Camera3D" type="Camera3D" parent="ReplayViewer/OrthogonalPanel/OrthogonalCamera/SubViewport" unique_id=1970241273]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.44182658)
+top_level = true
 projection = 1
 size = 3.1727066
 
@@ -808,20 +830,72 @@ layout_mode = 1
 anchors_preset = -1
 offset_right = 40.0
 grow_vertical = 0
-text = "Press F2 to hide replay UI, F3 to enable orthogonal camera"
+text = "Press F2 to hide replay UI, F3 to hide orthogonal camera"
+label_settings = SubResource("LabelSettings_a70tm")
+
+[node name="Speed" type="Label" parent="ReplayViewer" unique_id=1634791228]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 2.811
+anchor_top = 1.0
+anchor_right = 2.811
+anchor_bottom = 1.0
+offset_left = -2373.176
+offset_top = -79.0
+offset_right = -2209.176
+offset_bottom = -56.0
+grow_vertical = 0
+text = "Current speed: 1x"
 label_settings = SubResource("LabelSettings_a70tm")
 
 [node name="Time" type="Label" parent="ReplayViewer" unique_id=1277133470]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
-offset_left = 64.0
+offset_left = 133.0
 offset_top = 12.0
-offset_right = 164.0
+offset_right = 233.0
 offset_bottom = -12.0
 text = "0:00 / 0:00"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SpeedDown" type="TextureButton" parent="ReplayViewer" unique_id=1776608865]
+texture_repeat = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 92.0
+offset_top = -17.0
+offset_right = 132.0
+offset_bottom = 17.0
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("37_05nbr")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="SpeedUp" type="TextureButton" parent="ReplayViewer" unique_id=1897619288]
+texture_repeat = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 52.0
+offset_top = -17.0
+offset_right = 92.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("38_0sl42")
+ignore_texture_size = true
+stretch_mode = 0
 
 [node name="Pause" type="TextureButton" parent="ReplayViewer" unique_id=1677045606]
 texture_repeat = 1
@@ -842,8 +916,10 @@ anchors_preset = -1
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 192.0
+offset_left = 235.0
+offset_top = -16.0
 offset_right = -32.0
+offset_bottom = 16.0
 grow_vertical = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_rvp5o")
