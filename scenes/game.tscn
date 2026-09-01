@@ -17,7 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://dmc5f6ajp8xv1" path="res://user/skins/default/game/progress_background.png" id="8_eu3ux"]
 [ext_resource type="Script" uid="uid://dv0gni2j4t686" path="res://scripts/game/ui/PanelLeft.cs" id="8_qnb83"]
 [ext_resource type="Texture2D" uid="uid://d3s17ehomjscd" path="res://user/skins/default/game/progress.png" id="9_nde5v"]
-[ext_resource type="FontFile" uid="uid://cmjos3o0k2f6t" path="res://fonts/Comfortaa/Comfortaa-Medium.ttf" id="11_o37lt"]
 [ext_resource type="Texture2D" uid="uid://80bitp5weqrb" path="res://user/skins/default/game/panel_left_background.png" id="11_sdncv"]
 [ext_resource type="FontFile" uid="uid://b6hgjef6s6oly" path="res://fonts/Comfortaa/Comfortaa-Bold.ttf" id="12_axsek"]
 [ext_resource type="Texture2D" uid="uid://ccdaf14yq65jf" path="res://user/skins/default/game/grid_guides.png" id="12_pr1ej"]
@@ -27,7 +26,9 @@
 [ext_resource type="Shader" uid="uid://bp2sv5ynsubi2" path="res://scripts/shaders/alpha_gradient.gdshader" id="14_3xchs"]
 [ext_resource type="Texture2D" uid="uid://c3x2cp3tx4vqt" path="res://user/skins/default/game/misses.png" id="14_bqf11"]
 [ext_resource type="Shader" uid="uid://bx4888tau78tk" path="res://scripts/shaders/combo_progress.gdshader" id="14_y51pe"]
+[ext_resource type="FontFile" uid="uid://dhyog1pif7c5i" path="res://fonts/Nunito/Nunito-Bold.ttf" id="20_pr1ej"]
 [ext_resource type="Script" uid="uid://0boi2mqa8488" path="res://scripts/game/ui/Combo.cs" id="20_suyxu"]
+[ext_resource type="FontFile" uid="uid://b0ru0lfde5a21" path="res://fonts/Nunito/Nunito-SemiBold.ttf" id="21_05nbr"]
 [ext_resource type="Script" uid="uid://cmmf22opvqenp" path="res://scripts/game/ui/Progress.cs" id="21_twgab"]
 [ext_resource type="Script" uid="uid://bjc8qp66nisos" path="res://scripts/game/ui/Title.cs" id="22_02fa5"]
 [ext_resource type="Texture2D" uid="uid://lfj8i1bi6kfs" path="res://textures/ui/pause.png" id="23_7silw"]
@@ -137,11 +138,15 @@ shader_parameter/size = 1.0
 bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_usmyc"]
-font = ExtResource("12_axsek")
+font = ExtResource("20_pr1ej")
+font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_pr1ej"]
+font = ExtResource("21_05nbr")
 font_size = 50
 
 [sub_resource type="LabelSettings" id="LabelSettings_pause_counter_title"]
-font = ExtResource("12_axsek")
+font = ExtResource("21_05nbr")
 font_size = 50
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_suyxu"]
@@ -156,20 +161,20 @@ albedo_texture = SubResource("ViewportTexture_suyxu")
 texture_repeat = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_5bid2"]
-font = ExtResource("12_axsek")
+font = ExtResource("21_05nbr")
 font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_v63ri"]
-font = ExtResource("12_axsek")
+font = ExtResource("21_05nbr")
 font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_g4ffu"]
-font = ExtResource("11_o37lt")
+font = ExtResource("21_05nbr")
 font_size = 50
 font_color = Color(1, 1, 1, 0.768627)
 
 [sub_resource type="LabelSettings" id="LabelSettings_s1j5a"]
-font = ExtResource("12_axsek")
+font = ExtResource("21_05nbr")
 font_size = 50
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gc8yu"]
@@ -411,7 +416,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_rvp5o")
 text = "1x"
-label_settings = SubResource("LabelSettings_usmyc")
+label_settings = SubResource("LabelSettings_pr1ej")
 horizontal_alignment = 1
 
 [node name="ComboCount" type="Label" parent="Runner/HUD/PanelLeft/PanelLeftViewport" unique_id=531787894]
@@ -474,6 +479,7 @@ anchor_top = 0.625
 anchor_right = 0.5
 anchor_bottom = 0.625
 offset_right = -25.0
+offset_bottom = -4.0
 grow_horizontal = 0
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -490,6 +496,7 @@ anchor_top = 0.625
 anchor_right = 0.5
 anchor_bottom = 0.625
 offset_left = 25.0
+offset_bottom = -4.0
 grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("4_rvp5o")
@@ -608,7 +615,7 @@ pixel_size = 0.0025
 modulate = Color(1, 1, 1, 0.74509805)
 outline_modulate = Color(0, 0, 0, 0)
 text = "0:00 / 0:00"
-font = ExtResource("12_axsek")
+font = ExtResource("21_05nbr")
 font_size = 64
 
 [node name="Title" type="Node3D" parent="Runner/HUD" unique_id=1847012801]
@@ -618,7 +625,7 @@ script = ExtResource("22_02fa5")
 transform = Transform3D(2, 0, 0, 0, 1.93185, -0.517638, 0, 0.517638, 1.93185, 0, 8.25, -10)
 outline_modulate = Color(0, 0, 0, 0)
 text = "N/A - N/A"
-font = ExtResource("12_axsek")
+font = ExtResource("20_pr1ej")
 font_size = 64
 autowrap_mode = 3
 width = 2500.0
@@ -646,7 +653,7 @@ pixel_size = 0.0025
 modulate = Color(1, 1, 1, 0.39215687)
 outline_modulate = Color(0, 0, 0, 0)
 text = "1.00x"
-font = ExtResource("5_pxgh4")
+font = ExtResource("21_05nbr")
 
 [node name="Skip" type="Node3D" parent="Runner/HUD" unique_id=1658610942]
 script = ExtResource("25_nepv3")
@@ -657,7 +664,7 @@ pixel_size = 0.0025
 modulate = Color(1, 1, 1, 0)
 outline_modulate = Color(0, 0, 0, 0)
 text = "Press Space to skip"
-font = ExtResource("12_axsek")
+font = ExtResource("21_05nbr")
 
 [node name="TemplateModifier" type="Sprite3D" parent="Runner/HUD" unique_id=1238434581]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -8.5, -10)
