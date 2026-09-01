@@ -67,6 +67,18 @@ distance_fade_min_distance = 1076.07
 material = SubResource("StandardMaterial3D_lvhmj")
 size = Vector2(0.263, 0.263)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mxjd5"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_xl0vn"]
+material = SubResource("StandardMaterial3D_mxjd5")
+size = Vector2(0.025, 0.025)
+
+[sub_resource type="Gradient" id="Gradient_s2b4e"]
+colors = PackedColorArray(1, 1, 1, 1, 0.61095995, 0, 0.28419933, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssr8x"]
 transparency = 1
 cull_mode = 2
@@ -313,6 +325,16 @@ script = ExtResource("27_js0lu")
 [node name="Cursor" type="MeshInstance3D" parent="Runner/HUD/Grid" unique_id=292067677]
 mesh = SubResource("QuadMesh_xij4d")
 skeleton = NodePath("../../../..")
+
+[node name="CursorPath" type="CPUParticles3D" parent="Runner/HUD/Grid/Cursor" unique_id=1671559466]
+cast_shadow = 0
+emitting = false
+amount = 500
+lifetime = 0.25
+mesh = SubResource("QuadMesh_xl0vn")
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("Gradient_s2b4e")
 
 [node name="CursorTrail" type="MultiMeshInstance3D" parent="Runner/HUD/Grid" unique_id=913051903]
 material_override = SubResource("StandardMaterial3D_ssr8x")
@@ -779,27 +801,47 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sijr0")
 
-[node name="OrthogonalCamera" type="SubViewportContainer" parent="ReplayViewer" unique_id=468959325]
+[node name="OrthogonalPanel" type="Panel" parent="ReplayViewer" unique_id=816223519]
+light_mask = 512
+visibility_layer = 512
+z_index = -1
+z_as_relative = false
 layout_mode = 1
-anchors_preset = -1
-anchor_top = -0.462
-anchor_bottom = -0.462
-offset_top = -255.976
-offset_right = 256.0
-offset_bottom = 0.024000168
-grow_horizontal = 0
-grow_vertical = 2
+offset_left = -5.0
+offset_top = -283.0
+offset_right = 259.0
+offset_bottom = -19.0
+offset_transform_enabled = true
+offset_transform_pivot_ratio = Vector2(1, 1)
+offset_transform_visual_only = false
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sijr0")
 
-[node name="SubViewport" type="SubViewport" parent="ReplayViewer/OrthogonalCamera" unique_id=559747074]
+[node name="OrthogonalCamera" type="SubViewportContainer" parent="ReplayViewer/OrthogonalPanel" unique_id=468959325]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="SubViewport" type="SubViewport" parent="ReplayViewer/OrthogonalPanel/OrthogonalCamera" unique_id=559747074]
 transparent_bg = true
 handle_input_locally = false
 scaling_3d_mode = 5
 size = Vector2i(256, 256)
-size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="ReplayViewer/OrthogonalCamera/SubViewport" unique_id=1970241273]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.46093822)
+[node name="Camera3D" type="Camera3D" parent="ReplayViewer/OrthogonalPanel/OrthogonalCamera/SubViewport" unique_id=1970241273]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.44182658)
+top_level = true
 projection = 1
 size = 3.1727066
 
@@ -808,7 +850,7 @@ layout_mode = 1
 anchors_preset = -1
 offset_right = 40.0
 grow_vertical = 0
-text = "Press F2 to hide replay UI, F3 to enable orthogonal camera"
+text = "Press F2 to hide replay UI, F3 to hide orthogonal camera, F4 to hide cursor path"
 label_settings = SubResource("LabelSettings_a70tm")
 
 [node name="Time" type="Label" parent="ReplayViewer" unique_id=1277133470]
