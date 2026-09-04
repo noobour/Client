@@ -679,6 +679,7 @@ font = ExtResource("21_05nbr")
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -8.5, -10)
 visible = false
 modulate = Color(1, 1, 1, 0.376471)
+pixel_size = 0.015
 double_sided = false
 no_depth_test = true
 texture = ExtResource("34_8ool0")
@@ -836,7 +837,11 @@ layout_mode = 1
 anchors_preset = -1
 offset_right = 40.0
 grow_vertical = 0
+<<<<<<< HEAD
 text = "Press F2 to hide replay UI, F3 to hide orthogonal camera, F to toggle note fade out, P to toggle note pushback"
+=======
+text = "Press F2 to hide replay UI, F3 to hide orthogonal camera, F to toggle note fade, P to toggle note pushback"
+>>>>>>> aa44fa4 (fix: grid space not being transparent + small touchups to replay UI)
 label_settings = SubResource("LabelSettings_a70tm")
 
 [node name="Time" type="Label" parent="ReplayViewer" unique_id=1277133470]
