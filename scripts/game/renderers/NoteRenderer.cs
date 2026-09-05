@@ -11,6 +11,8 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 
     private Color transparent = new(0xffffff00);
 
+    private StandardMaterial3D material = new StandardMaterial3D();
+
     public override void _Ready()
     {
         runner ??= GetParent().GetParent<Runner>();
@@ -31,7 +33,6 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
     public override void Setup(SettingsProfile settings, SkinProfile skin)
     {
         base.Setup(settings, skin);
-
         NoteMultiMesh.Multimesh.InstanceCount = 0;
         NoteMultiMesh.Multimesh.VisibleInstanceCount = -1;
 
@@ -39,6 +40,11 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 
         for (int i = 0; i < mesh.GetSurfaceCount(); i++)
         {
+            if (mesh.SurfaceGetMaterial(i) == null)
+            {
+                mesh.SurfaceSetMaterial(i, material);
+            }
+
             if (mesh.SurfaceGetMaterial(i) is not StandardMaterial3D mat) continue;
 
             mat.Transparency = BaseMaterial3D.TransparencyEnum.AlphaDepthPrePass;
