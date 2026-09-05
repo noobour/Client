@@ -33,6 +33,7 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
     public override void Setup(SettingsProfile settings, SkinProfile skin)
     {
         base.Setup(settings, skin);
+
         NoteMultiMesh.Multimesh.InstanceCount = 0;
         NoteMultiMesh.Multimesh.VisibleInstanceCount = -1;
 
