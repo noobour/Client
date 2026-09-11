@@ -27,6 +27,9 @@ public class Misc
             case "Strobe":
                 tex = skin.ModStrobeImage;
                 break;
+            case "Flicker":
+                tex = skin.ModNoFailImage;
+                break;
             case "Chaos":
                 tex = skin.ModChaosImage;
                 break;

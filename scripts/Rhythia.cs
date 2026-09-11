@@ -183,6 +183,7 @@ public partial class Rhythia : Node
             new NoFailModifier(),
             new GhostModifier(),
             new StrobeModifier(),
+            new FlickerModifier(),
             new ChaosModifier(),
             new VortexModifier(),
             new EarthquakeModifier(),
