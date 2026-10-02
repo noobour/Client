@@ -1110,7 +1110,6 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="PlaytestOverlay" type="Panel" parent="." unique_id=1181132228 node_paths=PackedStringArray("ReplayManager")]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1200,3 +1199,7 @@ alignment = 1
 [node name="PlayButton" type="Button" parent="PlaytestOverlay/VB" unique_id=1844474893]
 layout_mode = 2
 text = "Play (Space)"
+
+[node name="placeholder" type="Label" parent="PlaytestOverlay/VB" unique_id=551712507]
+layout_mode = 2
+text = "testtesttesttest"
