@@ -736,6 +736,9 @@ grow_vertical = 2
 script = ExtResource("22_qw82i")
 
 [node name="Holder" type="Panel" parent="Menus/Play/MapInfo" unique_id=981210358]
+custom_minimum_size = Vector2(1, 1)
+propagate_maximum_size = true
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

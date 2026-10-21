@@ -64,18 +64,18 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xsea"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dccrs"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8cypg"]
 font_color = Color(1, 1, 1, 0.2509804)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8cypg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xsea"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dccrs"]
 content_margin_top = 6.0
@@ -195,11 +195,11 @@ copyButton = NodePath("Info/Control/infoControl/infoSubholder/Buttons/Copy")
 copyDialog = NodePath("Info/Control/infoControl/infoSubholder/Buttons/Copy/CopyDialog")
 deleteButton = NodePath("Info/Control/infoControl/infoSubholder/Buttons/Delete")
 actions = NodePath("Actions")
-preview = NodePath("Actions/ScrollContainer/Holder/Preview/AspectRatioContainer/FlatPreview")
-speedHolder = NodePath("Actions/ScrollContainer/Holder/Speed")
-speedPresets = NodePath("Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets")
-playHolder = NodePath("Actions/ScrollContainer/Holder/Play")
-startButton = NodePath("Actions/ScrollContainer/Holder/Play/Button")
+preview = NodePath("Actions/Holder/Preview/AspectRatioContainer/FlatPreview")
+speedHolder = NodePath("Actions/Holder/Speed")
+speedPresets = NodePath("Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets")
+playHolder = NodePath("Actions/Holder/Play")
+startButton = NodePath("Actions/Holder/Play/AspectRatioContainer/Button")
 leaderboard = NodePath("Leaderboard")
 lbScrollContainer = NodePath("Leaderboard/ScrollContainer")
 lbContainer = NodePath("Leaderboard/ScrollContainer/VBoxContainer")
@@ -479,36 +479,20 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_50xtp")
 
-[node name="Background" type="Panel" parent="Actions" unique_id=1630313004]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1q06g")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Actions" unique_id=1759217919]
+[node name="Holder" type="Panel" parent="Actions" unique_id=2082686992]
+z_index = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 0.16052246
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
-mouse_force_pass_scroll_events = false
-theme = ExtResource("4_4d08m")
-theme_override_styles/panel = SubResource("StyleBoxEmpty_6xsea")
-
-[node name="Holder" type="Panel" parent="Actions/ScrollContainer" unique_id=2082686992]
-custom_minimum_size = Vector2(0, 270)
-layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_dccrs")
 
-[node name="Preview" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=1556934129]
+[node name="Preview" type="Panel" parent="Actions/Holder" unique_id=1556934129]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.75
@@ -520,7 +504,7 @@ offset_right = -16.0
 offset_bottom = -8.0
 theme = ExtResource("4_4d08m")
 
-[node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Preview" unique_id=1810531805]
+[node name="Label" type="Label" parent="Actions/Holder/Preview" unique_id=1810531805]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -531,7 +515,7 @@ label_settings = SubResource("LabelSettings_8cypg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Preview" unique_id=501827636]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Actions/Holder/Preview" unique_id=501827636]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -541,11 +525,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_4d08m")
 
-[node name="FlatPreview" type="Panel" parent="Actions/ScrollContainer/Holder/Preview/AspectRatioContainer" unique_id=1598782161]
+[node name="FlatPreview" type="Panel" parent="Actions/Holder/Preview/AspectRatioContainer" unique_id=1598782161]
 layout_mode = 2
 script = ExtResource("5_svokg")
 
-[node name="Modes" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=61555324 node_paths=PackedStringArray("container", "templateButton")]
+[node name="Modes" type="Panel" parent="Actions/Holder" unique_id=61555324 node_paths=PackedStringArray("container", "templateButton")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -560,10 +544,10 @@ grow_vertical = 0
 tooltip_text = "Changes how the camera functions: Spin enables a first-person perspective, while Lock keeps the camera still"
 theme = ExtResource("4_4d08m")
 script = ExtResource("11_ne4r3")
-container = NodePath("ScrollContainer/VBoxContainer")
-templateButton = NodePath("ScrollContainer/VBoxContainer/CameraButton")
+container = NodePath("AspectRatioContainer/ScrollContainer/VBoxContainer")
+templateButton = NodePath("AspectRatioContainer/ScrollContainer/VBoxContainer/CameraButton")
 
-[node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Modes" unique_id=1992359892]
+[node name="Label" type="Label" parent="Actions/Holder/Modes" unique_id=1992359892]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = -1
@@ -574,20 +558,26 @@ label_settings = SubResource("LabelSettings_8cypg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Actions/ScrollContainer/Holder/Modes" unique_id=1933263171]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Actions/Holder/Modes" unique_id=1245498483]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 32.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_left = -0.038000003
+anchor_right = 1.049
+anchor_bottom = 0.94200003
+offset_left = -0.00799942
+offset_top = 33.0
+offset_right = -0.01600647
+offset_bottom = 0.0039978027
+ratio = 1.5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Actions/ScrollContainer/Holder/Modes/ScrollContainer" unique_id=547894096]
+[node name="ScrollContainer" type="ScrollContainer" parent="Actions/Holder/Modes/AspectRatioContainer" unique_id=1933263171]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Actions/Holder/Modes/AspectRatioContainer/ScrollContainer" unique_id=547894096]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CameraButton" type="Button" parent="Actions/ScrollContainer/Holder/Modes/ScrollContainer/VBoxContainer" unique_id=73533266]
+[node name="CameraButton" type="Button" parent="Actions/Holder/Modes/AspectRatioContainer/ScrollContainer/VBoxContainer" unique_id=73533266]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 0
@@ -598,7 +588,7 @@ toggle_mode = true
 text = "CameraMode"
 icon_alignment = 1
 
-[node name="Modifiers" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=892128765 node_paths=PackedStringArray("container", "templateButton")]
+[node name="Modifiers" type="Panel" parent="Actions/Holder" unique_id=892128765 node_paths=PackedStringArray("container", "templateButton")]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.5
@@ -614,7 +604,7 @@ script = ExtResource("12_1m5pv")
 container = NodePath("ScrollContainer/HBoxContainer")
 templateButton = NodePath("ScrollContainer/HBoxContainer/ModifierButton")
 
-[node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Modifiers" unique_id=1601764005]
+[node name="Label" type="Label" parent="Actions/Holder/Modifiers" unique_id=1601764005]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = -1
@@ -625,7 +615,7 @@ label_settings = SubResource("LabelSettings_8cypg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Actions/ScrollContainer/Holder/Modifiers" unique_id=1889477090]
+[node name="ScrollContainer" type="ScrollContainer" parent="Actions/Holder/Modifiers" unique_id=1889477090]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -634,13 +624,13 @@ offset_top = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer" unique_id=550682937]
+[node name="HBoxContainer" type="HBoxContainer" parent="Actions/Holder/Modifiers/ScrollContainer" unique_id=550682937]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="ModifierButton" type="Button" parent="Actions/ScrollContainer/Holder/Modifiers/ScrollContainer/HBoxContainer" unique_id=1204227493]
+[node name="ModifierButton" type="Button" parent="Actions/Holder/Modifiers/ScrollContainer/HBoxContainer" unique_id=1204227493]
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -652,7 +642,7 @@ toggle_mode = true
 icon = ExtResource("8_wk5qh")
 icon_alignment = 1
 
-[node name="Speed" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=1748400541]
+[node name="Speed" type="Panel" parent="Actions/Holder" unique_id=1748400541]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = -1
@@ -667,7 +657,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8cypg")
 
-[node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Speed" unique_id=1107146205]
+[node name="Label" type="Label" parent="Actions/Holder/Speed" unique_id=1107146205]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -678,70 +668,78 @@ label_settings = SubResource("LabelSettings_8cypg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Actions/ScrollContainer/Holder/Speed" unique_id=998984792]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Actions/Holder/Speed" unique_id=1989039563]
+propagate_maximum_size = false
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
+anchor_top = 0.23200001
 anchor_right = 1.0
 anchor_bottom = 0.75
-offset_top = 32.0
+offset_top = -0.016002655
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+stretch_mode = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Actions/Holder/Speed/AspectRatioContainer" unique_id=998984792]
+layout_mode = 2
 theme = ExtResource("4_4d08m")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6xsea")
 vertical_scroll_mode = 0
 
-[node name="Presets" type="HBoxContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer" unique_id=163344429]
+[node name="Presets" type="HBoxContainer" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer" unique_id=163344429]
+propagate_maximum_size = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MinusMinus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=11810616]
+[node name="MinusMinus" type="AspectRatioContainer" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets" unique_id=11810616]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/MinusMinus" unique_id=477930068 instance=ExtResource("8_i21mh")]
+[node name="SpeedPresetButton" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets/MinusMinus" unique_id=477930068 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("11_1jb84")
 Speed = 80.0
 
-[node name="Minus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=1271301360]
+[node name="Minus" type="AspectRatioContainer" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets" unique_id=1271301360]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/Minus" unique_id=2083527822 instance=ExtResource("8_i21mh")]
+[node name="SpeedPresetButton" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets/Minus" unique_id=2083527822 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("12_cqtnb")
 Speed = 90.0
 
-[node name="Middle" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=2041276269]
+[node name="Middle" type="AspectRatioContainer" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets" unique_id=2041276269]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/Middle" unique_id=1494105151 instance=ExtResource("8_i21mh")]
+[node name="SpeedPresetButton" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets/Middle" unique_id=1494105151 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("18_1m5pv")
 
-[node name="Plus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=805702372]
+[node name="Plus" type="AspectRatioContainer" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets" unique_id=805702372]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/Plus" unique_id=1865271496 instance=ExtResource("8_i21mh")]
+[node name="SpeedPresetButton" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets/Plus" unique_id=1865271496 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("13_3adhn")
 Speed = 110.0
 
-[node name="PlusPlus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=923821419]
+[node name="PlusPlus" type="AspectRatioContainer" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets" unique_id=923821419]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/PlusPlus" unique_id=561152070 instance=ExtResource("8_i21mh")]
+[node name="SpeedPresetButton" parent="Actions/Holder/Speed/AspectRatioContainer/ScrollContainer/Presets/PlusPlus" unique_id=561152070 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("14_hri10")
 Speed = 120.0
 
-[node name="LineEdit" type="LineEdit" parent="Actions/ScrollContainer/Holder/Speed" unique_id=1046150966]
+[node name="LineEdit" type="LineEdit" parent="Actions/Holder/Speed" unique_id=1046150966]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -760,7 +758,7 @@ emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
 caret_blink = true
 
-[node name="HSlider" type="HSlider" parent="Actions/ScrollContainer/Holder/Speed" unique_id=953852248]
+[node name="HSlider" type="HSlider" parent="Actions/Holder/Speed" unique_id=953852248]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.75
@@ -783,7 +781,7 @@ tick_count = 11
 ticks_on_borders = true
 ticks_position = 3
 
-[node name="Play" type="Panel" parent="Actions/ScrollContainer/Holder" unique_id=930630677]
+[node name="Play" type="Panel" parent="Actions/Holder" unique_id=930630677]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -798,18 +796,53 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8cypg")
 
-[node name="Label" type="Label" parent="Actions/ScrollContainer/Holder/Play" unique_id=986995554]
+[node name="Label" type="Label" parent="Actions/Holder/Play" unique_id=986995554]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-offset_bottom = 32.0
+anchor_bottom = 0.16700001
+offset_bottom = -0.046001434
 grow_horizontal = 2
 text = "Play"
 label_settings = SubResource("LabelSettings_8cypg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="Actions/ScrollContainer/Holder/Play" unique_id=1722033663]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Actions/Holder/Play" unique_id=2019895803]
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -23.0
+offset_right = 97.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 4.5
+stretch_mode = 1
+
+[node name="Button" type="Button" parent="Actions/Holder/Play/AspectRatioContainer" unique_id=375202963]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_4d08m")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_max_width = 25
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_dccrs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i21mh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6xsea")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8wv8f")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_wk5qh")
+text = "START"
+icon = ExtResource("20_ir45w")
+icon_alignment = 2
+
+[node name="LineEdit" type="LineEdit" parent="Actions/Holder/Play" unique_id=1722033663]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -828,7 +861,7 @@ emoji_menu_enabled = false
 drag_and_drop_selection_enabled = false
 caret_blink = true
 
-[node name="HSlider" type="HSlider" parent="Actions/ScrollContainer/Holder/Play" unique_id=1657310011]
+[node name="HSlider" type="HSlider" parent="Actions/Holder/Play" unique_id=1657310011]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.75
@@ -846,33 +879,7 @@ tick_count = 11
 ticks_on_borders = true
 ticks_position = 3
 
-[node name="Button" type="Button" parent="Actions/ScrollContainer/Holder/Play" unique_id=375202963]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.21800001
-anchor_right = 0.90000004
-anchor_bottom = 0.64000005
-offset_top = 18.352
-offset_bottom = -9.040009
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme = ExtResource("4_4d08m")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/icon_max_width = 32
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_dccrs")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i21mh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6xsea")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8wv8f")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_wk5qh")
-text = "START"
-icon = ExtResource("20_ir45w")
-icon_alignment = 2
-
-[node name="Separator1" type="ColorRect" parent="Actions/ScrollContainer/Holder" unique_id=1597881811]
+[node name="Separator1" type="ColorRect" parent="Actions/Holder" unique_id=1597881811]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -883,7 +890,7 @@ offset_right = 1.0
 offset_bottom = -16.0
 color = Color(1, 1, 1, 0.078431375)
 
-[node name="Separator2" type="ColorRect" parent="Actions/ScrollContainer/Holder" unique_id=141183838]
+[node name="Separator2" type="ColorRect" parent="Actions/Holder" unique_id=141183838]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.75
@@ -894,7 +901,7 @@ offset_right = 1.0
 offset_bottom = -16.0
 color = Color(1, 1, 1, 0.078431375)
 
-[node name="Separator3" type="ColorRect" parent="Actions/ScrollContainer/Holder" unique_id=993041338]
+[node name="Separator3" type="ColorRect" parent="Actions/Holder" unique_id=993041338]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -906,7 +913,7 @@ offset_right = 1.0
 offset_bottom = -16.0
 color = Color(1, 1, 1, 0.078431375)
 
-[node name="Separator4" type="ColorRect" parent="Actions/ScrollContainer/Holder" unique_id=1105008317]
+[node name="Separator4" type="ColorRect" parent="Actions/Holder" unique_id=1105008317]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -916,6 +923,16 @@ offset_left = 16.0
 offset_right = -16.0
 offset_bottom = 1.0
 color = Color(1, 1, 1, 0.078431375)
+
+[node name="Background" type="Panel" parent="Actions" unique_id=1630313004]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1q06g")
 
 [node name="Outline" type="Panel" parent="Actions" unique_id=329413873]
 material = SubResource("ShaderMaterial_4d08m")
