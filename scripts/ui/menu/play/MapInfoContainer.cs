@@ -245,7 +245,11 @@ public partial class MapInfoContainer : Panel, ISkinnable
 			int length = Map != null ? Map.Length : 1;
 
 			startFromSlider.SetValueNoSignal(startFrom / length);
+<<<<<<< Updated upstream
 			startFromEdit.Text = Util.String.FormatTime(startFrom / 1000);
+=======
+			startFromEdit.Text = util.String.FormatTime(startFrom / 1000);
+>>>>>>> Stashed changes
 			startButton.Text = $"START{(startFrom > 0 ? $" ({startFromEdit.Text})" : "")}";
 		}
 
@@ -428,6 +432,7 @@ public partial class MapInfoContainer : Panel, ISkinnable
 		mainLabel.Text = string.Format(
 			CultureInfo.CurrentCulture,
 			mainLabelFormat,
+<<<<<<< Updated upstream
 			Util.String.SanitizeBBCode(map.PrettyTitle),
 			difficultyColor.ToHtml(),
 			Util.String.SanitizeBBCode(map.DifficultyName),
@@ -436,6 +441,16 @@ public partial class MapInfoContainer : Panel, ISkinnable
 		);
 
 		extraLabel.Text = string.Format(CultureInfo.CurrentCulture, extraLabelFormat, Util.String.FormatTime(map.Length / 1000), map.Notes.Length);
+=======
+			util.String.SanitizeBBCode(map.PrettyTitle),
+			difficultyColor.ToHtml(),
+			util.String.SanitizeBBCode(map.DifficultyName),
+			util.String.SanitizeBBCode(map.PrettyMappers),
+			util.String.SanitizeBBCode(map.Name)
+		);
+
+		extraLabel.Text = string.Format(CultureInfo.CurrentCulture, extraLabelFormat, util.String.FormatTime(map.Length / 1000), map.Notes.Length);
+>>>>>>> Stashed changes
 
 		coverBackground.SelfModulate = difficultyColor;
 		cover.Texture = map.Cover;
