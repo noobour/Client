@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bopde8iqsld1o" path="res://fonts/Ubuntu/Ubuntu-Regular.ttf" id="4_2ytni"]
 [ext_resource type="Shader" uid="uid://cxckrd6xtplnx" path="res://scripts/shaders/jukebox_progress.gdshader" id="4_yt702"]
 [ext_resource type="Script" uid="uid://dx2wecnf76cyo" path="res://scripts/ui/AudioSpectrum.cs" id="5_2ytni"]
+[ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="7_nxo4k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dhqfv"]
 shader = ExtResource("2_dhqfv")
@@ -43,13 +44,16 @@ shader_parameter/margin = 0.0
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
 
-[node name="SceneLoading" type="Node" unique_id=894859233 node_paths=PackedStringArray("background", "splash", "progressLabel", "progressBar", "progressBarFill")]
+[node name="SceneLoading" type="Node" unique_id=894859233 node_paths=PackedStringArray("background", "splash", "progressLabel", "healthLabel", "progressBar", "progressBarFill")]
 script = ExtResource("1_dhqfv")
 background = NodePath("Background")
 splash = NodePath("Splash")
 progressLabel = NodePath("ProgressLabel")
+healthLabel = NodePath("HealthLabel")
 progressBar = NodePath("ProgressBar")
 progressBarFill = NodePath("ProgressBar/Fill")
+UseMenuSpace = true
+AddSpaceAsChild = true
 
 [node name="Background" type="ColorRect" parent="." unique_id=1414322225]
 anchors_preset = 15
@@ -57,7 +61,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.6862745)
 
 [node name="Splash" type="TextureRect" parent="." unique_id=138854244]
 material = SubResource("ShaderMaterial_dhqfv")
@@ -125,6 +129,23 @@ BarColor = Color(1, 1, 1, 0.1254902)
 BarSize = 6.0
 BarMinSize = 1.0
 Align = 1.0
+
+[node name="HealthLabel" type="RichTextLabel" parent="." unique_id=1247520210]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.72200006
+anchor_right = 0.5
+anchor_bottom = 0.72200006
+offset_left = -186.0
+offset_top = -78.84003
+offset_right = 187.0
+offset_bottom = 79.15997
+theme = ExtResource("7_nxo4k")
+bbcode_enabled = true
+text = "[font_size=24] ⚠️ [b]HEALTH AND SAFETY[/b] ⚠️
+[font_size=12]This game contains flashing lights and may not be suitable for those with photosensitivity."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Transition" type="ColorRect" parent="." unique_id=472667306]
 self_modulate = Color(1, 1, 1, 0)

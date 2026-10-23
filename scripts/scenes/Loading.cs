@@ -18,6 +18,9 @@ public partial class Loading : BaseScene
     private Label progressLabel;
 
     [Export]
+    private RichTextLabel healthLabel;
+
+    [Export]
     private Panel progressBar;
 
     [Export]
@@ -32,6 +35,7 @@ public partial class Loading : BaseScene
         splashMaterial = splash.Material as ShaderMaterial;
         splashMaterial.SetShaderParameter("shift", 0);
 
+        healthLabel.Modulate = transparent;
         progressLabel.Modulate = transparent;
         progressBar.Modulate = transparent;
 
@@ -75,8 +79,9 @@ public partial class Loading : BaseScene
     private Tween enter()
     {
         var inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        inTween.TweenProperty(background, "color", Color.FromHtml("#060509"), 1);
+        inTween.TweenProperty(background, "color", Color.FromHtml("#000000af"), 1);
         inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
+        inTween.TweenProperty(healthLabel, "modulate", opaque, 0.5);
         inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
         inTween
             .SetTrans(Tween.TransitionType.Quint)
@@ -99,7 +104,7 @@ public partial class Loading : BaseScene
     private void exit()
     {
         var outTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        outTween.TweenProperty(background, "color", Color.Color8(0, 0, 0), 0.25);
+        outTween.TweenProperty(background, "color", Color.Color8(0, 0, 0, 175), 0.25);
         outTween
             .Chain()
             .TweenCallback(
