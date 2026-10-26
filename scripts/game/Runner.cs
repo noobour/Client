@@ -552,11 +552,25 @@ public partial class Runner : Node3D
         float lateness = Attempt.IsReplay
             ? Attempt.HitsInfo[noteIndex]
             : (float)(((int)judgmentProgress - Attempt.Map.Notes[noteIndex].Millisecond) / Speed);
-        float factor = 1 - (lateness / 110f);
-        uint hitScore = (uint)Math.Ceiling((25 * Attempt.ComboMultiplier * Attempt.ModsMultiplier * factor * ((Speed - 1) / 2.5 + 1)));
-        GD.Print(lateness);
-        GD.Print(hitScore);
-        GD.Print(factor);
+        float factor = 1 - Math.Max(0, lateness - 15) / 55f;
+        GD.Print(lateness, " ms late");
+        GD.Print(factor, " score factor");
+        uint maxScore = (uint)(50 * Attempt.ComboMultiplier * Attempt.ModsMultiplier * ((Speed - 1) / 2.5 + 1));
+        GD.Print(maxScore, " max score");
+        uint score = (uint)(50 * Attempt.ComboMultiplier * Attempt.ModsMultiplier * factor * ((Speed - 1) / 2.5 + 1));
+        GD.Print(score, " uncalc score");
+        uint check = score % 5;
+        uint hitScore = 0;
+        if (check == 0)
+        {
+            hitScore = score;
+        }
+        else
+        {
+            hitScore = score + (5 - check);
+        }
+        GD.Print(hitScore, " true score");
+        // uint hitScore = (uint)(100 * Attempt.ComboMultiplier * Attempt.ModsMultiplier * factor * ((Speed - 1) / 2.5 + 1) % 5 - 5);
 
         switch (hitResult)
         {
