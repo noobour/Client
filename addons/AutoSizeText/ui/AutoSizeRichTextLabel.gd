@@ -78,7 +78,7 @@ func _ready() -> void:
 
 	if autowrap_mode == TextServer.AUTOWRAP_OFF:
 		autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		push_warning("changed autowrap_mode to " + str(autowrap_mode))
+		#push_warning("changed autowrap_mode to " + str(autowrap_mode))
 
 	resized.connect(do_resize_text)
 	do_resize_text()

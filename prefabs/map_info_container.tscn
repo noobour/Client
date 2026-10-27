@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dkpbociv8fgfd" path="res://user/skins/default/ui/buttons/export.png" id="5_g02bu"]
 [ext_resource type="Script" uid="uid://dy45uerqy0yd7" path="res://scripts/ui/FlatPreview.cs" id="5_svokg"]
 [ext_resource type="Texture2D" uid="uid://degvlg4p0if70" path="res://user/skins/default/ui/buttons/add_video.png" id="6_g02bu"]
+[ext_resource type="Script" uid="uid://leehmvr1x5lu" path="res://addons/AutoSizeText/ui/AutoSizeRichTextLabel.gd" id="6_oibm8"]
 [ext_resource type="Texture2D" uid="uid://cgxbwx4f28lt2" path="res://user/skins/default/ui/buttons/copy.png" id="7_oibm8"]
 [ext_resource type="PackedScene" uid="uid://kwoco4d2gdqc" path="res://prefabs/speed_preset_button.tscn" id="8_i21mh"]
 [ext_resource type="Texture2D" uid="uid://xd005fiv7qgg" path="res://user/skins/default/ui/buttons/delete.png" id="8_ssthb"]
@@ -26,8 +27,8 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_50xtp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1q06g"]
-bg_color = Color(0, 0, 0, 0.8784314)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssthb"]
+bg_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -59,6 +60,13 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1m5pv"]
 bg_color = Color(0, 0, 0, 0.3764706)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1q06g"]
+bg_color = Color(0, 0, 0, 0.88235295)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -223,7 +231,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1q06g")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ssthb")
 
 [node name="Outline" type="Panel" parent="Info" unique_id=1992047374]
 material = SubResource("ShaderMaterial_4d08m")
@@ -465,6 +473,18 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/icon_max_width = 24
 icon = ExtResource("8_ssthb")
 icon_alignment = 1
+
+[node name="AutoSizeRichTextLabel" type="RichTextLabel" parent="Info/Control/infoControl/infoSubholder" unique_id=562379970]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_font_sizes/normal_font_size = 38
+theme_override_font_sizes/bold_font_size = 38
+theme_override_font_sizes/bold_italics_font_size = 38
+theme_override_font_sizes/italics_font_size = 38
+theme_override_font_sizes/mono_font_size = 38
+script = ExtResource("6_oibm8")
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
 
 [node name="Actions" type="Panel" parent="." unique_id=1101045169]
 clip_contents = true

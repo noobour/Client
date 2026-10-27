@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://cbbafomdyoenp" path="res://user/skins/default/ui/background_tile.png" id="4_jmcgi"]
 [ext_resource type="FontFile" uid="uid://dvb6fvy008bhv" path="res://fonts/Roboto/Roboto-Medium.ttf" id="4_yxv8s"]
 [ext_resource type="Shader" uid="uid://cqqs8uux7hqyb" path="res://scripts/shaders/ui_blur.gdshader" id="5_eo0oh"]
-[ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="5_fvh16"]
 [ext_resource type="Texture2D" uid="uid://blttbj4jmqhsq" path="res://user/skins/default/ui/play/mapinfo_cover_background.png" id="5_it16x"]
 [ext_resource type="Texture2D" uid="uid://bp468b5qqj4l1" path="res://user/skins/default/ui/play/grid_cover_background.png" id="6_bpdww"]
 [ext_resource type="Script" uid="uid://leehmvr1x5lu" path="res://addons/AutoSizeText/ui/AutoSizeRichTextLabel.gd" id="7_jmcgi"]
@@ -38,37 +37,6 @@ void vertex() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rxvla"]
 shader = SubResource("Shader_1a85y")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1q06g"]
-bg_color = Color(0, 0, 0, 0)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4d08m"]
-shader = ExtResource("5_fvh16")
-shader_parameter/outline_color = Color(0.05, 0.05, 0.05, 1)
-shader_parameter/outline_opacity = 1.0
-shader_parameter/light_color = Color(0.79, 0, 0.27, 1)
-shader_parameter/cursor_light_color = Color(0.15, 0.15, 0.15, 1)
-shader_parameter/fill = 0.0
-shader_parameter/glow_radius = 350.0
-shader_parameter/glow_exponent = 2.0
-shader_parameter/light_position = Vector2(-10000, 0)
-shader_parameter/cursor_position = Vector2(0, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0o2h"]
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wqycr"]
 
@@ -172,32 +140,6 @@ grow_vertical = 2
 texture = ExtResource("4_jmcgi")
 expand_mode = 1
 stretch_mode = 1
-
-[node name="ResultsBG" type="Panel" parent="." unique_id=1602627547]
-anchors_preset = -1
-anchor_left = 0.038000003
-anchor_top = 0.124000005
-anchor_right = 0.95300007
-anchor_bottom = 0.87500006
-offset_left = 0.42913818
-offset_top = 0.35910034
-offset_right = -0.2869873
-offset_bottom = 0.29803467
-theme_override_styles/panel = SubResource("StyleBoxFlat_1q06g")
-
-[node name="ResultsBGOutline" type="Panel" parent="." unique_id=558327445]
-visible = false
-material = SubResource("ShaderMaterial_4d08m")
-anchors_preset = -1
-anchor_left = 0.038000003
-anchor_top = 0.124000005
-anchor_right = 0.95300007
-anchor_bottom = 0.87500006
-offset_left = 0.42913818
-offset_top = 0.35910034
-offset_right = -0.2869873
-offset_bottom = 0.29803467
-theme_override_styles/panel = SubResource("StyleBoxFlat_w0o2h")
 
 [node name="CoverBackground" type="TextureRect" parent="." unique_id=1406868645]
 anchors_preset = -1
