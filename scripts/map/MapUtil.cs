@@ -1,4 +1,4 @@
-﻿internal static class MapUtil
+internal static class MapUtil
 {
     public static string MapsFolder => $"{Constants.USER_FOLDER}/maps";
 

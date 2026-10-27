@@ -5,23 +5,83 @@
 [ext_resource type="FontFile" uid="uid://4bnnn01f4dqr" path="res://fonts/Ubuntu/Ubuntu-Medium.ttf" id="2_f4qdi"]
 [ext_resource type="Shader" uid="uid://bp2sv5ynsubi2" path="res://scripts/shaders/alpha_gradient.gdshader" id="2_oatel"]
 [ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/default/game/cursor.png" id="2_ow183"]
+[ext_resource type="Script" uid="uid://cqprxe41p0qov" path="res://scripts/ui/menu/Background.cs" id="3_lmve7"]
 [ext_resource type="FontFile" uid="uid://bopde8iqsld1o" path="res://fonts/Ubuntu/Ubuntu-Regular.ttf" id="3_rsbg1"]
 [ext_resource type="Script" uid="uid://ci36kf1g7wv5j" path="res://scripts/ui/results/Graph.cs" id="4_b55ol"]
+[ext_resource type="Texture2D" uid="uid://cbbafomdyoenp" path="res://user/skins/default/ui/background_tile.png" id="4_jmcgi"]
 [ext_resource type="FontFile" uid="uid://dvb6fvy008bhv" path="res://fonts/Roboto/Roboto-Medium.ttf" id="4_yxv8s"]
 [ext_resource type="Shader" uid="uid://cqqs8uux7hqyb" path="res://scripts/shaders/ui_blur.gdshader" id="5_eo0oh"]
+[ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="5_fvh16"]
+[ext_resource type="Texture2D" uid="uid://blttbj4jmqhsq" path="res://user/skins/default/ui/play/mapinfo_cover_background.png" id="5_it16x"]
+[ext_resource type="Texture2D" uid="uid://bp468b5qqj4l1" path="res://user/skins/default/ui/play/grid_cover_background.png" id="6_bpdww"]
+[ext_resource type="Script" uid="uid://leehmvr1x5lu" path="res://addons/AutoSizeText/ui/AutoSizeRichTextLabel.gd" id="7_jmcgi"]
 [ext_resource type="Shader" uid="uid://5sq1jdmlom6w" path="res://scripts/shaders/dotted.gdshader" id="8_ldb53"]
 [ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/RhythiaSquircle.png" id="10_00qb5"]
+[ext_resource type="Texture2D" uid="uid://bnntghvtw1ko4" path="res://user/skins/legacy/game/hits.png" id="10_odafc"]
+[ext_resource type="Texture2D" uid="uid://byixosy0uvokn" path="res://user/skins/legacy/game/misses.png" id="11_fvh16"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6rn6l"]
-shader = ExtResource("2_oatel")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_odafc"]
+shader = ExtResource("5_eo0oh")
+shader_parameter/brightness = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fvh16"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="Shader" id="Shader_1a85y"]
+code = "shader_type canvas_item;
+
+void vertex() {
+	UV.x -= TIME;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rxvla"]
+shader = SubResource("Shader_1a85y")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1q06g"]
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4d08m"]
+shader = ExtResource("5_fvh16")
+shader_parameter/outline_color = Color(0.05, 0.05, 0.05, 1)
+shader_parameter/outline_opacity = 1.0
+shader_parameter/light_color = Color(0.79, 0, 0.27, 1)
+shader_parameter/cursor_light_color = Color(0.15, 0.15, 0.15, 1)
+shader_parameter/fill = 0.0
+shader_parameter/glow_radius = 350.0
+shader_parameter/glow_exponent = 2.0
+shader_parameter/light_position = Vector2(-10000, 0)
+shader_parameter/cursor_position = Vector2(0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0o2h"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wqycr"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p7eil"]
-shader = ExtResource("5_eo0oh")
-shader_parameter/brightness = 1.25
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lmve7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1olmk"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gdxgs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdxgs"]
+shader = ExtResource("2_oatel")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l8mvi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_odafc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_13vky"]
 font = ExtResource("2_f4qdi")
@@ -47,24 +107,13 @@ outline_color = Color(0, 0, 0, 0.376471)
 font = ExtResource("2_f4qdi")
 font_size = 42
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l8mvi"]
-
 [sub_resource type="LabelSettings" id="LabelSettings_e5ove"]
 font = ExtResource("2_f4qdi")
-font_size = 64
-
-[sub_resource type="LabelSettings" id="LabelSettings_18ny7"]
-font = ExtResource("2_f4qdi")
-font_size = 64
-font_color = Color(0.627451, 0.627451, 0.627451, 1)
+font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_7f2j3"]
 font = ExtResource("2_f4qdi")
-font_size = 42
-
-[sub_resource type="LabelSettings" id="LabelSettings_yaaow"]
-font = ExtResource("2_f4qdi")
-font_size = 42
+font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_6anxq"]
 font = ExtResource("3_rsbg1")
@@ -98,30 +147,89 @@ bg_color = Color(1, 1, 1, 1)
 
 [node name="SceneResults" type="Node" unique_id=11944572]
 script = ExtResource("1_llpx6")
+UseMenuSpace = true
+AddSpaceAsChild = true
 
-[node name="Background" type="ColorRect" parent="." unique_id=1514676561]
+[node name="Background" type="Panel" parent="." unique_id=410706416]
+material = SubResource("ShaderMaterial_odafc")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.050980393, 0.050980393, 0.050980393, 1)
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_fvh16")
+script = ExtResource("3_lmve7")
 
-[node name="CoverBackground" type="TextureRect" parent="." unique_id=1406868645]
-modulate = Color(1, 1, 1, 0.14902)
+[node name="Tile" type="TextureRect" parent="Background" unique_id=229841027]
+material = SubResource("ShaderMaterial_rxvla")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_jmcgi")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="ResultsBG" type="Panel" parent="." unique_id=1602627547]
+anchors_preset = -1
+anchor_left = 0.038000003
+anchor_top = 0.124000005
+anchor_right = 0.95300007
+anchor_bottom = 0.87500006
+offset_left = 0.42913818
+offset_top = 0.35910034
+offset_right = -0.2869873
+offset_bottom = 0.29803467
+theme_override_styles/panel = SubResource("StyleBoxFlat_1q06g")
+
+[node name="ResultsBGOutline" type="Panel" parent="." unique_id=558327445]
+visible = false
+material = SubResource("ShaderMaterial_4d08m")
+anchors_preset = -1
+anchor_left = 0.038000003
+anchor_top = 0.124000005
+anchor_right = 0.95300007
+anchor_bottom = 0.87500006
+offset_left = 0.42913818
+offset_top = 0.35910034
+offset_right = -0.2869873
+offset_bottom = 0.29803467
+theme_override_styles/panel = SubResource("StyleBoxFlat_w0o2h")
+
+[node name="CoverBackground" type="TextureRect" parent="." unique_id=1406868645]
+anchors_preset = -1
+anchor_left = 0.063
+anchor_top = 0.16700001
+anchor_right = 0.282
+anchor_bottom = 0.55700004
+offset_left = -0.392807
+offset_top = -0.3581848
+offset_right = 0.5371704
+offset_bottom = 0.091796875
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_it16x")
 expand_mode = 1
 stretch_mode = 6
 
 [node name="Cover" type="TextureRect" parent="." unique_id=1275304585]
-material = SubResource("ShaderMaterial_6rn6l")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.18
+anchor_right = 0.275
+anchor_bottom = 0.544
+offset_left = 0.2893448
+offset_top = -0.051574707
+offset_right = 0.5501709
+offset_bottom = -0.19311523
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_bpdww")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 6
 
 [node name="Holder" type="Panel" parent="." unique_id=1475290778]
 anchors_preset = 15
@@ -131,94 +239,323 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_wqycr")
 
-[node name="GraphBlur" type="Panel" parent="Holder" unique_id=253002573]
-material = SubResource("ShaderMaterial_p7eil")
+[node name="Info" type="Panel" parent="Holder" unique_id=2134736292]
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 1.0
-anchor_right = 0.6
+anchor_left = 0.289
+anchor_top = 0.11100001
+anchor_right = 0.93700004
+anchor_bottom = 0.44400004
+offset_left = 0.36605835
+offset_top = 0.057998657
+offset_right = 0.5163574
+offset_bottom = 0.29797363
+theme_override_styles/panel = SubResource("StyleBoxEmpty_lmve7")
+
+[node name="Title" type="RichTextLabel" parent="Holder/Info" unique_id=1039789997]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.105000004
+anchor_right = 1.0
+anchor_bottom = 0.335
+offset_left = -0.07867432
+offset_top = 0.040706635
+offset_right = 0.32250977
+offset_bottom = -0.002090454
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+theme_override_font_sizes/bold_font_size = 40
+theme_override_font_sizes/bold_italics_font_size = 40
+theme_override_font_sizes/italics_font_size = 40
+theme_override_font_sizes/mono_font_size = 40
+bbcode_enabled = true
+text = "Artist- Song Song SongongongongongongOongognognognongfdgdfg"
+autowrap_mode = 0
+vertical_alignment = 1
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 124
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Difficulty" type="RichTextLabel" parent="Holder/Info" unique_id=138020852]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.333
+anchor_right = 0.93900007
+anchor_bottom = 0.503
+offset_left = 0.05343628
+offset_top = 0.06745148
+offset_right = 0.2833252
+offset_bottom = -0.001411438
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 29
+theme_override_font_sizes/bold_font_size = 29
+theme_override_font_sizes/bold_italics_font_size = 29
+theme_override_font_sizes/italics_font_size = 29
+theme_override_font_sizes/mono_font_size = 29
+text = "SUPER DUPER HARD SONG WTFFFF"
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Mappers" type="RichTextLabel" parent="Holder/Info" unique_id=1785724223]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.499
+anchor_right = 0.94100004
+anchor_bottom = 0.666
+offset_left = -0.057525635
+offset_top = 0.021942139
+offset_right = -0.2975464
+offset_bottom = -0.058044434
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/bold_font_size = 28
+theme_override_font_sizes/bold_italics_font_size = 28
+theme_override_font_sizes/italics_font_size = 28
+theme_override_font_sizes/mono_font_size = 28
+bbcode_enabled = true
+text = "by: a couple of mappers i think, yeah, maybe, just maybe"
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Accuracy" type="RichTextLabel" parent="Holder/Info" unique_id=1363773120]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.67
+anchor_right = 1.0
+anchor_bottom = 0.836
+offset_top = -0.713089
+offset_right = -0.18017578
+offset_bottom = -0.28900146
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 29
+theme_override_font_sizes/bold_font_size = 29
+theme_override_font_sizes/bold_italics_font_size = 29
+theme_override_font_sizes/italics_font_size = 29
+theme_override_font_sizes/mono_font_size = 29
+bbcode_enabled = true
+text = "100%"
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Speed" type="RichTextLabel" parent="Holder/Info" unique_id=972688939]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.83300006
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = -256.0
-offset_bottom = -96.0
+offset_top = -0.08003235
+offset_right = -0.18017578
+offset_bottom = 0.10406494
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 29
+theme_override_font_sizes/bold_font_size = 29
+theme_override_font_sizes/bold_italics_font_size = 29
+theme_override_font_sizes/italics_font_size = 29
+theme_override_font_sizes/mono_font_size = 29
+bbcode_enabled = true
+text = "1.00x"
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Extra" type="Panel" parent="Holder" unique_id=775181994]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1olmk")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gdxgs")
 
-[node name="Title" type="Label" parent="Holder" unique_id=1173526425]
+[node name="ScoreLabel" type="RichTextLabel" parent="Holder/Extra" unique_id=560830653]
+clip_contents = false
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-offset_left = 32.0
-offset_top = 96.0
-offset_right = -32.0
-offset_bottom = 160.0
-text = "AAAAAAAAAAAAAAAAA"
-label_settings = SubResource("LabelSettings_13vky")
-vertical_alignment = 1
-text_overrun_behavior = 3
+anchor_left = 0.402
+anchor_top = 0.44400004
+anchor_right = 0.46400002
+anchor_bottom = 0.49800003
+offset_left = -0.05645752
+offset_top = -0.10482788
+offset_right = 0.6088867
+offset_bottom = 0.28909302
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/bold_font_size = 28
+theme_override_font_sizes/bold_italics_font_size = 28
+theme_override_font_sizes/italics_font_size = 28
+theme_override_font_sizes/mono_font_size = 28
+text = "Score"
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("7_jmcgi")
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
 
-[node name="Difficulty" type="Label" parent="Holder" unique_id=1795897830]
+[node name="SLSeparator" type="ColorRect" parent="Holder/Extra" unique_id=1025229518]
+material = SubResource("ShaderMaterial_gdxgs")
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-offset_left = 32.0
-offset_top = 168.0
-offset_right = -7.0
-offset_bottom = 210.0
-text = "very hard"
-label_settings = SubResource("LabelSettings_wwu1g")
-vertical_alignment = 1
-text_overrun_behavior = 3
+anchor_left = 0.31300002
+anchor_top = 0.499
+anchor_right = 0.554
+anchor_bottom = 0.5
+offset_left = -0.5426941
+offset_top = -0.34884644
+offset_right = 0.2390747
+offset_bottom = -0.068847656
 
-[node name="Mappers" type="Label" parent="Holder" unique_id=76894303]
+[node name="Score" type="RichTextLabel" parent="Holder/Extra" unique_id=905123018]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-offset_left = 32.0
-offset_top = 212.0
-offset_right = -7.0
-offset_bottom = 240.0
-text = "by abcdef, ghiklmnop, qrstvuwxyz"
-label_settings = SubResource("LabelSettings_sbrx2")
-vertical_alignment = 1
-text_overrun_behavior = 3
+anchor_left = 0.312
+anchor_top = 0.5
+anchor_right = 0.554
+anchor_bottom = 0.569
+offset_left = 0.06347656
+offset_top = -0.3131714
+offset_right = 0.30352783
+offset_bottom = 0.32000732
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/bold_font_size = 36
+theme_override_font_sizes/bold_italics_font_size = 36
+theme_override_font_sizes/italics_font_size = 36
+theme_override_font_sizes/mono_font_size = 36
+text = "1,000,000,000,00"
+autowrap_mode = 0
+horizontal_alignment = 1
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
 
-[node name="Speed" type="Label" parent="Holder" unique_id=715001883]
+[node name="HitsLabel" type="RichTextLabel" parent="Holder/Extra" unique_id=725177307]
+clip_contents = false
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.2
-offset_left = 32.0
-offset_top = 248.0
-offset_right = -32.0
-offset_bottom = 296.0
-text = "1.00x"
-label_settings = SubResource("LabelSettings_utq7d")
-vertical_alignment = 1
-text_overrun_behavior = 3
+anchor_left = 0.77300006
+anchor_top = 0.44400004
+anchor_right = 0.836
+anchor_bottom = 0.49800003
+offset_left = 0.061584473
+offset_top = -0.10482788
+offset_right = -0.55493164
+offset_bottom = 0.28860474
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/bold_font_size = 28
+theme_override_font_sizes/bold_italics_font_size = 28
+theme_override_font_sizes/italics_font_size = 28
+theme_override_font_sizes/mono_font_size = 28
+text = "Hits"
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("7_jmcgi")
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="HLSeparator" type="ColorRect" parent="Holder/Extra" unique_id=971135041]
+material = SubResource("ShaderMaterial_gdxgs")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.683
+anchor_top = 0.499
+anchor_right = 0.9250001
+anchor_bottom = 0.5
+offset_left = 0.5740967
+offset_top = -0.17648315
+offset_right = 0.075805664
+offset_bottom = 0.103515625
+
+[node name="Hits" type="RichTextLabel" parent="Holder/Extra" unique_id=1575952841]
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.683
+anchor_top = 0.5
+anchor_right = 0.9250001
+anchor_bottom = 0.569
+offset_left = 0.23815918
+offset_top = -0.6100464
+offset_right = 0.4781494
+offset_bottom = 0.32000732
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/bold_font_size = 36
+theme_override_font_sizes/bold_italics_font_size = 36
+theme_override_font_sizes/italics_font_size = 36
+theme_override_font_sizes/mono_font_size = 36
+text = "9,999 / 9,999"
+autowrap_mode = 0
+horizontal_alignment = 1
+script = ExtResource("7_jmcgi")
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Separator" type="ColorRect" parent="Holder" unique_id=1656607203]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.289
+anchor_top = 0.44200003
+anchor_right = 0.93700004
+anchor_bottom = 0.44500002
+offset_left = 0.5522766
+offset_top = 0.07287598
+offset_right = 0.37475586
+offset_bottom = -0.087127686
 
 [node name="Modifiers" type="Panel" parent="Holder" unique_id=1071365620]
+propagate_maximum_size = true
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25
-anchor_right = 1.0
-offset_left = 32.0
-offset_top = 248.0
-offset_right = -32.0
-offset_bottom = 296.0
+anchor_left = 0.063
+anchor_top = 0.59800005
+anchor_right = 0.559
+anchor_bottom = 0.59800005
+offset_left = -0.10783386
+offset_top = -18.566223
+offset_right = -275.04718
+offset_bottom = 29.433777
 theme_override_styles/panel = SubResource("StyleBoxEmpty_l8mvi")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Holder/Modifiers" unique_id=1105577697]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 2.0
-offset_bottom = -2.0
+anchor_top = 0.042000003
+anchor_right = 1.774
+anchor_bottom = 0.95800006
+offset_top = -0.01600027
+offset_right = 0.09197998
+offset_bottom = 0.01599884
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
-alignment = 2
 
 [node name="ModifierTemplate" type="TextureRect" parent="Holder/Modifiers/HBoxContainer" unique_id=170743314]
 visible = false
@@ -227,87 +564,218 @@ layout_mode = 2
 texture = ExtResource("2_ow183")
 expand_mode = 1
 
-[node name="Separator" type="ColorRect" parent="Holder" unique_id=1656607203]
+[node name="Status" type="Panel" parent="Holder" unique_id=1150959408]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.592
+anchor_top = 0.5
+anchor_right = 0.642
+anchor_bottom = 0.58900005
+offset_left = -0.33648682
+offset_right = -0.33648682
+offset_bottom = -0.08001709
+theme_override_styles/panel = SubResource("StyleBoxEmpty_odafc")
+
+[node name="StatusLabel" type="RichTextLabel" parent="Holder/Status" unique_id=612809396]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23200001
+anchor_top = -0.609
+anchor_right = 1.241
+anchor_bottom = 0.143
+offset_left = 0.009999275
+offset_top = -0.023979187
+offset_right = 0.021080017
+offset_bottom = -0.018918037
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/bold_font_size = 28
+theme_override_font_sizes/bold_italics_font_size = 28
+theme_override_font_sizes/italics_font_size = 28
+theme_override_font_sizes/mono_font_size = 28
+text = "Status
+"
+horizontal_alignment = 1
+script = ExtResource("7_jmcgi")
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Separator" type="ColorRect" parent="Holder/Status" unique_id=1089171927]
+material = SubResource("ShaderMaterial_gdxgs")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.42800003
+anchor_top = -0.027
+anchor_right = 1.447
+offset_left = -0.018997192
+offset_top = 0.028000832
+offset_right = -0.018997192
+offset_bottom = 0.019970655
+
+[node name="StatusIcon" type="BoxContainer" parent="Holder/Status" unique_id=1759546235]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.156
+anchor_right = 1.0
+anchor_bottom = 1.156
+offset_top = 0.015995026
+offset_bottom = 0.015960693
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Passed" type="TextureRect" parent="Holder/Status/StatusIcon" unique_id=557481974]
+layout_mode = 2
+tooltip_text = "Passed"
+texture = ExtResource("10_odafc")
+expand_mode = 2
+
+[node name="Disqualified" type="TextureRect" parent="Holder/Status/StatusIcon" unique_id=416898209]
+layout_mode = 2
+tooltip_text = "Failed / Disqualified. "
+texture = ExtResource("11_fvh16")
+expand_mode = 2
+
+[node name="Status" type="RichTextLabel" parent="Holder/Status" unique_id=878339594]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.263
+anchor_top = 1.2540001
+anchor_right = 1.2870001
+anchor_bottom = 1.6140001
+offset_left = -0.009063721
+offset_top = 0.02041626
+offset_right = 0.014808655
+offset_bottom = 0.0053100586
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 3
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/bold_font_size = 13
+theme_override_font_sizes/bold_italics_font_size = 13
+theme_override_font_sizes/italics_font_size = 13
+theme_override_font_sizes/mono_font_size = 13
+text = "DISQUALIFIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Title" type="Label" parent="Holder" unique_id=1173526425]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-offset_left = 32.0
-offset_top = 300.0
-offset_right = -32.0
-offset_bottom = 302.0
-
-[node name="Accuracy" type="Label" parent="Holder" unique_id=678663131]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.3
-offset_left = 32.0
-offset_top = 308.0
-offset_right = 21.0
-offset_bottom = 380.0
-text = "100.00%"
-label_settings = SubResource("LabelSettings_e5ove")
+offset_left = 413.997
+offset_top = 96.0
+offset_right = 349.99707
+offset_bottom = 169.0
+text = "AAAAAAAAAAAAAAAAA"
+label_settings = SubResource("LabelSettings_13vky")
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Hits" type="Label" parent="Holder" unique_id=984343345]
+[node name="Difficulty" type="Label" parent="Holder" unique_id=1795897830]
+visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3
 anchor_right = 1.0
-offset_left = 333.6
-offset_top = 308.0
-offset_right = -32.0
-offset_bottom = 380.0
-text = "9,999 / 9,999"
-label_settings = SubResource("LabelSettings_18ny7")
-horizontal_alignment = 2
+offset_left = 413.997
+offset_top = 168.0
+offset_right = 374.99707
+offset_bottom = 210.0
+text = "very hard"
+label_settings = SubResource("LabelSettings_wwu1g")
 vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Mappers" type="Label" parent="Holder" unique_id=76894303]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 413.997
+offset_top = 212.0
+offset_right = 374.99707
+offset_bottom = 240.0
+text = "by abcdef, ghiklmnop, qrstvuwxyz"
+label_settings = SubResource("LabelSettings_sbrx2")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Speed" type="Label" parent="Holder" unique_id=715001883]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.2
+offset_left = 413.997
+offset_top = 248.0
+offset_right = 349.997
+offset_bottom = 296.0
+text = "1.00x"
+label_settings = SubResource("LabelSettings_utq7d")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Accuracy" type="Label" parent="Holder" unique_id=678663131]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32000002
+anchor_top = 0.44500002
+anchor_right = 0.5
+anchor_bottom = 0.44500002
+offset_left = 0.32006836
+offset_top = 0.04852295
+offset_right = -0.45617676
+offset_bottom = 79.710785
+text = "100.00%"
+label_settings = SubResource("LabelSettings_e5ove")
+horizontal_alignment = 1
+vertical_alignment = 2
 text_overrun_behavior = 3
 
 [node name="Score" type="Label" parent="Holder" unique_id=1784139753]
+visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.3
-offset_left = 32.0
-offset_top = 388.0
-offset_right = 21.0
-offset_bottom = 436.0
+anchor_left = 0.50100005
+anchor_top = 0.44500002
+anchor_right = 0.75000006
+anchor_bottom = 0.44500002
+offset_left = -231.22372
+offset_top = 0.05871582
+offset_right = -230.74426
+offset_bottom = 79.10086
 text = "1,000,000"
 label_settings = SubResource("LabelSettings_7f2j3")
-vertical_alignment = 1
-text_overrun_behavior = 3
-
-[node name="Status" type="Label" parent="Holder" unique_id=1621789555]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.3
-anchor_right = 1.0
-offset_left = 333.6
-offset_top = 388.0
-offset_right = -32.0
-offset_bottom = 436.0
-text = "DISQUALIFIED"
-label_settings = SubResource("LabelSettings_yaaow")
-horizontal_alignment = 2
-vertical_alignment = 1
+horizontal_alignment = 1
+vertical_alignment = 2
 text_overrun_behavior = 3
 
 [node name="Graph" type="ColorRect" parent="Holder" unique_id=1813663350]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 1.0
-anchor_right = 0.6
-anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = -256.0
-offset_bottom = -96.0
-color = Color(1, 1, 1, 0)
+anchor_left = 0.063
+anchor_top = 0.64400005
+anchor_right = 0.56200004
+anchor_bottom = 0.85300004
+offset_left = -0.34033966
+offset_top = 0.3199463
+offset_right = 1.2546387
+offset_bottom = -0.16003418
+color = Color(0.23392534, 0.23392552, 0.2339254, 0.2)
 script = ExtResource("4_b55ol")
 
 [node name="OffsetTop" type="Label" parent="Holder/Graph" unique_id=465789986]
 layout_mode = 1
 anchors_preset = -1
-offset_left = -32.0
+anchor_left = -0.001
+anchor_right = -0.001
+offset_left = -31.359684
+offset_right = 0.32005596
+offset_bottom = 14.0
 grow_horizontal = 0
 text = "0ms"
 label_settings = SubResource("LabelSettings_6anxq")
@@ -317,9 +785,13 @@ vertical_alignment = 1
 [node name="OffsetBottom" type="Label" parent="Holder/Graph" unique_id=2053550374]
 layout_mode = 1
 anchors_preset = -1
+anchor_left = -0.001
 anchor_top = 1.0
+anchor_right = -0.001
 anchor_bottom = 1.0
-offset_left = -32.0
+offset_left = -31.359684
+offset_top = -14.0
+offset_right = 0.31949902
 grow_horizontal = 0
 grow_vertical = 0
 text = "55ms"
@@ -470,10 +942,15 @@ text = "Watch Replay"
 flat = true
 
 [node name="Transition" type="ColorRect" parent="." unique_id=529428316]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 0.4352417
+offset_top = -2.393921
+offset_right = 0.43530273
+offset_bottom = -2.393921
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
