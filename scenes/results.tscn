@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cbbafomdyoenp" path="res://user/skins/default/ui/background_tile.png" id="4_jmcgi"]
 [ext_resource type="FontFile" uid="uid://dvb6fvy008bhv" path="res://fonts/Roboto/Roboto-Medium.ttf" id="4_yxv8s"]
 [ext_resource type="Shader" uid="uid://cqqs8uux7hqyb" path="res://scripts/shaders/ui_blur.gdshader" id="5_eo0oh"]
+[ext_resource type="Shader" uid="uid://duu4xtf65uy4g" path="res://scripts/shaders/corner_linear_alpha_gradient.gdshader" id="5_fvh16"]
 [ext_resource type="Texture2D" uid="uid://blttbj4jmqhsq" path="res://user/skins/default/ui/play/mapinfo_cover_background.png" id="5_it16x"]
 [ext_resource type="Texture2D" uid="uid://bp468b5qqj4l1" path="res://user/skins/default/ui/play/grid_cover_background.png" id="6_bpdww"]
 [ext_resource type="Script" uid="uid://leehmvr1x5lu" path="res://addons/AutoSizeText/ui/AutoSizeRichTextLabel.gd" id="7_jmcgi"]
@@ -18,6 +19,12 @@
 [ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/RhythiaSquircle.png" id="10_00qb5"]
 [ext_resource type="Texture2D" uid="uid://bnntghvtw1ko4" path="res://user/skins/legacy/game/hits.png" id="10_odafc"]
 [ext_resource type="Texture2D" uid="uid://byixosy0uvokn" path="res://user/skins/legacy/game/misses.png" id="11_fvh16"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gl62w"]
+shader = ExtResource("5_fvh16")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaph3"]
+bg_color = Color(0, 0, 0, 0.8666667)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_odafc"]
 shader = ExtResource("5_eo0oh")
@@ -117,6 +124,16 @@ bg_color = Color(1, 1, 1, 1)
 script = ExtResource("1_llpx6")
 UseMenuSpace = true
 AddSpaceAsChild = true
+
+[node name="bg" type="Panel" parent="." unique_id=336174907]
+modulate = Color(1, 1, 1, 0.87058824)
+material = SubResource("ShaderMaterial_gl62w")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_aaph3")
 
 [node name="Background" type="Panel" parent="." unique_id=410706416]
 material = SubResource("ShaderMaterial_odafc")
@@ -449,7 +466,7 @@ theme_override_font_sizes/bold_font_size = 36
 theme_override_font_sizes/bold_italics_font_size = 36
 theme_override_font_sizes/italics_font_size = 36
 theme_override_font_sizes/mono_font_size = 36
-text = "9,999 / 9,999"
+text = "9,999 / 9,999 (0M)"
 horizontal_alignment = 1
 script = ExtResource("7_jmcgi")
 metadata/_custom_type_script = "uid://leehmvr1x5lu"
@@ -879,6 +896,7 @@ text = "Watch Replay"
 flat = true
 
 [node name="Transition" type="ColorRect" parent="." unique_id=529428316]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0

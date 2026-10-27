@@ -62,7 +62,8 @@ public partial class Results : BaseScene
         info.GetNode<RichTextLabel>("Speed").Text = $"{attempt.Speed:F2}x";
         info.GetNode<RichTextLabel>("Accuracy").Text = $"{attempt.Accuracy:F2}%";
         extra.GetNode<RichTextLabel>("Score").Text = $"{util.String.PadMagnitude(attempt.Score)}";
-        extra.GetNode<RichTextLabel>("Hits").Text = $"{util.String.PadMagnitude(attempt.Hits)} / {util.String.PadMagnitude(attempt.Sum)}";
+        extra.GetNode<RichTextLabel>("Hits").Text =
+            $"{util.String.PadMagnitude(attempt.Hits)} / {util.String.PadMagnitude(attempt.Sum)} ({util.String.PadMagnitude(attempt.Misses)}M)";
         status.GetNode<RichTextLabel>("Status").Text =
             attempt.IsReplay ? attempt.Replays[0].Status
             : attempt.Alive ? (attempt.Qualifies ? "PASSED" : "DISQUALIFIED")
