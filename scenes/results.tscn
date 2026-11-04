@@ -261,6 +261,7 @@ max_font_size = 76
 metadata/_custom_type_script = "uid://leehmvr1x5lu"
 
 [node name="Mappers" type="RichTextLabel" parent="Holder/Info" unique_id=1785724223]
+modulate = Color(0.6542321, 0.6542321, 0.654232, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.499
@@ -284,36 +285,13 @@ watch_text_change = true
 max_font_size = 76
 metadata/_custom_type_script = "uid://leehmvr1x5lu"
 
-[node name="Accuracy" type="RichTextLabel" parent="Holder/Info" unique_id=1363773120]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.67
-anchor_right = 1.0
-anchor_bottom = 0.836
-offset_top = -0.713089
-offset_right = -0.18017578
-offset_bottom = -0.28900146
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_outline_size = 5
-theme_override_font_sizes/normal_font_size = 29
-theme_override_font_sizes/bold_font_size = 29
-theme_override_font_sizes/bold_italics_font_size = 29
-theme_override_font_sizes/italics_font_size = 29
-theme_override_font_sizes/mono_font_size = 29
-bbcode_enabled = true
-text = "100%"
-script = ExtResource("7_jmcgi")
-watch_text_change = true
-max_font_size = 76
-metadata/_custom_type_script = "uid://leehmvr1x5lu"
-
 [node name="Speed" type="RichTextLabel" parent="Holder/Info" unique_id=972688939]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.83300006
+anchor_top = 0.66700006
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -0.08003235
+anchor_bottom = 0.83400005
+offset_top = -0.08001709
 offset_right = -0.18017578
 offset_bottom = 0.10406494
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -324,7 +302,30 @@ theme_override_font_sizes/bold_italics_font_size = 29
 theme_override_font_sizes/italics_font_size = 29
 theme_override_font_sizes/mono_font_size = 29
 bbcode_enabled = true
-text = "1.00x"
+text = "[font_size = font_size - 4]1.00x"
+script = ExtResource("7_jmcgi")
+watch_text_change = true
+max_font_size = 76
+metadata/_custom_type_script = "uid://leehmvr1x5lu"
+
+[node name="Accuracy" type="RichTextLabel" parent="Holder/Info" unique_id=1363773120]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.82400006
+anchor_right = 1.0
+anchor_bottom = 0.99200004
+offset_top = -0.010009766
+offset_right = -0.18017578
+offset_bottom = -0.06593323
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_font_sizes/normal_font_size = 29
+theme_override_font_sizes/bold_font_size = 29
+theme_override_font_sizes/bold_italics_font_size = 29
+theme_override_font_sizes/italics_font_size = 29
+theme_override_font_sizes/mono_font_size = 29
+bbcode_enabled = true
+text = "[font_size = font_size + 4]100%"
 script = ExtResource("7_jmcgi")
 watch_text_change = true
 max_font_size = 76
