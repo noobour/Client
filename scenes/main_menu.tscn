@@ -398,7 +398,6 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_bl404")
 
 [node name="Home" type="Panel" parent="Menus" unique_id=160147629]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -560,6 +559,8 @@ alignment = 0
 script = ExtResource("9_yxnar")
 
 [node name="Play" type="Panel" parent="Menus" unique_id=91213776]
+visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -745,11 +746,10 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_c6nra")
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.044000003
 offset_left = 8.0
 offset_top = 72.0
 offset_right = -8.0
-offset_bottom = 96.32
+offset_bottom = 128.0
 mouse_filter = 2
 theme = ExtResource("6_engjn")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_18lcc")
@@ -757,12 +757,11 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_18lcc")
 [node name="HBoxContainer" type="HBoxContainer" parent="Menus/Play/SubTopBar" unique_id=613796792]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.264
-anchor_right = 1.005
-offset_left = 0.3040161
-offset_top = 10.0
-offset_right = -6.3199463
-offset_bottom = 46.000004
+anchor_top = 0.179
+anchor_right = 1.0
+anchor_bottom = 0.82100004
+offset_top = 17.976
+offset_bottom = -17.976002
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
