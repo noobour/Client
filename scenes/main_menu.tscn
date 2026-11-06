@@ -55,9 +55,12 @@
 [ext_resource type="Script" uid="uid://c1235cyjfh4rl" path="res://scripts/ui/LinkPopupButton.cs" id="44_ybca7"]
 [ext_resource type="Script" uid="uid://dqi64p5jl23cv" path="res://scripts/ui/menu/VersionLabel.cs" id="45_mb34c"]
 [ext_resource type="Texture2D" uid="uid://dyms3l4x385j" path="res://textures/ui/feedback.png" id="46_41a2d"]
+[ext_resource type="Texture2D" uid="uid://dqr46iek4sfxo" path="res://textures/p.png" id="46_ew011"]
 [ext_resource type="Texture2D" uid="uid://c0gv3fh2rmlcy" path="res://textures/ui/feedback_pressed.png" id="47_f5cck"]
+[ext_resource type="Texture2D" uid="uid://d4n3duxjt288o" path="res://textures/spaces/galaxy/galaxy_rainbow.png" id="47_tcyl8"]
 [ext_resource type="Texture2D" uid="uid://8du82a5dxjdk" path="res://user/skins/default/ui/jukebox_play.png" id="48_q1l3m"]
 [ext_resource type="Texture2D" uid="uid://cya1kdxwisvmc" path="res://textures/ui/feedback_hovered.png" id="48_s4ogs"]
+[ext_resource type="Texture2D" uid="uid://c77h6l2d1s4kg" path="res://textures/ui/test_badge.png" id="48_tgcit"]
 [ext_resource type="Texture2D" uid="uid://bpsvcunhigs6c" path="res://user/skins/default/ui/jukebox_skip.png" id="49_7u5pb"]
 
 [sub_resource type="SystemFont" id="SystemFont_lsskb"]
@@ -1848,10 +1851,11 @@ stretch_mode = 5
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
-anchor_right = 0.25
+anchor_right = 0.13700001
 anchor_bottom = 0.5
 offset_left = 64.0
 offset_top = -16.0
+offset_right = -0.36001587
 offset_bottom = 16.0
 grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("19_c6nra")
@@ -1861,6 +1865,112 @@ text = "Rhythia [font_size=12][color=ffffffa0]{0}"
 shortcut_keys_enabled = false
 vertical_alignment = 1
 script = ExtResource("45_mb34c")
+
+[node name="User" type="Panel" parent="TopBar" unique_id=1696763097]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 0.13700001
+anchor_bottom = 0.5
+offset_left = 175.0
+offset_top = -36.0
+offset_right = 281.63998
+offset_bottom = 36.0
+
+[node name="Separator" type="ColorRect" parent="TopBar/User" unique_id=1800377326]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 20.0
+offset_right = 0.5
+offset_bottom = 52.0
+color = Color(1, 1, 1, 0.078431375)
+
+[node name="ProfilePicture" type="TextureRect" parent="TopBar/User" unique_id=1379452920]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 11.0
+offset_right = 55.0
+offset_bottom = 61.0
+texture = ExtResource("46_ew011")
+expand_mode = 1
+
+[node name="ProfileBorder" type="TextureRect" parent="TopBar/User" unique_id=1261204821]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 11.0
+offset_right = 55.0
+offset_bottom = 61.0
+texture = ExtResource("47_tcyl8")
+expand_mode = 1
+
+[node name="Username" type="RichTextLabel" parent="TopBar/User" unique_id=1728487226]
+layout_mode = 0
+offset_left = 59.0
+offset_top = 19.0
+offset_right = 285.0
+offset_bottom = 38.0
+bbcode_enabled = true
+text = "ThisUserNameIsTwenty"
+
+[node name="PPNRanking" type="RichTextLabel" parent="TopBar/User" unique_id=153617507]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 151.0
+offset_top = 40.0
+offset_right = 242.0
+offset_bottom = 62.0
+bbcode_enabled = true
+text = "[font_size=12]100,000,000pp"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="Separator2" type="ColorRect" parent="TopBar/User" unique_id=135977078]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 59.0
+offset_top = 37.736675
+offset_right = 59.23668
+offset_bottom = 207.50803
+rotation = -1.5707964
+color = Color(1, 1, 1, 0.078431375)
+
+[node name="Badges" type="Panel" parent="TopBar/User" unique_id=1630345916]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+offset_left = 60.0
+offset_top = 39.0
+offset_right = 150.0
+offset_bottom = 61.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/User/Badges" unique_id=2065525824]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 2
+theme_override_constants/separation = 2
+
+[node name="BadgeTemplate" type="TextureRect" parent="TopBar/User/Badges/HBoxContainer" unique_id=576756840]
+layout_mode = 2
+texture = ExtResource("48_tgcit")
+stretch_mode = 3
+
+[node name="BadgeTemplate2" type="TextureRect" parent="TopBar/User/Badges/HBoxContainer" unique_id=1094301258]
+layout_mode = 2
+texture = ExtResource("48_tgcit")
+stretch_mode = 3
+
+[node name="BadgeTemplate3" type="TextureRect" parent="TopBar/User/Badges/HBoxContainer" unique_id=1513739466]
+layout_mode = 2
+texture = ExtResource("48_tgcit")
+stretch_mode = 3
+
+[node name="BadgeTemplate4" type="TextureRect" parent="TopBar/User/Badges/HBoxContainer" unique_id=580627854]
+layout_mode = 2
+texture = ExtResource("48_tgcit")
+stretch_mode = 3
 
 [node name="MenuButtons" type="HBoxContainer" parent="TopBar" unique_id=1927365414]
 layout_mode = 1
@@ -2211,6 +2321,8 @@ z_index = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
