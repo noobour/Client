@@ -811,6 +811,8 @@ public partial class Runner : Node3D
                 Attempt.Bads++; // bad
                 break;
         }
+    }
+
     private void syncVideoPosition()
     {
         if (!Attempt.Map.DisableVideo && Attempt.Map.VideoBuffer != null && VideoPlayer != null && VideoPlayer.IsOpen())
