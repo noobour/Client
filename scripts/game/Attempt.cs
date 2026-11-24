@@ -30,6 +30,7 @@ public partial class Attempt : RefCounted
     public bool DisableVideo;
 
     public double Accuracy = 100;
+    public double Grade = 0;
     public double Health = 100;
     public double HealthStep = 15;
     public bool HasHealthModifier = false;
@@ -37,7 +38,13 @@ public partial class Attempt : RefCounted
     public uint Hits = 0;
     public uint Misses = 0;
     public uint Sum = 0;
-    public uint Score = 0;
+    public double Perfects = 0;
+    public double Greats = 0;
+    public double Okays = 0;
+    public double Bads = 0;
+    public double Score = 0;
+    public double UnitHitScore = 0;
+    public uint NoteWeight;
     public uint Combo = 0;
     public uint ComboMultiplier = 1;
     public uint ComboMultiplierProgress = 0;
@@ -64,6 +71,8 @@ public partial class Attempt : RefCounted
     public ulong LastReplayFrame = 0;
     public uint ReplayFrameCountOffset = 0;
     public uint ReplayAttemptStatusOffset = 0;
+
+    public double Version = 1;
 
     public Attempt(
         Map map,
@@ -93,6 +102,21 @@ public partial class Attempt : RefCounted
         Objects[typeof(Note)] = [.. map.Notes];
         HitsInfo = IsReplay ? Replays[0].Notes : new float[Map.Notes.Length];
         DisableVideo = disableVideo;
+
+        uint noteWeightIterations = (uint)Math.Clamp(Math.Floor((double)Map.Notes.Length / ComboMultiplierIncrement), 1, 5);
+        NoteWeight += Math.Min(ComboMultiplierIncrement, (uint)Map.Notes.Length) * (1 + noteWeightIterations) * noteWeightIterations / 2;
+        NoteWeight +=
+            ((uint)Map.Notes.Length - Math.Min(ComboMultiplierIncrement, (uint)Map.Notes.Length) * noteWeightIterations) * (noteWeightIterations + 1);
+
+        if (Modifiers.Count >= 1)
+        {
+            foreach (Modifier modifier in Modifiers)
+            {
+                ModsMultiplier += modifier.ScoreMultiplier - 1;
+            }
+        }
+
+        UnitHitScore = 1000000f * ModsMultiplier * ((Speed - 1) / 2.5 + 1) / NoteWeight;
 
         if (IsReplay)
         {
