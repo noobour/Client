@@ -27,6 +27,7 @@ public partial class Attempt : RefCounted
     public double Speed;
     public double StartFrom;
     public double Length;
+    public bool DisableVideo;
 
     public double Accuracy = 100;
     public double Grade = 0;
@@ -80,7 +81,8 @@ public partial class Attempt : RefCounted
         CameraMode cameraMode,
         List<Modifier> mods,
         string[] players = null,
-        Replay[] replays = null
+        Replay[] replays = null,
+        bool disableVideo = false
     )
     {
         ID = $"{map.Name}_{OS.GetUniqueId()}_{Time.GetDatetimeStringFromUnixTime((long)Time.GetUnixTimeFromSystem())}".Replace(":", "_");
@@ -99,6 +101,7 @@ public partial class Attempt : RefCounted
         HasHealthModifier = Modifiers.Any(mod => mod is IHealthModifier);
         Objects[typeof(Note)] = [.. map.Notes];
         HitsInfo = IsReplay ? Replays[0].Notes : new float[Map.Notes.Length];
+        DisableVideo = disableVideo;
 
         uint noteWeightIterations = (uint)Math.Clamp(Math.Floor((double)Map.Notes.Length / ComboMultiplierIncrement), 1, 5);
         NoteWeight += Math.Min(ComboMultiplierIncrement, (uint)Map.Notes.Length) * (1 + noteWeightIterations) * noteWeightIterations / 2;

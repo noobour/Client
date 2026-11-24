@@ -1,0 +1,709 @@
+[gd_scene format=3 uid="uid://c0bj5wxr28uup"]
+
+[ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="1_wvv2m"]
+[ext_resource type="Script" uid="uid://cql43xu48dynl" path="res://scripts/scenes/MapBrowser.cs" id="2_10mjv"]
+[ext_resource type="Texture2D" uid="uid://bl6ten82nkjmd" path="res://user/skins/default/ui/buttons/sort.png" id="2_vofg3"]
+[ext_resource type="Shader" uid="uid://lywu8c8plv4j" path="res://scripts/shaders/cover_blur.gdshader" id="3_s54e2"]
+[ext_resource type="FontFile" uid="uid://4bnnn01f4dqr" path="res://fonts/Ubuntu/Ubuntu-Medium.ttf" id="3_ueqk1"]
+[ext_resource type="Script" uid="uid://cexyomdgasvme" path="res://scripts/scenes/MapCard.cs" id="5_vr0hc"]
+[ext_resource type="FontFile" uid="uid://dwojpwm7o4l1a" path="res://fonts/Nunito/Nunito-Black.ttf" id="6_ueqk1"]
+[ext_resource type="Texture2D" uid="uid://bvjkhxgqjmg7y" path="res://user/skins/default/ui/buttons/import.png" id="7_ueqk1"]
+[ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="9_vjpuo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8y0u"]
+bg_color = Color(0, 0, 0, 0.8784314)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5ncw"]
+bg_color = Color(0, 0, 0, 0.98039216)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_hrfuy"]
+font = ExtResource("3_ueqk1")
+font_size = 26
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ear6i"]
+bg_color = Color(0, 0, 0, 0.8784314)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3usyh"]
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hrgd"]
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0.7882353, 0, 0.27058825, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vr0hc"]
+bg_color = Color(0.27058825, 0.30980393, 0.32941177, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hrfuy"]
+shader = ExtResource("3_s54e2")
+shader_parameter/offset = 16.0
+shader_parameter/strength = 2.6
+
+[sub_resource type="Gradient" id="Gradient_vofg3"]
+colors = PackedColorArray(0.27058825, 0.30980393, 0.32941177, 1, 0.27058825, 0.30980393, 0.32941177, 0.4627451)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ear6i"]
+gradient = SubResource("Gradient_vofg3")
+
+[sub_resource type="LabelSettings" id="LabelSettings_0pn3c"]
+font_size = 18
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.39215687)
+shadow_offset = Vector2(1, 1.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3usyh"]
+font_size = 14
+font_color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.39215687)
+shadow_offset = Vector2(1, 1.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vr0hc"]
+font_size = 14
+font_color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.39215687)
+shadow_offset = Vector2(1, 1.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikspe"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0.95023936, 0.23396683, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_10mjv"]
+font = ExtResource("6_ueqk1")
+font_size = 12
+font_color = Color(0.27058825, 0.30980393, 0.32941177, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27haj"]
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0.60966635, 0.90395117, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_ueqk1"]
+font = ExtResource("6_ueqk1")
+font_size = 12
+font_color = Color(0.27058825, 0.30980393, 0.32941177, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vofg3"]
+font_color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.39215687)
+shadow_offset = Vector2(1, 1.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jydku"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ueqk1"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bwt54"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vjpuo"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rav3o"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ikspe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1djq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ear6i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3usyh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8t2u"]
+bg_color = Color(0, 0, 0, 0.39215687)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_27haj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jydku"]
+shader = ExtResource("9_vjpuo")
+shader_parameter/outline_color = Color(0.05, 0.05, 0.05, 1)
+shader_parameter/outline_opacity = 1.0
+shader_parameter/light_color = Color(0.79, 0, 0.27, 1)
+shader_parameter/cursor_light_color = Color(0.15, 0.15, 0.15, 1)
+shader_parameter/fill = 0.0
+shader_parameter/glow_radius = 350.0
+shader_parameter/glow_exponent = 2.0
+shader_parameter/light_position = Vector2(-10000, 0)
+shader_parameter/cursor_position = Vector2(0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7sc7"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Map Browser" type="ColorRect" unique_id=1634674963]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wvv2m")
+color = Color(0, 0, 0, 0.5019608)
+script = ExtResource("2_10mjv")
+
+[node name="Hide" type="Button" parent="." unique_id=1149646911]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+action_mode = 0
+button_mask = 3
+
+[node name="Holder" type="Panel" parent="." unique_id=1459067589]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+theme = ExtResource("1_wvv2m")
+
+[node name="Background" type="PanelContainer" parent="Holder" unique_id=1068936515]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8y0u")
+
+[node name="Layout" type="VBoxContainer" parent="Holder/Background" unique_id=1430004882]
+layout_mode = 2
+
+[node name="TopBarBackground" type="PanelContainer" parent="Holder/Background/Layout" unique_id=1195887239]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i5ncw")
+
+[node name="Margin" type="MarginContainer" parent="Holder/Background/Layout/TopBarBackground" unique_id=346827147]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="TopBar" type="VBoxContainer" parent="Holder/Background/Layout/TopBarBackground/Margin" unique_id=1827421630]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar" unique_id=56255056]
+layout_mode = 2
+theme = ExtResource("1_wvv2m")
+
+[node name="Title" type="Label" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/Header" unique_id=1928745732]
+layout_mode = 2
+theme = ExtResource("1_wvv2m")
+text = "MAP BROWSER"
+label_settings = SubResource("LabelSettings_hrfuy")
+vertical_alignment = 1
+
+[node name="SearchBar" type="HBoxContainer" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar" unique_id=1326782548]
+layout_mode = 2
+
+[node name="Search" type="LineEdit" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/SearchBar" unique_id=1105201271]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search maps, mappers, or difficulty…"
+clear_button_enabled = true
+
+[node name="Sort" type="OptionButton" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/SearchBar" unique_id=2098712667]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Recently added"
+popup/item_0/id = 0
+popup/item_1/text = "Length"
+popup/item_1/id = 2
+popup/item_2/text = "Difficulty"
+popup/item_2/id = 2
+
+[node name="Direction" type="Button" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/SearchBar" unique_id=1884251797]
+layout_mode = 2
+text = "Descending"
+icon = ExtResource("2_vofg3")
+
+[node name="BrowseMode" type="OptionButton" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/SearchBar" unique_id=824117255]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Paginated"
+popup/item_0/id = 0
+popup/item_1/text = "Scrolling"
+popup/item_1/id = 1
+
+[node name="Refresh" type="Button" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/SearchBar" unique_id=1745989520]
+layout_mode = 2
+text = "Refresh"
+
+[node name="Filters" type="HBoxContainer" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar" unique_id=1421262505]
+layout_mode = 2
+
+[node name="Difficulty" type="MenuButton" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/Filters" unique_id=1695394737]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Difficulties"
+flat = false
+item_count = 6
+popup/item_0/text = "N/A"
+popup/item_0/checkable = 1
+popup/item_0/checked = true
+popup/item_0/id = 0
+popup/item_1/text = "Easy"
+popup/item_1/checkable = 1
+popup/item_1/checked = true
+popup/item_1/id = 1
+popup/item_2/text = "Medium"
+popup/item_2/checkable = 1
+popup/item_2/checked = true
+popup/item_2/id = 2
+popup/item_3/text = "Hard"
+popup/item_3/checkable = 1
+popup/item_3/checked = true
+popup/item_3/id = 3
+popup/item_4/text = "Insane"
+popup/item_4/checkable = 1
+popup/item_4/checked = true
+popup/item_4/id = 4
+popup/item_5/text = "Illogical"
+popup/item_5/checkable = 1
+popup/item_5/checked = true
+popup/item_5/id = 5
+
+[node name="Status" type="OptionButton" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/Filters" unique_id=330241703]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+selected = 2
+item_count = 3
+popup/item_0/text = "Unranked"
+popup/item_0/id = 0
+popup/item_1/text = "Ranked"
+popup/item_1/id = 1
+popup/item_2/text = "Both"
+popup/item_2/id = 2
+
+[node name="Verified" type="CheckBox" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/Filters" unique_id=3268424]
+layout_mode = 2
+tooltip_text = "Maps that have been manually picked for beginners"
+button_pressed = true
+text = "Verified only"
+
+[node name="Notable" type="CheckBox" parent="Holder/Background/Layout/TopBarBackground/Margin/TopBar/Filters" unique_id=400853412]
+layout_mode = 2
+tooltip_text = "Maps made by at least one notable mapper"
+text = "Notable only"
+
+[node name="Results" type="ScrollContainer" parent="Holder/Background/Layout" unique_id=716497821]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RowsMargin" type="MarginContainer" parent="Holder/Background/Layout/Results" unique_id=252336536]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 18
+
+[node name="Rows" type="GridContainer" parent="Holder/Background/Layout/Results/RowsMargin" unique_id=584001658]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="MapCardTemplate" type="PanelContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows" unique_id=2024057001]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ear6i")
+script = ExtResource("5_vr0hc")
+
+[node name="Row" type="HBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate" unique_id=1621144170]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="CoverHolder" type="PanelContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row" unique_id=808732459]
+clip_children = 2
+custom_minimum_size = Vector2(120, 120)
+custom_maximum_size = Vector2(120, 120)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3usyh")
+
+[node name="Cover" type="TextureRect" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/CoverHolder" unique_id=477092110]
+texture_filter = 6
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Dim" type="Panel" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/CoverHolder" unique_id=392941825]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2hrgd")
+
+[node name="Map" type="Control" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row" unique_id=388758340]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="BlurCoverHolder" type="PanelContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map" unique_id=930004842]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vr0hc")
+
+[node name="BlurCover" type="TextureRect" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/BlurCoverHolder" unique_id=366161290]
+material = SubResource("ShaderMaterial_hrfuy")
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Gradient" type="TextureRect" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/BlurCoverHolder" unique_id=1360759695]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_ear6i")
+
+[node name="Dim" type="Panel" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/BlurCoverHolder" unique_id=673707878]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2hrgd")
+
+[node name="Content" type="MarginContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map" unique_id=152846069]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Info" type="VBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content" unique_id=1858565386]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="HBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info" unique_id=512602662]
+layout_mode = 2
+size_flags_vertical = 2
+mouse_filter = 2
+
+[node name="Text" type="VBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top" unique_id=1944971274]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = -1
+
+[node name="TitleHolder" type="Control" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text" unique_id=183179678]
+custom_minimum_size = Vector2(0, 20)
+custom_maximum_size = Vector2(-1, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text/TitleHolder" unique_id=108669646]
+custom_minimum_size = Vector2(0, 32)
+custom_maximum_size = Vector2(-1, 32)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Long Artist - Even Longer Title"
+label_settings = SubResource("LabelSettings_0pn3c")
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Details" type="HBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text" unique_id=1843119036]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text/Details" unique_id=1188854303]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Mapper" type="HBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text/Details/VBoxContainer" unique_id=2078438243]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="By" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text/Details/VBoxContainer/Mapper" unique_id=1938475021]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.39215687)
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_outline_size = 1
+text = "by"
+
+[node name="Difficulty" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text/Details/VBoxContainer" unique_id=2103154130]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "This Difficulty Is So Long Waow I'm"
+label_settings = SubResource("LabelSettings_3usyh")
+text_overrun_behavior = 3
+
+[node name="Notes" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Top/Text/Details/VBoxContainer" unique_id=200648501]
+layout_mode = 2
+text = "1230 notes"
+label_settings = SubResource("LabelSettings_vr0hc")
+
+[node name="Bottom" type="HBoxContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info" unique_id=51256571]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="StatusPill" type="PanelContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Bottom" unique_id=359816098]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ikspe")
+
+[node name="Status" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Bottom/StatusPill" unique_id=1500989616]
+layout_mode = 2
+text = "RANKED"
+label_settings = SubResource("LabelSettings_10mjv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NotablePill" type="PanelContainer" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Bottom" unique_id=153266238]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_27haj")
+
+[node name="Notable" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Bottom/NotablePill" unique_id=89549222]
+layout_mode = 2
+text = "NOTABLE"
+label_settings = SubResource("LabelSettings_ueqk1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Duration" type="Label" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/Map/Content/Info/Bottom" unique_id=1613545318]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "00:00"
+label_settings = SubResource("LabelSettings_vofg3")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="RightPanel" type="Control" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row" unique_id=1150644064]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel" unique_id=1644518063]
+self_modulate = Color(0.22352941, 0.25882354, 0.27450982, 1)
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jydku")
+
+[node name="Download" type="Button" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel" unique_id=1787800176]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -30.0
+offset_right = 15.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ueqk1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bwt54")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vjpuo")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_rav3o")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ikspe")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t1djq")
+
+[node name="Icon" type="TextureRect" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel/Download" unique_id=1657699092]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_ueqk1")
+expand_mode = 1
+
+[node name="Favorite" type="Button" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel" unique_id=1504371854]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -12.0
+offset_top = -52.0
+offset_right = 12.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ear6i")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3usyh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_a8t2u")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_27haj")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ikspe")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t1djq")
+
+[node name="Icon" type="TextureRect" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel/Favorite" unique_id=2012959816]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_ueqk1")
+expand_mode = 1
+
+[node name="Corners" type="Control" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel" unique_id=1201788807]
+modulate = Color(0.22352941, 0.25882354, 0.27450982, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-10, 0)
+mouse_filter = 2
+
+[node name="TopCorner" type="Polygon2D" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel/Corners" unique_id=1409967721]
+polygon = PackedVector2Array(10, 0, 10, 10, 9.81, 8.05, 9.24, 6.17, 8.31, 4.44, 7.07, 2.93, 5.56, 1.69, 3.83, 0.76, 1.95, 0.19, 0, 0)
+
+[node name="BottomCorner" type="Polygon2D" parent="Holder/Background/Layout/Results/RowsMargin/Rows/MapCardTemplate/Row/RightPanel/Panel/Corners" unique_id=799821482]
+offset = Vector2(0, 110)
+polygon = PackedVector2Array(10, 10, 10, 0, 9.81, 1.95, 9.24, 3.83, 8.31, 5.56, 7.07, 7.07, 5.56, 8.31, 3.83, 9.24, 1.95, 9.81, 0, 10)
+
+[node name="Pagination" type="HBoxContainer" parent="Holder/Background/Layout" unique_id=49456061]
+layout_mode = 2
+alignment = 1
+
+[node name="Previous" type="Button" parent="Holder/Background/Layout/Pagination" unique_id=1095552613]
+layout_mode = 2
+disabled = true
+text = "← Previous"
+
+[node name="Page" type="Label" parent="Holder/Background/Layout/Pagination" unique_id=1430675161]
+layout_mode = 2
+text = "0-0 of 0"
+horizontal_alignment = 1
+
+[node name="Next" type="Button" parent="Holder/Background/Layout/Pagination" unique_id=383652387]
+layout_mode = 2
+disabled = true
+text = "Next →"
+
+[node name="Outline" type="Panel" parent="Holder" unique_id=688247658]
+material = SubResource("ShaderMaterial_jydku")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u7sc7")
+
+[node name="SearchTimer" type="Timer" parent="." unique_id=1241663088]
+wait_time = 0.3
+one_shot = true

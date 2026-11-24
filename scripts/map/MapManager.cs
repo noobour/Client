@@ -55,9 +55,11 @@ public partial class MapManager : Node
     {
         Godot.FileAccess file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
         byte[] videoBuffer = file.GetBuffer((long)file.GetLength());
+        string ext = Path.GetExtension(path).TrimStart('.');
         file.Close();
 
         map.VideoBuffer = videoBuffer;
+        map.VideoExt = ext;
 
         var oldmap = MapParser.Decode(map.FolderPath);
 
@@ -65,11 +67,13 @@ public partial class MapManager : Node
         map.AudioBuffer = oldmap.AudioBuffer;
         map.CoverBuffer = oldmap.CoverBuffer;
 
-        Directory.Delete(map.FolderPath);
+        Directory.Delete(map.FolderPath, true);
+        MapCache.RemoveMap(map);
 
         MapParser.Encode(map);
-        map.FolderPath = MapCache.GetMd5Checksum(map.FolderPath);
+        map.MetadataObjectHash = MapCache.GetMd5Checksum(map.FolderPath);
         Update(map);
+        MapInfo.Instance.InfoContainer.Refresh(true, true);
     }
 
     public static void RemoveVideo(Map map)
@@ -77,6 +81,7 @@ public partial class MapManager : Node
         _ = Godot.FileAccess.Open(map.FolderPath, Godot.FileAccess.ModeFlags.Read);
 
         map.VideoBuffer = null;
+        map.VideoExt = string.Empty;
 
         var oldmap = MapParser.Decode(map.FolderPath);
 
@@ -84,21 +89,23 @@ public partial class MapManager : Node
         map.AudioBuffer = oldmap.AudioBuffer;
         map.CoverBuffer = oldmap.CoverBuffer;
 
-        File.Delete(map.FolderPath);
+        Directory.Delete(map.FolderPath, true);
+        MapCache.RemoveMap(map);
 
         MapParser.Encode(map);
         map.MetadataObjectHash = MapCache.GetMd5Checksum(map.FolderPath);
         Update(map);
+        MapInfo.Instance.InfoContainer.Refresh(true, true);
     }
 
-    public static void Delete(Map map)
+    public static void Delete(Map map, bool quiet = false)
     {
         try
         {
             try
             {
                 Directory.Delete(map.FolderPath, true);
-                if (!Directory.Exists(map.FolderPath))
+                if (!Directory.Exists(map.FolderPath) && !quiet)
                 {
                     Logger.Log($"{map.Title} has been deleted");
                 }
@@ -115,12 +122,16 @@ public partial class MapManager : Node
             MapCache.RemoveMap(map);
             Maps.RemoveAll(x => x.Id == map.Id);
 
-            Callable
-                .From(() =>
-                {
-                    _ = ToastNotification.Notify($"Deleted {map.PrettyTitle}!");
-                })
-                .CallDeferred();
+            if (!quiet)
+            {
+                Callable
+                    .From(() =>
+                    {
+                        _ = ToastNotification.Notify($"Deleted {map.PrettyTitle}!");
+                    })
+                    .CallDeferred();
+            }
+
             Callable.From(() => MapDeleted?.Invoke(map)).CallDeferred();
         }
         catch (Exception e)

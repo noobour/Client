@@ -31,6 +31,8 @@
 [ext_resource type="Texture2D" uid="uid://d3buklvnhgqcy" path="res://textures/ui/discord_hovered.png" id="22_01xyg"]
 [ext_resource type="Texture2D" uid="uid://1fj6g1xt5b0" path="res://user/skins/default/ui/buttons/open_folder.png" id="22_ew011"]
 [ext_resource type="Script" uid="uid://bdxxohkj7wy22" path="res://scripts/ui/menu/play/MapInfo.cs" id="22_qw82i"]
+[ext_resource type="Texture2D" uid="uid://j252oaw5ady1" path="res://user/skins/legacy/ui/buttons/import.png" id="22_s4ogs"]
+[ext_resource type="Script" uid="uid://dbar0cu3s0sbd" path="res://scenes/MapBrowserButton.cs" id="23_f5cck"]
 [ext_resource type="Texture2D" uid="uid://bvjkhxgqjmg7y" path="res://user/skins/default/ui/buttons/import.png" id="24_tcyl8"]
 [ext_resource type="Script" uid="uid://c31515lg0ihgs" path="res://scripts/ui/menu/UserFolderButton.cs" id="27_eku7s"]
 [ext_resource type="Shader" uid="uid://cxckrd6xtplnx" path="res://scripts/shaders/jukebox_progress.gdshader" id="27_engjn"]
@@ -54,8 +56,12 @@
 [ext_resource type="Texture2D" uid="uid://cfl8us0rpkpqs" path="res://textures/ui/github_hovered.png" id="43_sgh51"]
 [ext_resource type="Script" uid="uid://c1235cyjfh4rl" path="res://scripts/ui/LinkPopupButton.cs" id="44_ybca7"]
 [ext_resource type="Script" uid="uid://dqi64p5jl23cv" path="res://scripts/ui/menu/VersionLabel.cs" id="45_mb34c"]
+[ext_resource type="Texture2D" uid="uid://dyms3l4x385j" path="res://textures/ui/feedback.png" id="46_41a2d"]
+[ext_resource type="Texture2D" uid="uid://c0gv3fh2rmlcy" path="res://textures/ui/feedback_pressed.png" id="47_f5cck"]
 [ext_resource type="Texture2D" uid="uid://8du82a5dxjdk" path="res://user/skins/default/ui/jukebox_play.png" id="48_q1l3m"]
+[ext_resource type="Texture2D" uid="uid://cya1kdxwisvmc" path="res://textures/ui/feedback_hovered.png" id="48_s4ogs"]
 [ext_resource type="Texture2D" uid="uid://bpsvcunhigs6c" path="res://user/skins/default/ui/jukebox_skip.png" id="49_7u5pb"]
+[ext_resource type="Script" uid="uid://crvc85t37oayi" path="res://scripts/ui/menu/play/ContextMenu.cs" id="57_sgh51"]
 
 [sub_resource type="SystemFont" id="SystemFont_lsskb"]
 font_names = PackedStringArray("Ubuntu")
@@ -753,17 +759,31 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_18lcc")
 [node name="HBoxContainer" type="HBoxContainer" parent="Menus/Play/SubTopBar" unique_id=613796792]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.5
+anchor_top = 0.179
 anchor_right = 1.0
-anchor_bottom = 0.5
+anchor_bottom = 0.82100004
+offset_top = 17.976
+offset_bottom = -17.976002
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
+[node name="MapBrowser" type="Button" parent="Menus/Play/SubTopBar/HBoxContainer" unique_id=1148273307]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+tooltip_text = "Map browser, can be opened up at anytime using CTRL + B"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("6_engjn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Map Browser"
+icon = ExtResource("22_s4ogs")
+script = ExtResource("23_f5cck")
+
 [node name="Settings" type="Button" parent="Menus/Play/SubTopBar/HBoxContainer" unique_id=384311335]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-tooltip_text = "CTRL + O"
+tooltip_text = "Game settings, can be opened up at anytime using CTRL + O"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("6_engjn")
@@ -775,6 +795,7 @@ script = ExtResource("8_yxnar")
 [node name="UserFolder" type="Button" parent="Menus/Play/SubTopBar/HBoxContainer" unique_id=1212420658]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+tooltip_text = "Opens up the game's user folder, allows you to manually import or modify files."
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("6_engjn")
@@ -786,6 +807,7 @@ script = ExtResource("27_eku7s")
 [node name="Import" type="Button" parent="Menus/Play/SubTopBar/HBoxContainer" unique_id=554381373]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+tooltip_text = "Import maps, you can mass import with this"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("6_engjn")
@@ -1901,9 +1923,32 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
+[node name="Feedback" type="TextureButton" parent="TopBar/LinkButtons" unique_id=169604797]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Feedback form"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("46_41a2d")
+texture_pressed = ExtResource("47_f5cck")
+texture_hover = ExtResource("48_s4ogs")
+
+[node name="Button" type="Button" parent="TopBar/LinkButtons/Feedback" unique_id=1650047982]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+flat = true
+script = ExtResource("44_ybca7")
+Link = "https://forms.gle/eyGTBKJskSmAux8P8"
+
 [node name="GitHub" type="TextureButton" parent="TopBar/LinkButtons" unique_id=1795081095]
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Our GitHub page"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("41_akqfu")
@@ -1925,6 +1970,7 @@ Link = "https://github.com/Rhythia"
 [node name="Discord" type="TextureButton" parent="TopBar/LinkButtons" unique_id=36147158]
 layout_mode = 2
 size_flags_vertical = 4
+tooltip_text = "Our official Discord"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("20_qw82i")
@@ -2095,11 +2141,13 @@ grow_vertical = 0
 mouse_filter = 2
 alignment = 2
 
-[node name="ContextMenu" type="Panel" parent="." unique_id=836062335]
+[node name="ContextMenu" type="Panel" parent="." unique_id=836062335 node_paths=PackedStringArray("videoDialog")]
 visible = false
 offset_right = 150.0
 offset_bottom = 120.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_t0m3h")
+script = ExtResource("57_sgh51")
+videoDialog = NodePath("../VideoDialog")
 
 [node name="Background" type="Panel" parent="ContextMenu" unique_id=1072032974]
 layout_mode = 1
@@ -2120,45 +2168,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Favorite" type="Button" parent="ContextMenu/Container" unique_id=1524374689]
+[node name="TemplateButton" type="Button" parent="ContextMenu/Container" unique_id=704183841]
+visible = false
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("6_engjn")
-theme_override_colors/font_color = Color(1, 1, 0.501961, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0.768627, 1)
 theme_override_fonts/font = ExtResource("19_c6nra")
-text = "Favorite"
-flat = true
-alignment = 0
-
-[node name="Delete" type="Button" parent="ContextMenu/Container" unique_id=559400908]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-size_flags_vertical = 3
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme = ExtResource("6_engjn")
-theme_override_colors/font_color = Color(1, 0.501961, 0.501961, 1)
-theme_override_colors/font_hover_color = Color(1, 0.768627, 0.768627, 1)
-theme_override_fonts/font = ExtResource("19_c6nra")
-text = "Delete"
-flat = true
-alignment = 0
-
-[node name="Video" type="Button" parent="ContextMenu/Container" unique_id=16155190]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-size_flags_vertical = 3
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme = ExtResource("6_engjn")
-theme_override_colors/font_color = Color(0.501961, 0.501961, 1, 1)
-theme_override_colors/font_hover_color = Color(0.768627, 0.768627, 1, 1)
-theme_override_fonts/font = ExtResource("19_c6nra")
-text = "Add Video"
+text = "Button"
 flat = true
 alignment = 0
 

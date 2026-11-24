@@ -24,6 +24,11 @@ public partial class Map : RefCounted
     /// </summary>
     public string MetadataObjectHash { get; set; }
 
+    /// <summary>
+    /// The hash of the objects.phxmo
+    /// </summary>
+    public string ObjectHash { get; set; }
+
     public string Collection { get; set; } = string.Empty;
 
     [Ignore]
@@ -85,6 +90,12 @@ public partial class Map : RefCounted
 
     [Ignore]
     public byte[] VideoBuffer { get; set; } = [];
+
+    public bool DisableVideo { get; set; }
+
+    [Ignore]
+    public string VideoExt { get; set; } = string.Empty;
+
     private Note[] notes;
 
     [Ignore]
@@ -162,6 +173,7 @@ public partial class Map : RefCounted
         FolderPath = folderPath;
         Ephemeral = ephemeral;
         MetadataObjectHash = "";
+        ObjectHash = "";
         LastModifiedMetadata = "";
         LastModifiedNotes = "";
         Artist = (artist ?? "").StripEscapes();
@@ -176,7 +188,7 @@ public partial class Map : RefCounted
         PrettyMappers = Mappers.Join();
         CachedMappers = Mappers.Join("_");
         Difficulty = Math.Clamp(difficulty, 0, Constants.DIFFICULTIES.Length - 1);
-        DifficultyName = difficultyName?.StripEscapes() ?? Constants.DIFFICULTIES[Difficulty];
+        DifficultyName = string.IsNullOrEmpty(difficultyName) ? Constants.DIFFICULTIES[Difficulty] : difficultyName.StripEscapes();
         AudioBuffer = audioBuffer;
         CoverBuffer = coverBuffer;
         VideoBuffer = videoBuffer;
@@ -191,6 +203,8 @@ public partial class Map : RefCounted
     public string EncodeMeta()
     {
         string path = $"{MapUtil.MapsFolder}/{Name}";
+        string? videoPath = MapUtil.GetMapVideoPath(path);
+        string videoExt = videoPath != null ? Path.GetExtension(videoPath).TrimStart('.') : VideoExt;
         return Json.Stringify(
             new Godot.Collections.Dictionary()
             {
@@ -206,8 +220,9 @@ public partial class Map : RefCounted
                 ["Length"] = Length,
                 ["HasAudio"] = AudioBuffer != null && File.Exists($"{path}/audio.{AudioExt}"),
                 ["HasCover"] = CoverBuffer != null && File.Exists($"{path}/cover.png"),
-                ["HasVideo"] = VideoBuffer != null && File.Exists($"{path}/video.mp4"),
+                ["HasVideo"] = VideoBuffer != null && videoPath != null && File.Exists(videoPath),
                 ["AudioExt"] = AudioExt,
+                ["VideoExt"] = videoExt,
             },
             "\t"
         );

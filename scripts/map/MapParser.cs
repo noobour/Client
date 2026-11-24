@@ -3,6 +3,8 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Godot;
@@ -150,7 +152,7 @@ public partial class MapParser : Node
             if (decodedMap.CoverBuffer != null)
                 addAsset($"cover.png", decodedMap.CoverBuffer);
             if (decodedMap.VideoBuffer != null)
-                addAsset($"video.mp4", decodedMap.VideoBuffer);
+                addAsset($"video{Path.GetExtension(MapUtil.GetMapVideoPath(decodedMap))}", decodedMap.VideoBuffer);
         }
 
         File.WriteAllBytes(exportFilePath, ms.ToArray());
@@ -227,13 +229,15 @@ public partial class MapParser : Node
         if (map.CoverBuffer != null)
             addAsset($"cover.png", map.CoverBuffer);
         if (map.VideoBuffer != null)
-            addAsset($"video.mp4", map.VideoBuffer);
+            addAsset($"video{Path.GetExtension(MapUtil.GetMapVideoPath(map))}", map.VideoBuffer);
 
         File.WriteAllText(Path.Combine(mapFolderPath, "metadata.json"), map.EncodeMeta());
 
         byte[] hash = Misc.HashFiles([Path.Combine(mapFolderPath, "metadata.json"), Path.Combine(mapFolderPath, "objects.phxmo")]);
+        byte[] objectHash = SHA256.HashData(File.ReadAllBytes(Path.Combine(mapFolderPath, "objects.phxmo")));
 
         map.MetadataObjectHash = Convert.ToHexStringLower(hash);
+        map.ObjectHash = Convert.ToHexStringLower(objectHash);
 
         DateTime metadataModified = File.GetLastWriteTime(Path.Combine(mapFolderPath, "metadata.json"));
         DateTime objectsModified = File.GetLastWriteTime(Path.Combine(mapFolderPath, "objects.phxmo"));
@@ -704,7 +708,10 @@ public partial class MapParser : Node
 
             if ((bool)metadata["HasVideo"])
             {
-                videoBuffer = File.ReadAllBytes($"{path}/video.mp4");
+                string videoPath = File.Exists($"{path}/video.{metadata["VideoExt"]}")
+                    ? $"{path}/video.{metadata["VideoExt"]}"
+                    : MapUtil.GetMapVideoPath(path);
+                videoBuffer = File.ReadAllBytes(videoPath);
             }
 
             var notes = DecodePHXMO(objectsBuffer);
@@ -714,6 +721,7 @@ public partial class MapParser : Node
             metadata.TryGetValue("ArtistPlatform", out Variant artistPlatform);
 
             byte[] hash = Misc.HashFiles([Path.Combine(path, "metadata.json"), Path.Combine(path, "objects.phxmo")]);
+            byte[] objHash = SHA256.HashData(File.ReadAllBytes(Path.Combine(path, "objects.phxmo")));
 
             DateTime metadataModified = File.GetLastWriteTime(Path.Combine(path, "metadata.json"));
             DateTime objectsModified = File.GetLastWriteTime(Path.Combine(path, "objects.phxmo"));
@@ -738,6 +746,7 @@ public partial class MapParser : Node
             )
             {
                 MetadataObjectHash = Convert.ToHexStringLower(hash),
+                ObjectHash = Convert.ToHexStringLower(objHash),
                 LastModifiedMetadata = metadataModified.ToString("O", CultureInfo.InvariantCulture),
                 LastModifiedNotes = objectsModified.ToString("O", CultureInfo.InvariantCulture),
             };
@@ -783,6 +792,29 @@ public partial class MapParser : Node
         return PHXMFolder(extractedFolderPath);
     }
 
+    public static Map PHXM(byte[] buffer, string mapId)
+    {
+        string mapDirectory = $"{Constants.USER_FOLDER}/maps";
+
+        string extractedFolderPath = Path.Combine(mapDirectory, mapId);
+
+        // If the map you are extacting already exists
+        if (Directory.Exists(extractedFolderPath))
+        {
+            Directory.Delete(extractedFolderPath, true);
+            Map existingMap = DatabaseService.Connection.Table<Map>().FirstOrDefault(x => x.FolderPath == extractedFolderPath);
+            MapCache.RemoveMap(existingMap);
+        }
+
+        using MemoryStream ms = new(buffer);
+        ZipArchive archive = new(ms);
+
+        archive.ExtractToDirectory(extractedFolderPath);
+        archive.Dispose();
+
+        return PHXMFolder(extractedFolderPath);
+    }
+
     public static Note[] DecodePHXMO(string path)
     {
         FileParser objects = new(path);
@@ -817,6 +849,12 @@ public partial class MapParser : Node
             }
 
             notes[i] = new(i, ms, x, y);
+        }
+
+        notes = [.. notes.OrderBy(n => n.Millisecond)];
+        for (int i = 0; i < notes.Length; i++)
+        {
+            notes[i].Index = i;
         }
 
         return notes;

@@ -45,4 +45,11 @@ public partial class Constants : Node
         new(0x9d6effff),
         new(0x0094fcff),
     ];
+
+    public static readonly Color UNRANKED_COLOR = new(0xc7c7c7ff);
+    public static readonly Color RANKED_COLOR = new(0x00f23cff);
+
+    public static readonly Color DOWNLOADED_COLOR = new Color(0x4ebf50ff);
+
+    public static readonly string[] SUPPORTED_VIDEO_EXTENSIONS = ["mp4", "mkv", "webm"]; // in order of preference
 }
